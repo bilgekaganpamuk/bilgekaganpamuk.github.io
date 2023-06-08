@@ -1,1 +1,0 @@
-# bilgekaganpamuk.github.io
