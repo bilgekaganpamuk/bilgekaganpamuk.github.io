@@ -533,14 +533,10 @@
             font-size: 0.85rem;
             color: var(--text-muted);
         }
-
-        /* Challenge Section */
-        .challenge-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
+.challenge-section {
+    display: block;
+    max-width: 800px;
+}
 
         .challenge-content p {
             color: var(--text-secondary);
@@ -1151,95 +1147,8 @@
                     <li>Support multiple touch type interactions</li>
                 </ul>
             </div>
-            <div class="challenge-visual">
-                <div class="challenge-image">
- 
-<div class="challenge-visual">
-    <div class="challenge-diagram">
-        <div class="diagram-title">
-            <h4>Mobile 3D Rendering Challenge</h4>
-            <p>Building stunning 3D on resource-constrained devices</p>
-        </div>
         
-        <div class="central-problem">
-            <div class="problem-core">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"/>
-                    <line x1="12" y1="8" x2="12" y2="12"/>
-                    <line x1="12" y1="16" x2="12.01" y2="16"/>
-                </svg>
-                <span>High-Quality 3D<br>on Mobile?</span>
-            </div>
-        </div>
         
-        <div class="mini-challenges">
-            <div class="mini-challenge perf">
-                <div class="mini-challenge-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-                    </svg>
-                </div>
-                <div class="mini-challenge-content">
-                    <h5>Performance</h5>
-                    <p>Complex meshes causing 15-25 FPS on low-end devices</p>
-                </div>
-            </div>
-            
-            <div class="mini-challenge device">
-                <div class="mini-challenge-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-                        <rect x="5" y="2" width="14" height="20" rx="2"/>
-                        <line x1="12" y1="18" x2="12.01" y2="18"/>
-                    </svg>
-                </div>
-                <div class="mini-challenge-content">
-                    <h5>Fragmentation</h5>
-                    <p>1000+ Android devices with varying GPU capabilities</p>
-                </div>
-            </div>
-            
-            <div class="mini-challenge battery">
-                <div class="mini-challenge-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-                        <rect x="1" y="6" width="18" height="12" rx="2"/>
-                        <line x1="23" y1="13" x2="23" y2="11"/>
-                    </svg>
-                </div>
-                <div class="mini-challenge-content">
-                    <h5>Battery & Thermal</h5>
-                    <p>GPU-intensive rendering causing overheating</p>
-                </div>
-            </div>
-            
-            <div class="mini-challenge quality">
-                <div class="mini-challenge-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                    </svg>
-                </div>
-                <div class="mini-challenge-content">
-                    <h5>Quality Gap</h5>
-                    <p>User expectations vs hardware limitations</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="constraint-stats">
-            <div class="constraint-stat">
-                <div class="value">~2GB</div>
-                <div class="label">Available RAM</div>
-            </div>
-            <div class="constraint-stat">
-                <div class="value">16ms</div>
-                <div class="label">Frame Budget</div>
-            </div>
-            <div class="constraint-stat">
-                <div class="value">200+</div>
-                <div class="label">Draw Calls</div>
-            </div>
-        </div>
-    </div>
-</div>
 
                 </div>
             </div>
