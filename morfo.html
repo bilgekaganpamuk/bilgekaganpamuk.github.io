@@ -1,0 +1,1651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MORFO Case Study | Bilge Kağan Pamuk</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Three.js and Loaders -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a25;
+            --accent-cyan: #00f0ff;
+            --accent-purple: #a855f7;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --gradient-1: linear-gradient(135deg, #00f0ff 0%, #a855f7 100%);
+            --gradient-2: linear-gradient(135deg, #3b82f6 0%, #00f0ff 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+        ::-webkit-scrollbar-thumb { background: var(--accent-cyan); border-radius: 4px; }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(10,10,15,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .logo {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .logo span { color: var(--text-primary); }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--text-primary); }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(0,240,255,0.1);
+            border: 1px solid rgba(0,240,255,0.3);
+            border-radius: 8px;
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(0,240,255,0.2);
+        }
+
+        .back-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Hero Section */
+        .case-hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 8rem 4rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .case-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(0,240,255,0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 50%, rgba(168,85,247,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero-content {
+            z-index: 1;
+        }
+
+        
+        .project-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(168,85,247,0.1);
+            border: 1px solid rgba(168,85,247,0.3);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--accent-purple);
+            margin-bottom: 1.5rem;
+            font-family: 'Space Mono', monospace;
+        }
+
+.challenge-diagram {
+    background: linear-gradient(135deg, rgba(239,68,68,0.05) 0%, rgba(168,85,247,0.05) 100%);
+    border: 1px solid rgba(239,68,68,0.2);
+    border-radius: 20px;
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+.challenge-diagram::before {
+    content: 'BEFORE';
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #ef4444;
+    color: white;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 1px;
+}
+
+.diagram-title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.diagram-title h4 {
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+    color: var(--text-primary);
+}
+
+.diagram-title p {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.central-problem {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.problem-core {
+    background: rgba(239,68,68,0.15);
+    border: 2px solid #ef4444;
+    border-radius: 50%;
+    width: 140px;
+    height: 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    animation: pulse-problem 2s ease-in-out infinite;
+}
+
+@keyframes pulse-problem {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.4); }
+    50% { box-shadow: 0 0 25px 8px rgba(239,68,68,0.15); }
+}
+
+.problem-core svg {
+    width: 32px;
+    height: 32px;
+    stroke: #ef4444;
+    margin-bottom: 8px;
+}
+
+.problem-core span {
+    font-size: 0.75rem;
+    color: #ef4444;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.mini-challenges {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.mini-challenge {
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 16px;
+    border-left: 3px solid;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.mini-challenge.perf { border-left-color: #ef4444; }
+.mini-challenge.device { border-left-color: #f97316; }
+.mini-challenge.battery { border-left-color: #a855f7; }
+.mini-challenge.quality { border-left-color: #f59e0b; }
+
+.mini-challenge-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.mini-challenge.perf .mini-challenge-icon { background: rgba(239,68,68,0.15); }
+.mini-challenge.device .mini-challenge-icon { background: rgba(249,115,22,0.15); }
+.mini-challenge.battery .mini-challenge-icon { background: rgba(168,85,247,0.15); }
+.mini-challenge.quality .mini-challenge-icon { background: rgba(245,158,11,0.15); }
+
+.mini-challenge-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.mini-challenge.perf .mini-challenge-icon svg { stroke: #ef4444; }
+.mini-challenge.device .mini-challenge-icon svg { stroke: #f97316; }
+.mini-challenge.battery .mini-challenge-icon svg { stroke: #a855f7; }
+.mini-challenge.quality .mini-challenge-icon svg { stroke: #f59e0b; }
+
+.mini-challenge-content h5 {
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+    color: var(--text-primary);
+}
+
+.mini-challenge-content p {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+.constraint-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.constraint-stat {
+    text-align: center;
+    padding: 14px 10px;
+    background: rgba(239,68,68,0.08);
+    border: 1px dashed rgba(239,68,68,0.25);
+    border-radius: 10px;
+}
+
+.constraint-stat .value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ef4444;
+    font-family: 'Space Mono', monospace;
+}
+
+.constraint-stat .label {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+/* Responsive for diagram */
+@media (max-width: 600px) {
+    .mini-challenges {
+        grid-template-columns: 1fr;
+    }
+    
+    .constraint-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .problem-core {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title .highlight {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-tagline {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .hero-meta {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .meta-item {
+            padding: 1rem;
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .meta-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .meta-value {
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        .hero-3d {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-model-viewer {
+            width: 100%;
+            height: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            background: var(--bg-card);
+            position: relative;
+        }
+
+        .model-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            color: var(--accent-cyan);
+            font-family: 'Space Mono', monospace;
+        }
+
+        .model-loading.hidden { display: none; }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(0,240,255,0.2);
+            border-top-color: var(--accent-cyan);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .model-hint {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.5rem 1rem;
+            background: rgba(0,0,0,0.7);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Content Sections */
+        section {
+            padding: 6rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        /* Overview Section */
+        .overview-section {
+            background: var(--bg-secondary);
+            border-radius: 24px;
+            padding: 3rem;
+            margin: -4rem 4rem 4rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .overview-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .overview-item:hover {
+            border-color: rgba(0,240,255,0.3);
+            transform: translateY(-5px);
+        }
+
+        .overview-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .overview-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--bg-primary);
+        }
+
+        .overview-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .overview-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Challenge Section */
+        .challenge-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .challenge-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .challenge-list {
+            list-style: none;
+        }
+
+        .challenge-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: var(--bg-card);
+            border-radius: 12px;
+            border-left: 3px solid var(--accent-cyan);
+        }
+
+        .challenge-list li::before {
+            content: '→';
+            color: var(--accent-cyan);
+            font-weight: 700;
+        }
+
+        .challenge-visual {
+            position: relative;
+        }
+
+        .challenge-image {
+            width: 100%;
+            border-radius: 16px;
+            background: var(--bg-card);
+            aspect-ratio: 4/3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            border: 1px dashed rgba(255,255,255,0.1);
+        }
+
+        /* Process Section */
+        .process-section {
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            padding: 6rem 4rem;
+            max-width: none;
+        }
+
+        .process-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .process-timeline {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            margin-top: 3rem;
+            position: relative;
+        }
+
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+        }
+
+        .process-step {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: var(--bg-card);
+            border: 2px solid var(--accent-cyan);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-family: 'Space Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            transition: all 0.3s ease;
+        }
+
+        .process-step:hover .step-number {
+            background: var(--accent-cyan);
+            color: var(--bg-primary);
+            transform: scale(1.1);
+        }
+
+        .step-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Features Section */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            padding: 2rem;
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(0,240,255,0.3);
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: rgba(0,240,255,0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--accent-cyan);
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-desc {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Technical Section */
+        .tech-section {
+            background: var(--bg-secondary);
+            border-radius: 24px;
+            padding: 3rem;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .tech-category h4 {
+            font-size: 1rem;
+            color: var(--accent-purple);
+            margin-bottom: 1rem;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .tech-tag {
+            padding: 0.5rem 1rem;
+            background: rgba(0,240,255,0.1);
+            border: 1px solid rgba(0,240,255,0.2);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .code-block {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .code-block .comment { color: var(--text-muted); }
+        .code-block .keyword { color: var(--accent-purple); }
+        .code-block .function { color: var(--accent-cyan); }
+        .code-block .string { color: var(--accent-green); }
+
+        /* Results Section */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .result-card {
+            text-align: center;
+            padding: 2rem;
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .result-value {
+            font-size: 3rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-label {
+            color: var(--text-secondary);
+        }
+
+        /* Figma Embed Section */
+        .figma-section {
+            background: var(--bg-secondary);
+            padding: 4rem;
+            border-radius: 24px;
+            margin-top: 2rem;
+        }
+
+        .figma-embed {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 16px;
+            background: var(--bg-card);
+            margin-top: 2rem;
+        }
+
+        .figma-placeholder {
+            width: 100%;
+            height: 400px;
+            border-radius: 16px;
+            background: var(--bg-card);
+            border: 2px dashed rgba(0,240,255,0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .figma-placeholder svg {
+            width: 48px;
+            height: 48px;
+            stroke: var(--accent-cyan);
+            opacity: 0.5;
+        }
+
+        .figma-placeholder p {
+            color: var(--text-muted);
+        }
+
+        .figma-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--gradient-1);
+            border-radius: 8px;
+            color: var(--bg-primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .figma-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,240,255,0.3);
+        }
+
+        /* Gallery Section */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            aspect-ratio: 16/10;
+            border-radius: 12px;
+            background: var(--bg-card);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            border: 1px dashed rgba(255,255,255,0.1);
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
+            border-color: var(--accent-cyan);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Navigation */
+        .project-nav {
+            display: flex;
+            justify-content: space-between;
+            padding: 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 2rem;
+        }
+
+        .nav-card {
+            flex: 1;
+            padding: 2rem;
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-card:hover {
+            border-color: rgba(0,240,255,0.3);
+            transform: translateY(-5px);
+        }
+
+        .nav-card.prev { text-align: left; }
+        .nav-card.next { text-align: right; }
+
+        .nav-direction {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .nav-title {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 4rem;
+            text-align: center;
+            color: var(--text-muted);
+            background: var(--bg-secondary);
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        footer a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-grid,
+            .challenge-section,
+            .tech-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .overview-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .process-timeline {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .process-timeline::before {
+                display: none;
+            }
+
+            section, .case-hero, .process-section {
+                padding: 4rem 2rem;
+            }
+
+            .overview-section {
+                margin: -2rem 2rem 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-model-viewer {
+                height: 350px;
+            }
+
+            .overview-grid,
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .process-timeline {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-nav {
+                flex-direction: column;
+            }
+
+            .figma-embed {
+                height: 400px;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.8s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="../bilge-portfolio-3d-models.html" class="logo">BK<span>.dev</span></a>
+        <ul class="nav-links">
+            <li>
+                <a href="../bilge-portfolio-3d-models.html" class="back-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    Back to Portfolio
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="case-hero">
+        <div class="hero-grid">
+            <div class="hero-content">
+                <span class="project-badge">MOBILE APP</span>
+                <span class="project-badge">VR APP</span>
+
+                <h1 class="hero-title">
+                    MORFO<br>
+                    <span class="highlight">3D Simulation</span>
+                </h1>
+                <p class="hero-tagline">
+                    A cross-platform 3D simulation application featuring advanced rendering techniques, custom shaders, and sophisticated LOD systems, released on both App Store and Google Play.
+                </p>
+                <div class="hero-meta">
+                    <div class="meta-item">
+                        <p class="meta-label">Role</p>
+                        <p class="meta-value">Lead Developer & UI/UX Designer</p>
+                    </div>
+                    <div class="meta-item">
+                        <p class="meta-label">Timeline</p>
+                        <p class="meta-value">12 months</p>
+                    </div>
+                    <div class="meta-item">
+                        <p class="meta-label">Platform</p>
+                        <p class="meta-value">iOS & Android & Meta Quest</p>
+                    </div>
+                    <div class="meta-item">
+                        <p class="meta-label">Team</p>
+                        <p class="meta-value">5 Person</p>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-3d">
+                <div class="hero-model-viewer" id="hero-model">
+                    <div class="model-loading" id="hero-loading">
+                        <div class="loading-spinner"></div>
+                        <span>Loading 3D Model...</span>
+                    </div>
+                    <div class="model-hint">Drag to rotate • Scroll to zoom</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Overview -->
+    <div class="overview-section">
+        <div class="overview-grid">
+            <div class="overview-item">
+                <div class="overview-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                </div>
+                <p class="overview-value">5.0</p>
+                <p class="overview-label">App Store Rating</p>
+            </div>
+            <div class="overview-item">
+                <div class="overview-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                </div>
+                <p class="overview-value">2K+</p>
+                <p class="overview-label">Active Users</p>
+            </div>
+            <div class="overview-item">
+                <div class="overview-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                </div>
+                <p class="overview-value">120+</p>
+                <p class="overview-label">FPS on Mobile</p>
+            </div>
+            <div class="overview-item">
+                <div class="overview-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                        <line x1="12" y1="18" x2="12.01" y2="18"/>
+                    </svg>
+                </div>
+                <p class="overview-value">3</p>
+                <p class="overview-label">Platforms</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Challenge Section -->
+    <section>
+        <div class="challenge-section">
+            <div class="challenge-content">
+                <p class="section-label">// The Challenge</p>
+                <h2 class="section-title">Building a Performance-First 3D Experience for Mobile</h2>
+                <p>
+                    The goal was to create a visually stunning 3D simulation that could run smoothly on a wide range of mobile devices, from flagship phones to mid-range Android devices with limited GPU capabilities.
+                </p>
+                <p>
+                    Key challenges included maintaining visual fidelity while optimizing for battery life, handling diverse screen sizes and aspect ratios, and ensuring consistent 120+ FPS across all supported devices.
+                </p>
+                <ul class="challenge-list">
+                    <li>Render complex 3D models with realistic materials on mobile GPUs</li>
+                    <li>We filled the gap in the technical and clinical fields where designers, engineers, and dental professionals needed to harmonize their workflows, creating an interdisciplinary, holistic product.</li>
+                    <li>Minimize battery drain during extended usage sessions</li>
+                    <li>Support multiple touch type interactions</li>
+                </ul>
+            </div>
+            <div class="challenge-visual">
+                <div class="challenge-image">
+ 
+<div class="challenge-visual">
+    <div class="challenge-diagram">
+        <div class="diagram-title">
+            <h4>Mobile 3D Rendering Challenge</h4>
+            <p>Building stunning 3D on resource-constrained devices</p>
+        </div>
+        
+        <div class="central-problem">
+            <div class="problem-core">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="12"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                <span>High-Quality 3D<br>on Mobile?</span>
+            </div>
+        </div>
+        
+        <div class="mini-challenges">
+            <div class="mini-challenge perf">
+                <div class="mini-challenge-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                    </svg>
+                </div>
+                <div class="mini-challenge-content">
+                    <h5>Performance</h5>
+                    <p>Complex meshes causing 15-25 FPS on low-end devices</p>
+                </div>
+            </div>
+            
+            <div class="mini-challenge device">
+                <div class="mini-challenge-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <rect x="5" y="2" width="14" height="20" rx="2"/>
+                        <line x1="12" y1="18" x2="12.01" y2="18"/>
+                    </svg>
+                </div>
+                <div class="mini-challenge-content">
+                    <h5>Fragmentation</h5>
+                    <p>1000+ Android devices with varying GPU capabilities</p>
+                </div>
+            </div>
+            
+            <div class="mini-challenge battery">
+                <div class="mini-challenge-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <rect x="1" y="6" width="18" height="12" rx="2"/>
+                        <line x1="23" y1="13" x2="23" y2="11"/>
+                    </svg>
+                </div>
+                <div class="mini-challenge-content">
+                    <h5>Battery & Thermal</h5>
+                    <p>GPU-intensive rendering causing overheating</p>
+                </div>
+            </div>
+            
+            <div class="mini-challenge quality">
+                <div class="mini-challenge-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                </div>
+                <div class="mini-challenge-content">
+                    <h5>Quality Gap</h5>
+                    <p>User expectations vs hardware limitations</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="constraint-stats">
+            <div class="constraint-stat">
+                <div class="value">~2GB</div>
+                <div class="label">Available RAM</div>
+            </div>
+            <div class="constraint-stat">
+                <div class="value">16ms</div>
+                <div class="label">Frame Budget</div>
+            </div>
+            <div class="constraint-stat">
+                <div class="value">200+</div>
+                <div class="label">Draw Calls</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process-section">
+        <div class="process-container">
+            <p class="section-label">// Development Process</p>
+            <h2 class="section-title">From Concept to Launch</h2>
+            
+            <div class="process-timeline">
+                <div class="process-step">
+                    <div class="step-number">01</div>
+                    <h4 class="step-title">Research & Planning</h4>
+                    <p class="step-desc">Market analysis, technical feasibility study, and architecture planning</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">02</div>
+                    <h4 class="step-title">Architecture Design</h4>
+                    <p class="step-desc">Modular system design, rendering pipeline setup, and asset workflow</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">03</div>
+                    <h4 class="step-title">Shader Development</h4>
+                    <p class="step-desc">Custom HLSL shaders for materials, lighting, and post-processing</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">04</div>
+                    <h4 class="step-title">Optimization</h4>
+                    <p class="step-desc">LOD systems, draw call batching, memory profiling, and GPU optimization</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">05</div>
+                    <h4 class="step-title">Launch & Iterate</h4>
+                    <p class="step-desc">Store submission, user feedback integration, and continuous improvement</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section>
+        <p class="section-label">// Key Features</p>
+        <h2 class="section-title">Technical Highlights</h2>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                        <polyline points="2 17 12 22 22 17"/>
+                        <polyline points="2 12 12 17 22 12"/>
+                    </svg>
+                </div>
+                <h4 class="feature-title">Dynamic LOD System</h4>
+                <p class="feature-desc">
+                    Implemented a custom Level-of-Detail system that automatically adjusts mesh complexity based on camera distance and device capabilities, reducing draw calls by 40% while maintaining visual quality.
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 6v6l4 2"/>
+                    </svg>
+                </div>
+                <h4 class="feature-title">Real-Time Rendering</h4>
+                <p class="feature-desc">
+                    Custom rendering pipeline using Unity's URP with optimized shader variants for mobile, achieving consistent 120+ FPS even on mid-range devices through careful batching and instancing.
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <path d="M12 3v18M3 12h18"/>
+                        <circle cx="12" cy="12" r="9"/>
+                    </svg>
+                </div>
+                <h4 class="feature-title">Custom Shaders</h4>
+                <p class="feature-desc">
+                    Developed HLSL shaders for realistic material rendering including subsurface scattering, environment reflections, and dynamic lighting, all optimized for mobile GPU architectures.
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                        <line x1="8" y1="21" x2="16" y2="21"/>
+                        <line x1="12" y1="17" x2="12" y2="21"/>
+                    </svg>
+                </div>
+                <h4 class="feature-title">Cross-Platform</h4>
+                <p class="feature-desc">
+                    Single codebase supporting iOS and Android with platform-specific optimizations, adaptive UI for various screen sizes, and unified analytics and crash reporting.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Section -->
+    <section>
+        <div class="tech-section">
+            <p class="section-label">// Technical Stack</p>
+            <h2 class="section-title">Under the Hood</h2>
+            
+            <div class="tech-grid">
+                <div class="tech-category">
+                    <h4>Core Technologies</h4>
+                    <div class="tech-list">
+                        <span class="tech-tag">Unity 2022 LTS</span>
+                        <span class="tech-tag">C#</span>
+                        <span class="tech-tag">Universal Render Pipeline</span>
+                        <span class="tech-tag">Shader Graph</span>
+                        <span class="tech-tag">HLSL</span>
+                    </div>
+                </div>
+                <div class="tech-category">
+                    <h4>Performance Tools</h4>
+                    <div class="tech-list">
+                        <span class="tech-tag">Unity Profiler</span>
+                        <span class="tech-tag">Frame Debugger</span>
+                        <span class="tech-tag">Memory Profiler</span>
+                        <span class="tech-tag">GPU Instancing</span>
+                    </div>
+                </div>
+                <div class="tech-category">
+                    <h4>Platforms & SDKs</h4>
+                    <div class="tech-list">
+                        <span class="tech-tag">iOS 14+</span>
+                        <span class="tech-tag">Android 8+</span>
+                        <span class="tech-tag">ARKit</span>
+                        <span class="tech-tag">ARCore</span>
+                        <span class="tech-tag">Firebase</span>
+                    </div>
+                </div>
+                <div class="tech-category">
+                    <h4>Architecture Patterns</h4>
+                    <div class="tech-list">
+                        <span class="tech-tag">MVC</span>
+                        <span class="tech-tag">Object Pooling</span>
+                        <span class="tech-tag">Event-Driven</span>
+                        <span class="tech-tag">Addressables</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="code-block">
+                <pre><code><span class="comment">// Example: Dynamic LOD switching based on device tier</span>
+<span class="keyword">public class</span> <span class="function">AdaptiveLODManager</span> : MonoBehaviour
+{
+    <span class="keyword">private void</span> <span class="function">SetLODForDevice</span>()
+    {
+        <span class="keyword">var</span> tier = SystemInfo.graphicsTier;
+        <span class="keyword">var</span> lodBias = tier <span class="keyword">switch</span>
+        {
+            GraphicsTier.Tier1 => <span class="string">0.5f</span>,  <span class="comment">// Low-end: aggressive LOD</span>
+            GraphicsTier.Tier2 => <span class="string">1.0f</span>,  <span class="comment">// Mid-range: balanced</span>
+            GraphicsTier.Tier3 => <span class="string">1.5f</span>,  <span class="comment">// High-end: quality focus</span>
+            _ => <span class="string">1.0f</span>
+        };
+        QualitySettings.lodBias = lodBias;
+    }
+}</code></pre>
+            </div>
+        </div>
+    </section>
+
+   
+
+    <!-- Gallery Section -->
+    <section>
+        <p class="section-label">// Visual Gallery</p>
+        <h2 class="section-title">Screenshots & Demos</h2>
+        
+    <div class="gallery-grid">
+    <div class="gallery-item">
+        <img src="Morfoimage/screenshot1.jpeg" alt="MORFO screenshot 1">
+    </div>
+
+    <div class="gallery-item">
+        <img src="Morfoimage/screenshot2.jpeg" alt="MORFO screenshot 2">
+    </div>
+
+    <div class="gallery-item">
+        <img src="Morfoimage/screenshot3.jpeg" alt="MORFO screenshot 3">
+    </div>
+
+    <div class="gallery-item">
+        <img src="Morfoimage/screenshot4.jpeg" alt="MORFO screenshot 4">
+    </div>
+
+    <div class="gallery-item">
+        <img src="Morfoimage/screenshot5.jpeg" alt="MORFO screenshot 5">
+    </div>
+
+    <div class="gallery-item">
+        <img src="Morfoimage/screenshot6.jpeg" alt="MORFO screenshot 6">
+    </div>
+</div>
+    </section>
+
+    
+    <!-- Project Navigation -->
+    <div class="project-nav">
+        <a href="TMJ.html" class="nav-card prev">
+            <p class="nav-direction">← Previous Project</p>
+            <p class="nav-title">TMJ Simulation System</p>
+        </a>
+        <a href="NeuroSurgery.html" class="nav-card next">
+            <p class="nav-direction">Next Project →</p>
+            <p class="nav-title">VR Neurosurgery Training</p>
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Bilge Kağan Pamuk. <a href="../bilge-portfolio-3d-models.html">Back to Portfolio</a></p>
+    </footer>
+
+    <script>
+        // ============================================
+        // MODEL CONFIGURATION
+        // ============================================
+        
+        const MODEL_PATH = '../models/morfo.glb';
+        const MODEL_SCALE = 1;
+        const CAMERA_DISTANCE = 4;
+        
+        // ============================================
+        // THREE.JS SETUP
+        // ============================================
+        
+        let scene, camera, renderer, controls, model;
+        const container = document.getElementById('hero-model');
+        const loadingEl = document.getElementById('hero-loading');
+        
+        function init() {
+            // Scene
+            scene = new THREE.Scene();
+            
+            // Camera
+            const aspect = container.clientWidth / container.clientHeight;
+            camera = new THREE.PerspectiveCamera(50, aspect, 0.1, 1000);
+            camera.position.z = CAMERA_DISTANCE;
+            
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.outputEncoding = THREE.sRGBEncoding;
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            container.appendChild(renderer.domElement);
+            
+            // Controls
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.autoRotate = true;
+            controls.autoRotateSpeed = 1;
+            controls.enableZoom = true;
+            controls.enablePan = false;
+            
+            // Lights
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.position.set(5, 5, 5);
+            scene.add(directionalLight);
+            
+            const cyanLight = new THREE.DirectionalLight(0x00f0ff, 0.4);
+            cyanLight.position.set(-5, 3, -5);
+            scene.add(cyanLight);
+            
+            const purpleLight = new THREE.DirectionalLight(0xa855f7, 0.3);
+            purpleLight.position.set(0, -5, 5);
+            scene.add(purpleLight);
+            
+            // Load model
+            loadModel();
+            
+            // Events
+            window.addEventListener('resize', onResize);
+            
+            // Animate
+            animate();
+        }
+        
+        function loadModel() {
+            const loader = new THREE.GLTFLoader();
+            
+            loader.load(
+                MODEL_PATH,
+                (gltf) => {
+                    model = gltf.scene;
+                    
+                    // Center and scale
+                    const box = new THREE.Box3().setFromObject(model);
+                    const center = box.getCenter(new THREE.Vector3());
+                    const size = box.getSize(new THREE.Vector3());
+                    
+                    model.position.sub(center);
+                    
+                    const maxDim = Math.max(size.x, size.y, size.z);
+                    const scaleFactor = (2 / maxDim) * MODEL_SCALE;
+                    model.scale.setScalar(scaleFactor);
+                    
+                    scene.add(model);
+                    loadingEl.classList.add('hidden');
+                },
+                (progress) => {
+                    const percent = Math.round((progress.loaded / progress.total) * 100);
+                    loadingEl.querySelector('span').textContent = `Loading... ${percent}%`;
+                },
+                (error) => {
+                    console.error('Error loading model:', error);
+                    loadingEl.querySelector('span').textContent = 'Model failed to load';
+                }
+            );
+        }
+        
+        function onResize() {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        }
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        
+        // ============================================
+        // SCROLL ANIMATIONS
+        // ============================================
+        
+        function initScrollAnimations() {
+            gsap.registerPlugin(ScrollTrigger);
+            
+            // Fade in elements on scroll
+            gsap.utils.toArray('.fade-in').forEach(el => {
+                gsap.to(el, {
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 85%'
+                    },
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8
+                });
+            });
+            
+            // Process steps
+            gsap.utils.toArray('.process-step').forEach((step, i) => {
+                gsap.from(step, {
+                    scrollTrigger: {
+                        trigger: step,
+                        start: 'top 85%'
+                    },
+                    opacity: 0,
+                    y: 30,
+                    duration: 0.6,
+                    delay: i * 0.1
+                });
+            });
+            
+            // Feature cards
+            gsap.utils.toArray('.feature-card').forEach((card, i) => {
+                gsap.from(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 85%'
+                    },
+                    opacity: 0,
+                    y: 30,
+                    duration: 0.6,
+                    delay: i * 0.1
+                });
+            });
+            
+            // Result cards
+            gsap.utils.toArray('.result-card').forEach((card, i) => {
+                gsap.from(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 85%'
+                    },
+                    opacity: 0,
+                    scale: 0.9,
+                    duration: 0.6,
+                    delay: i * 0.15
+                });
+            });
+        }
+        
+        // ============================================
+        // INIT
+        // ============================================
+        
+        window.addEventListener('DOMContentLoaded', () => {
+            init();
+            initScrollAnimations();
+        });
+    </script>
+</body>
+</html>

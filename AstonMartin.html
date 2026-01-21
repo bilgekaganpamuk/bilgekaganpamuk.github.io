@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aston Martin VR HMI | Bilge Kağan Pamuk</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a25;
+            --accent-cyan: #00f0ff;
+            --accent-purple: #a855f7;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --gradient-1: linear-gradient(135deg, #00f0ff 0%, #a855f7 100%);
+            --gradient-2: linear-gradient(135deg, #3b82f6 0%, #00f0ff 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+        ::-webkit-scrollbar-thumb { background: var(--accent-cyan); border-radius: 4px; }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(10,10,15,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .logo {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .logo span { color: var(--text-primary); }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--text-primary); }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(0,240,255,0.1);
+            border: 1px solid rgba(0,240,255,0.3);
+            border-radius: 8px;
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(0,240,255,0.2);
+        }
+
+        .back-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Hero Section */
+        .case-hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 8rem 4rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .case-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(0,240,255,0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 50%, rgba(168,85,247,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero-content {
+            z-index: 1;
+        }
+
+        .project-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(168,85,247,0.1);
+            border: 1px solid rgba(168,85,247,0.3);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--accent-purple);
+            margin-bottom: 1.5rem;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title .highlight {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-tagline {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .hero-meta {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .meta-item {
+            padding: 1rem;
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .meta-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .meta-value {
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        .hero-3d {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-model-viewer {
+            width: 100%;
+            height: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            background: var(--bg-card);
+            position: relative;
+        }
+
+        .model-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            color: var(--accent-cyan);
+            font-family: 'Space Mono', monospace;
+        }
+
+        .model-loading.hidden { display: none; }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(0,240,255,0.2);
+            border-top-color: var(--accent-cyan);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .model-hint {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.5rem 1rem;
+            background: rgba(0,0,0,0.7);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Content Sections */
+        section {
+            padding: 6rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        /* Overview Section */
+        .overview-section {
+            background: var(--bg-secondary);
+            border-radius: 24px;
+            padding: 3rem;
+            margin: -4rem 4rem 4rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .overview-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .overview-item:hover {
+            border-color: rgba(0,240,255,0.3);
+            transform: translateY(-5px);
+        }
+
+        .overview-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .overview-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--bg-primary);
+        }
+
+        .overview-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .overview-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+   .challenge-section {
+    display: block;
+    max-width: 800px;
+}
+
+        .challenge-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .challenge-list {
+            list-style: none;
+        }
+
+        .challenge-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: var(--bg-card);
+            border-radius: 12px;
+            border-left: 3px solid var(--accent-cyan);
+        }
+
+        .challenge-list li::before {
+            content: '→';
+            color: var(--accent-cyan);
+            font-weight: 700;
+        }
+
+        .challenge-visual {
+            position: relative;
+        }
+
+        .challenge-image {
+            width: 100%;
+            border-radius: 16px;
+            background: var(--bg-card);
+            aspect-ratio: 4/3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            border: 1px dashed rgba(255,255,255,0.1);
+        }
+
+        /* Process Section */
+        .process-section {
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            padding: 6rem 4rem;
+            max-width: none;
+        }
+
+        .process-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .process-timeline {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            margin-top: 3rem;
+            position: relative;
+        }
+
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+        }
+
+        .process-step {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: var(--bg-card);
+            border: 2px solid var(--accent-cyan);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-family: 'Space Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            transition: all 0.3s ease;
+        }
+
+        .process-step:hover .step-number {
+            background: var(--accent-cyan);
+            color: var(--bg-primary);
+            transform: scale(1.1);
+        }
+
+        .step-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Features Section */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            padding: 2rem;
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(0,240,255,0.3);
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: rgba(0,240,255,0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--accent-cyan);
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-desc {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Technical Section */
+        .tech-section {
+            background: var(--bg-secondary);
+            border-radius: 24px;
+            padding: 3rem;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .tech-category h4 {
+            font-size: 1rem;
+            color: var(--accent-purple);
+            margin-bottom: 1rem;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .tech-tag {
+            padding: 0.5rem 1rem;
+            background: rgba(0,240,255,0.1);
+            border: 1px solid rgba(0,240,255,0.2);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .code-block {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .code-block .comment { color: var(--text-muted); }
+        .code-block .keyword { color: var(--accent-purple); }
+        .code-block .function { color: var(--accent-cyan); }
+        .code-block .string { color: var(--accent-green); }
+
+        /* Results Section */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .result-card {
+            text-align: center;
+            padding: 2rem;
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .result-value {
+            font-size: 3rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-label {
+            color: var(--text-secondary);
+        }
+
+        /* Figma Embed Section */
+        .figma-section {
+            background: var(--bg-secondary);
+            padding: 4rem;
+            border-radius: 24px;
+            margin-top: 2rem;
+        }
+
+        .figma-embed {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 16px;
+            background: var(--bg-card);
+            margin-top: 2rem;
+        }
+
+        .figma-placeholder {
+            width: 100%;
+            height: 400px;
+            border-radius: 16px;
+            background: var(--bg-card);
+            border: 2px dashed rgba(0,240,255,0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .figma-placeholder svg {
+            width: 48px;
+            height: 48px;
+            stroke: var(--accent-cyan);
+            opacity: 0.5;
+        }
+
+        .figma-placeholder p {
+            color: var(--text-muted);
+        }
+
+        .figma-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--gradient-1);
+            border-radius: 8px;
+            color: var(--bg-primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .figma-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,240,255,0.3);
+        }
+
+        /* Gallery Section */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            aspect-ratio: 16/10;
+            border-radius: 12px;
+            background: var(--bg-card);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            border: 1px dashed rgba(255,255,255,0.1);
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
+            border-color: var(--accent-cyan);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Navigation */
+        .project-nav {
+            display: flex;
+            justify-content: space-between;
+            padding: 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 2rem;
+        }
+
+        .nav-card {
+            flex: 1;
+            padding: 2rem;
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-card:hover {
+            border-color: rgba(0,240,255,0.3);
+            transform: translateY(-5px);
+        }
+
+        .nav-card.prev { text-align: left; }
+        .nav-card.next { text-align: right; }
+
+        .nav-direction {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .nav-title {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 4rem;
+            text-align: center;
+            color: var(--text-muted);
+            background: var(--bg-secondary);
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        footer a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-grid,
+            .challenge-section,
+            .tech-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .overview-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .process-timeline {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .process-timeline::before {
+                display: none;
+            }
+
+            section, .case-hero, .process-section {
+                padding: 4rem 2rem;
+            }
+
+            .overview-section {
+                margin: -2rem 2rem 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-model-viewer {
+                height: 350px;
+            }
+
+            .overview-grid,
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .process-timeline {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-nav {
+                flex-direction: column;
+            }
+
+            .figma-embed {
+                height: 400px;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.8s ease;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="../bilge-portfolio-3d-models.html" class="logo">BK<span>.dev</span></a>
+        <ul class="nav-links">
+            <li>
+                <a href="../bilge-portfolio-3d-models.html" class="back-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    Back to Portfolio
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <section class="case-hero">
+        <div class="hero-grid">
+            <div class="hero-content">
+                <span class="project-badge">AUTOMOTIVE VR • PROTOTYPE</span>
+                <h1 class="hero-title">
+                    Aston Martin<br>
+                    <span class="highlight">VR HMI System</span>
+                </h1>
+                <p class="hero-tagline">
+                    High-fidelity VR simulators for validating luxury vehicle HMI, featuring multiplayer collaboration and eye-tracking analytics to bridge the gap between design and engineering.
+                </p>
+                <div class="hero-meta">
+                    <div class="meta-item">
+                        <p class="meta-label">Role</p>
+                        <p class="meta-value">XR Prototyping & Simulation Engineer</p>
+                    </div>
+                    <div class="meta-item">
+                        <p class="meta-label">Timeline</p>
+                        <p class="meta-value">12 Months</p>
+                    </div>
+                    <div class="meta-item">
+                        <p class="meta-label">Platform</p>
+                        <p class="meta-value">VR / Platform</p>
+                    </div>
+                    <div class="meta-item">
+                        <p class="meta-label">Team</p>
+                        <p class="meta-value">Freelance Team of UI/UX</p>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-3d">
+                <div class="hero-model-viewer" id="hero-model">
+                    <div class="model-loading" id="hero-loading">
+                        <div class="loading-spinner"></div>
+                        <span>Loading Car Model...</span>
+                    </div>
+                    <div class="model-hint">Drag to rotate • Scroll to zoom</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="overview-section">
+        <div class="overview-grid">
+            <div class="overview-item">
+                <div class="overview-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                </div>
+                <p class="overview-value">Multi</p>
+                <p class="overview-label">Real-time Collab</p>
+            </div>
+            <div class="overview-item">
+                <div class="overview-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                    </svg>
+                </div>
+                <p class="overview-value">35%</p>
+                <p class="overview-label">Frame Time Reduction</p>
+            </div>
+            <div class="overview-item">
+                <div class="overview-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                </div>
+                <p class="overview-value">Eye</p>
+                <p class="overview-label">Tracking Analytics</p>
+            </div>
+            <div class="overview-item">
+                <div class="overview-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/>
+                        <path d="M12 12v6"/>
+                        <path d="M12 12h6"/>
+                    </svg>
+                </div>
+                <p class="overview-value">VR</p>
+                <p class="overview-label">Platform</p>
+            </div>
+        </div>
+    </div>
+
+    <section>
+        <div class="challenge-section">
+            <div class="challenge-content">
+                <p class="section-label">// The Challenge</p>
+                <h2 class="section-title">Validating Luxury UX Without a Physical Car</h2>
+                <p>
+                    Designing Human-Machine Interfaces (HMI) for luxury vehicles normally requires expensive physical bucks and slow iteration cycles. Aston Martin needed a way to validate HMI concepts and ergonomics rapidly with teams distributed across the UK and Europe.
+                </p>
+                <p>
+                    The challenge was to build a photorealistic VR prototype that allowed multiple engineers to sit in the same virtual car, interact with the dashboard, and analyze driver attention—all in real-time.
+                </p>
+                <ul class="challenge-list">
+                    <li>Synchronize HMI states across networked clients for collaborative review</li>
+                    <li>Integrate eye-tracking to generate heatmaps of driver attention</li>
+                    <li>Optimize high-poly automotive CAD data for VR performance</li>
+                    <li>Create flexible tools for rapid HMI layout iteration</li>
+                </ul>
+            </div>
+          
+        </div>
+    </section>
+
+    <section class="process-section">
+        <div class="process-container">
+            <p class="section-label">// Development Process</p>
+            <h2 class="section-title">From Figma to VR</h2>
+            
+            <div class="process-timeline">
+                <div class="process-step">
+                    <div class="step-number">01</div>
+                    <h4 class="step-title">UX/UI Design</h4>
+                    <p class="step-desc">Designing dashboard interfaces and interaction flows in Figma</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">02</div>
+                    <h4 class="step-title">Unity Setup</h4>
+                    <p class="step-desc">Importing CAD models and setting up the VR interaction rig</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">03</div>
+                    <h4 class="step-title">Networking</h4>
+                    <p class="step-desc">Implementing Photon Fusion for state synchronization and voice chat</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">04</div>
+                    <h4 class="step-title">Telemetry</h4>
+                    <p class="step-desc">Integrating eye-tracking SDKs to capture gaze data</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">05</div>
+                    <h4 class="step-title">Review</h4>
+                    <p class="step-desc">Conducting multi-user design reviews and heat-map analysis</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <p class="section-label">// Key Features</p>
+        <h2 class="section-title">System Capabilities</h2>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                </div>
+                <h4 class="feature-title">Multiplayer Collaboration</h4>
+                <p class="feature-desc">
+                    Built on Photon Fusion, allowing designers and engineers to inhabit the same virtual vehicle, point at features, and discuss HMI changes in real-time, regardless of physical location.
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <circle cx="12" cy="12" r="3"/>
+                        <line x1="12" y1="2" x2="12" y2="4"/>
+                        <line x1="12" y1="20" x2="12" y2="22"/>
+                        <line x1="2" y1="12" x2="4" y2="12"/>
+                        <line x1="20" y1="12" x2="22" y2="12"/>
+                    </svg>
+                </div>
+                <h4 class="feature-title">Eye Tracking Analytics</h4>
+                <p class="feature-desc">
+                    Integrated hardware eye-tracking to visualize where drivers look during specific tasks. Generated heatmaps and time-to-fixation metrics to validate safety and usability of the UI.
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                        <line x1="8" y1="21" x2="16" y2="21"/>
+                        <line x1="12" y1="17" x2="12" y2="21"/>
+                    </svg>
+                </div>
+                <h4 class="feature-title">Interactive HMI</h4>
+                <p class="feature-desc">
+                    Fully functional virtual dashboard where touchscreens, buttons, and dials trigger actual UI states. Validated menu logic and hierarchy before writing a single line of production vehicle code.
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+                    </svg>
+                </div>
+                <h4 class="feature-title">Photorealistic Rendering</h4>
+                <p class="feature-desc">
+                    Leveraged HDRP for high-fidelity material rendering of leather, carbon fiber, and glass, ensuring the virtual prototype matched the luxury aesthetic of the final product.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="tech-section">
+            <p class="section-label">// Technical Stack</p>
+            <h2 class="section-title">Under the Hood</h2>
+            
+            <div class="tech-grid">
+                <div class="tech-category">
+                    <h4>Core Technologies</h4>
+                    <div class="tech-list">
+                        <span class="tech-tag">Unity HDRP</span>
+                        <span class="tech-tag">C#</span>
+                        <span class="tech-tag">Photon Fusion</span>
+                        <span class="tech-tag">Varjo SDK</span>
+                    </div>
+                </div>
+                <div class="tech-category">
+                    <h4>Telemetry</h4>
+                    <div class="tech-list">
+                        <span class="tech-tag">Eye Tracking</span>
+                        <span class="tech-tag">Heatmap Gen</span>
+                        <span class="tech-tag">Data Logging</span>
+                        <span class="tech-tag">CSV Export</span>
+                    </div>
+                </div>
+                <div class="tech-category">
+                    <h4>Hardware</h4>
+                    <div class="tech-list">
+                        <span class="tech-tag">Varjo XR-3</span>
+                        <span class="tech-tag">Moza Racing</span>
+                    </div>
+                </div>
+                <div class="tech-category">
+                    <h4>Architecture</h4>
+                    <div class="tech-list">
+                        <span class="tech-tag">Client-Server</span>
+                        <span class="tech-tag">Network Sync</span>
+                        <span class="tech-tag">Dependency Injection</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="code-block">
+                <pre><code><span class="comment">// Example: Syncing steering wheel rotation across network</span>
+<span class="keyword">public class</span> <span class="function">NetworkSteering</span> : NetworkBehaviour
+{
+    [Networked] <span class="keyword">private float</span> _steeringAngle { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    <span class="keyword">public override void</span> <span class="function">FixedUpdateNetwork</span>()
+    {
+        <span class="keyword">if</span> (HasStateAuthority)
+        {
+            <span class="comment">// Capture local input from Logitech G29</span>
+            _steeringAngle = InputManager.GetSteeringAxis();
+        }
+        
+        <span class="comment">// Apply synced angle to all clients</span>
+        transform.localRotation = Quaternion.Euler(0, 0, -_steeringAngle);
+    }
+}</code></pre>
+            </div>
+        </div>
+    </section>
+
+<!-- Results Section 
+    <section>
+        <p class="section-label">// Visual Gallery</p>
+        <h2 class="section-title">HMI Prototypes</h2>
+        
+        <div class="gallery-grid">
+            <div class="gallery-item">📸 Dashboard UX</div>
+            <div class="gallery-item">📸 Eye Tracking Map</div>
+            <div class="gallery-item">📸 VR Interior</div>
+            <div class="gallery-item">📸 Multiplayer View</div>
+            <div class="gallery-item">📸 Night Mode</div>
+            <div class="gallery-item">📸 Console Logic</div>
+        </div>
+    </section>-->
+
+
+    <div class="project-nav">
+        <a href="neurosurgery.html" class="nav-card prev">
+            <p class="nav-direction">← Previous Project</p>
+            <p class="nav-title">VR Neurosurgery</p>
+        </a>
+        <a href="tmj-simulation.html" class="nav-card next">
+            <p class="nav-direction">Next Project →</p>
+            <p class="nav-title">TMJ Simulation</p>
+        </a>
+    </div>
+
+    <footer>
+        <p>© 2025 Bilge Kağan Pamuk. <a href="../bilge-portfolio-3d-models.html">Back to Portfolio</a></p>
+    </footer>
+
+    <script>
+        // ============================================
+        // MODEL CONFIGURATION
+        // ============================================
+        
+        const MODEL_PATH = '../models/Car.glb';
+        const MODEL_SCALE = 1.2;
+        const CAMERA_DISTANCE = 4.5;
+        
+        // ============================================
+        // THREE.JS SETUP
+        // ============================================
+        
+        let scene, camera, renderer, controls, model;
+        const container = document.getElementById('hero-model');
+        const loadingEl = document.getElementById('hero-loading');
+        
+        function init() {
+            // Scene
+            scene = new THREE.Scene();
+            
+            // Camera
+            const aspect = container.clientWidth / container.clientHeight;
+            camera = new THREE.PerspectiveCamera(50, aspect, 0.1, 1000);
+            camera.position.z = CAMERA_DISTANCE;
+            
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.outputEncoding = THREE.sRGBEncoding;
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            container.appendChild(renderer.domElement);
+            
+            // Controls
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.autoRotate = true;
+            controls.autoRotateSpeed = 0.5; // Slower for car to appreciate details
+            controls.enableZoom = true;
+            controls.enablePan = false;
+            
+            // Lights
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.position.set(5, 5, 5);
+            scene.add(directionalLight);
+            
+            const cyanLight = new THREE.DirectionalLight(0x00f0ff, 0.4);
+            cyanLight.position.set(-5, 3, -5);
+            scene.add(cyanLight);
+            
+            const purpleLight = new THREE.DirectionalLight(0xa855f7, 0.3);
+            purpleLight.position.set(0, -5, 5);
+            scene.add(purpleLight);
+            
+            // Load model
+            loadModel();
+            
+            // Events
+            window.addEventListener('resize', onResize);
+            
+            // Animate
+            animate();
+        }
+        
+        function loadModel() {
+            const loader = new THREE.GLTFLoader();
+            
+            loader.load(
+                MODEL_PATH,
+                (gltf) => {
+                    model = gltf.scene;
+                    
+                    // Center and scale
+                    const box = new THREE.Box3().setFromObject(model);
+                    const center = box.getCenter(new THREE.Vector3());
+                    const size = box.getSize(new THREE.Vector3());
+                    
+                    model.position.sub(center);
+                    
+                    const maxDim = Math.max(size.x, size.y, size.z);
+                    const scaleFactor = (2 / maxDim) * MODEL_SCALE;
+                    model.scale.setScalar(scaleFactor);
+                    
+                    scene.add(model);
+                    loadingEl.classList.add('hidden');
+                },
+                (progress) => {
+                    const percent = Math.round((progress.loaded / progress.total) * 100);
+                    loadingEl.querySelector('span').textContent = `Loading... ${percent}%`;
+                },
+                (error) => {
+                    console.error('Error loading model:', error);
+                    loadingEl.querySelector('span').textContent = 'Model failed to load';
+                }
+            );
+        }
+        
+        function onResize() {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        }
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        
+        // ============================================
+        // SCROLL ANIMATIONS
+        // ============================================
+        
+        function initScrollAnimations() {
+            gsap.registerPlugin(ScrollTrigger);
+            
+            // Fade in elements on scroll
+            gsap.utils.toArray('.fade-in').forEach(el => {
+                gsap.to(el, {
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 85%'
+                    },
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8
+                });
+            });
+            
+            // Process steps
+            gsap.utils.toArray('.process-step').forEach((step, i) => {
+                gsap.from(step, {
+                    scrollTrigger: {
+                        trigger: step,
+                        start: 'top 85%'
+                    },
+                    opacity: 0,
+                    y: 30,
+                    duration: 0.6,
+                    delay: i * 0.1
+                });
+            });
+            
+            // Feature cards
+            gsap.utils.toArray('.feature-card').forEach((card, i) => {
+                gsap.from(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 85%'
+                    },
+                    opacity: 0,
+                    y: 30,
+                    duration: 0.6,
+                    delay: i * 0.1
+                });
+            });
+            
+            // Result cards
+            gsap.utils.toArray('.result-card').forEach((card, i) => {
+                gsap.from(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 85%'
+                    },
+                    opacity: 0,
+                    scale: 0.9,
+                    duration: 0.6,
+                    delay: i * 0.15
+                });
+            });
+        }
+        
+        // ============================================
+        // INIT
+        // ============================================
+        
+        window.addEventListener('DOMContentLoaded', () => {
+            init();
+            initScrollAnimations();
+        });
+    </script>
+</body>
+</html>

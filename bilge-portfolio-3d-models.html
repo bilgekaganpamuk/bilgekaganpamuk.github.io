@@ -1,0 +1,2018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bilge Kağan Pamuk | XR Engineer & Product Designer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Three.js and Loaders -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a25;
+            --accent-cyan: #00f0ff;
+            --accent-purple: #a855f7;
+            --accent-blue: #3b82f6;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --gradient-1: linear-gradient(135deg, #00f0ff 0%, #a855f7 100%);
+            --gradient-2: linear-gradient(135deg, #3b82f6 0%, #00f0ff 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+        ::-webkit-scrollbar-thumb { background: var(--accent-cyan); border-radius: 4px; }
+
+        /* Canvas Backgrounds */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Interactive 3D Model Viewer */
+        .model-viewer {
+            width: 100%;
+            height: 400px;
+            border-radius: 16px;
+            overflow: hidden;
+            background: radial-gradient(circle at 30% 30%, rgba(0,240,255,0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 70%, rgba(168,85,247,0.1) 0%, transparent 50%),
+                        var(--bg-card);
+            position: relative;
+            cursor: grab;
+        }
+
+        .model-viewer:active {
+            cursor: grabbing;
+        }
+
+        .model-viewer canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .model-controls {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+
+        .model-control-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(0,0,0,0.7);
+            border: 1px solid rgba(0,240,255,0.3);
+            border-radius: 20px;
+            color: var(--accent-cyan);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .model-control-btn:hover {
+            background: rgba(0,240,255,0.2);
+            border-color: var(--accent-cyan);
+        }
+
+        .model-control-btn.active {
+            background: var(--accent-cyan);
+            color: var(--bg-primary);
+        }
+
+        .model-hint {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.5rem 1rem;
+            background: rgba(0,0,0,0.7);
+            border-radius: 8px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .model-hint svg {
+            width: 16px;
+            height: 16px;
+            stroke: var(--accent-cyan);
+            animation: rotateHint 3s ease-in-out infinite;
+        }
+
+        @keyframes rotateHint {
+            0%, 100% { transform: rotate(-15deg); }
+            50% { transform: rotate(15deg); }
+        }
+
+        /* Loading indicator */
+        .model-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            color: var(--accent-cyan);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        .model-loading.hidden {
+            display: none;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(0,240,255,0.2);
+            border-top-color: var(--accent-cyan);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Project 3D Viewers */
+        .project-3d-viewer {
+            width: 100%;
+            height: 300px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--bg-card);
+            position: relative;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(180deg, rgba(10,10,15,0.95) 0%, rgba(10,10,15,0) 100%);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .logo span { color: var(--text-primary); }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-1);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--text-primary); }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* Mobile menu */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .mobile-menu-btn span {
+            width: 25px;
+            height: 2px;
+            background: var(--accent-cyan);
+            transition: all 0.3s ease;
+        }
+
+        /* Sections */
+        section {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            padding: 6rem 4rem;
+        }
+
+        /* Hero Section */
+        #hero {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding-top: 0;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            margin-bottom: 2rem;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-title .highlight {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .btn-primary {
+            background: var(--gradient-1);
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(0, 240, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--accent-cyan);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* Section Headers */
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-tag {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-desc {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* About Section */
+        #about {
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-visual {
+            position: relative;
+        }
+
+        .about-frame {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 1px solid rgba(0,240,255,0.2);
+            border-radius: 20px;
+            top: 20px;
+            left: 20px;
+            z-index: -1;
+        }
+
+        .about-content h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Skills Section */
+        #skills {
+            background: var(--bg-secondary);
+        }
+
+        .skills-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .skill-category:hover {
+            border-color: rgba(0,240,255,0.3);
+            transform: translateY(-5px);
+        }
+
+        .skill-category-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .skill-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--bg-primary);
+        }
+
+        .skill-category h3 {
+            font-size: 1.25rem;
+        }
+
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .skill-tag {
+            padding: 0.5rem 1rem;
+            background: rgba(0,240,255,0.1);
+            border: 1px solid rgba(0,240,255,0.2);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            background: rgba(0,240,255,0.2);
+            color: var(--text-primary);
+        }
+
+        /* Projects Section */
+        #projects {
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+        }
+
+        .projects-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 8rem;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .project-card:nth-child(even) {
+            direction: rtl;
+        }
+
+        .project-card:nth-child(even) > * {
+            direction: ltr;
+        }
+
+        .project-visual {
+            position: relative;
+        }
+
+        .project-tech {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .project-tech span {
+            padding: 0.25rem 0.75rem;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(0,240,255,0.3);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--accent-cyan);
+            font-family: 'Space Mono', monospace;
+        }
+
+        .project-content {
+            padding: 2rem 0;
+        }
+
+        .project-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(168,85,247,0.1);
+            border: 1px solid rgba(168,85,247,0.3);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--accent-purple);
+            margin-bottom: 1rem;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .project-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-desc {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        /* Workflow */
+        .workflow {
+            margin-top: 2rem;
+        }
+
+        .workflow-title {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            font-family: 'Space Mono', monospace;
+            letter-spacing: 1px;
+        }
+
+        .workflow-steps {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .workflow-step {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-card);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .workflow-step::before {
+            content: attr(data-step);
+            width: 20px;
+            height: 20px;
+            background: var(--gradient-2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--bg-primary);
+        }
+
+        .workflow-arrow {
+            color: var(--accent-cyan);
+            font-size: 1.2rem;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover { gap: 0.75rem; }
+
+        .project-link svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Experience Section */
+        #experience {
+            background: var(--bg-primary);
+        }
+
+        .experience-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--accent-cyan) 0%, var(--accent-purple) 100%);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 3rem;
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -3rem;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            transform: translateX(-5px);
+            box-shadow: 0 0 20px var(--accent-cyan);
+        }
+
+        .timeline-date {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-company {
+            color: var(--accent-purple);
+            margin-bottom: 1rem;
+        }
+
+        .timeline-desc {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .timeline-highlights {
+            margin-top: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .timeline-highlight {
+            padding: 0.25rem 0.75rem;
+            background: rgba(0,240,255,0.1);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Contact Section */
+        #contact {
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            text-align: center;
+        }
+
+        .contact-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-title {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-desc {
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .contact-link:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,240,255,0.1);
+        }
+
+        .contact-link svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--accent-cyan);
+        }
+
+        .contact-email {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.25rem;
+            color: var(--accent-cyan);
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem 4rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            background: var(--bg-secondary);
+            position: relative;
+            z-index: 1;
+        }
+
+        footer a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            section { padding: 4rem 2rem; }
+            nav { padding: 1rem 2rem; }
+            .about-grid, .project-card {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .project-card:nth-child(even) { direction: ltr; }
+            .about-stats { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { 
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--bg-primary);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+            }
+            .nav-links.active { display: flex; }
+            .mobile-menu-btn { display: flex; }
+            .hero-title { font-size: 2.5rem; }
+            .about-stats { grid-template-columns: 1fr; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .workflow-steps { flex-direction: column; }
+            .workflow-arrow { transform: rotate(90deg); align-self: center; }
+            .model-viewer { height: 300px; }
+            .project-3d-viewer { height: 250px; }
+        }
+
+        .animate-in {
+            opacity: 1 !important;
+            transform: translateY(0) translateX(0) !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Canvas -->
+    <div id="canvas-container"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="#hero" class="logo">BK<span>.dev</span></a>
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="hero-content">
+          <!-- <div class="hero-badge">Available for opportunities</div>--> 
+            <h1 class="hero-title">
+                Building the Future of<br>
+                <span class="highlight">Spatial Computing</span>
+            </h1>
+            <p class="hero-subtitle">
+                XR Engineer & Product Designer crafting immersive experiences for medical simulation, automotive HMI, and beyond. 4+ years shipping production applications across VR, AR, and mixed reality platforms.
+            </p>
+            <div class="hero-cta">
+                <a href="#projects" class="btn btn-primary">View Projects</a>
+                <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>Scroll to explore</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 5v14M19 12l-7 7-7-7"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- About Section with Interactive 3D Model -->
+    <section id="about">
+        <div class="section-header">
+            <p class="section-tag">// About Me</p>
+            <h2 class="section-title">Engineer. Designer. Creator.</h2>
+        </div>
+        <div class="about-grid">
+            <div class="about-visual">
+                <!-- Interactive 3D Model Viewer -->
+                <div class="model-viewer" id="about-model-viewer">
+                    <div class="model-loading" id="about-loading">
+                        <div class="loading-spinner"></div>
+                        <span>Loading 3D Model...</span>
+                    </div>
+                    <div class="model-hint">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                            <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            <path d="M9 12l2 2 4-4"/>
+                        </svg>
+                        Drag to rotate • Scroll to zoom
+                    </div>
+                    <div class="model-controls">
+                      <!-- <button class="model-control-btn active" data-model="headset">VR Headset</button>
+                      <button class="model-control-btn" data-model="controller">Controller</button> -->
+                    </div>
+                </div>
+                <div class="about-frame"></div>
+            </div>
+            <div class="about-content">
+                <h3>Bilge Kağan Pamuk</h3>
+                <p>
+                    I'm a Software Engineer and Product Designer specializing in XR and spatial computing, based in Ankara, Turkey. With a unique blend of technical engineering skills and design thinking, I bridge the gap between immersive concept and production-ready implementation.
+                </p>
+                <p>
+                    My work spans medical XR training systems, luxury automotive HMI prototypes, and consumer mobile applications. I've shipped products to Meta Quest, HoloLens, iOS, and Android, achieving a national award for innovation in surgical training.
+                </p>
+                <div class="about-stats">
+                    <div class="stat">
+                        <div class="stat-number">4+</div>
+                        <div class="stat-label">Years Experience</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">10+</div>
+                        <div class="stat-label">Shipped Products</div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="section-header">
+            <p class="section-tag">// Technical Expertise</p>
+            <h2 class="section-title">Skills & Technologies</h2>
+            <p class="section-desc">A comprehensive toolkit spanning real-time systems, XR development, and product design.</p>
+        </div>
+        <div class="skills-container">
+            <div class="skills-grid">
+                <!-- XR/Spatial -->
+                <div class="skill-category">
+                    <div class="skill-category-header">
+                        <div class="skill-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+                                <rect x="2" y="7" width="20" height="10" rx="3"/>
+                                <circle cx="8" cy="12" r="2"/>
+                                <circle cx="16" cy="12" r="2"/>
+                            </svg>
+                        </div>
+                        <h3>XR Development</h3>
+                    </div>
+                    <div class="skill-list">
+                        <span class="skill-tag">Unity XR Toolkit</span>
+                        <span class="skill-tag">OpenXR</span>
+                        <span class="skill-tag">Meta Quest SDK</span>
+                        <span class="skill-tag">HoloLens 2</span>
+                        <span class="skill-tag">ARCore</span>
+                        <span class="skill-tag">ARKit</span>
+                        <span class="skill-tag">Hand Tracking</span>
+                        <span class="skill-tag">Eye Tracking</span>
+                    </div>
+                </div>
+
+                <!-- Programming -->
+                <div class="skill-category">
+                    <div class="skill-category-header">
+                        <div class="skill-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+                                <polyline points="16 18 22 12 16 6"/>
+                                <polyline points="8 6 2 12 8 18"/>
+                            </svg>
+                        </div>
+                        <h3>Programming</h3>
+                    </div>
+                    <div class="skill-list">
+                        <span class="skill-tag">C# (Expert)</span>
+                        <span class="skill-tag">C++</span>
+                        <span class="skill-tag">HLSL Shaders</span>
+                        <span class="skill-tag">Shader Graph</span>
+                        <span class="skill-tag">Compute Shaders</span>
+                    </div>
+                </div>
+
+                <!-- Real-Time Systems -->
+                <div class="skill-category">
+                    <div class="skill-category-header">
+                        <div class="skill-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                        </div>
+                        <h3>Real-Time Systems</h3>
+                    </div>
+                    <div class="skill-list">
+                        <span class="skill-tag">Unity3D</span>
+                        <span class="skill-tag">URP/HDRP</span>
+                        <span class="skill-tag">Performance Optimization</span>
+                        <span class="skill-tag">GPU Profiling</span>
+                        <span class="skill-tag">Memory Management</span>
+                        <span class="skill-tag">LOD Systems</span>
+                    </div>
+                </div>
+
+                <!-- Multiplayer -->
+                <div class="skill-category">
+                    <div class="skill-category-header">
+                        <div class="skill-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                        </div>
+                        <h3>Multiplayer & Networking</h3>
+                    </div>
+                    <div class="skill-list">
+                        <span class="skill-tag">Photon Fusion</span>
+                        <span class="skill-tag">PUN-2</span>
+                        <span class="skill-tag">Client-Server Architecture</span>
+                        <span class="skill-tag">Real-Time Sync</span>
+                    </div>
+                </div>
+
+                <!-- Design -->
+                <div class="skill-category">
+                    <div class="skill-category-header">
+                        <div class="skill-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+                                <path d="M12 19l7-7 3 3-7 7-3-3z"/>
+                                <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
+                                <path d="M2 2l7.586 7.586"/>
+                                <circle cx="11" cy="11" r="2"/>
+                            </svg>
+                        </div>
+                        <h3>Product Design</h3>
+                    </div>
+                    <div class="skill-list">
+                        <span class="skill-tag">Figma</span>
+                        <span class="skill-tag">ProtoPie</span>
+                        <span class="skill-tag">3D Interaction Design</span>
+                        <span class="skill-tag">User Research</span>
+                        <span class="skill-tag">Usability Testing</span>
+                        <span class="skill-tag">Design Systems</span>
+                    </div>
+                </div>
+
+                <!-- Platforms -->
+                <div class="skill-category">
+                    <div class="skill-category-header">
+                        <div class="skill-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+                                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                                <line x1="12" y1="18" x2="12.01" y2="18"/>
+                            </svg>
+                        </div>
+                        <h3>Platforms</h3>
+                    </div>
+                    <div class="skill-list">
+                        <span class="skill-tag">Meta Quest</span>
+                        <span class="skill-tag">HoloLens 2</span>
+                        <span class="skill-tag">iOS</span>
+                        <span class="skill-tag">Android</span>
+                        <span class="skill-tag">Windows</span>
+                        <span class="skill-tag">WebGL</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section with 3D Viewers -->
+    <section id="projects">
+        <div class="section-header">
+            <p class="section-tag">// Featured Work</p>
+            <h2 class="section-title">Projects</h2>
+            <p class="section-desc">A selection of XR applications, medical simulations, and interactive experiences.</p>
+        </div>
+        <div class="projects-container">
+            
+            <!-- Project 1: MORFO -->
+            <div class="project-card">
+                <div class="project-visual">
+                    <div class="project-3d-viewer" id="project-morfo-viewer">
+                        <div class="model-loading" id="morfo-loading">
+                            <div class="loading-spinner"></div>
+                            <span>Loading...</span>
+                        </div>
+                    </div>
+                    <div class="project-tech">
+                        <span>Unity3D</span>
+                        <span>C#</span>
+                        <span>iOS</span>
+                        <span>Android</span>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <span class="project-tag">MOBILE APP</span>
+                       <span class="project-tag">VR APP</span>
+                    <h3 class="project-title">MORFO - 3D Simulation</h3>
+                    <p class="project-desc">
+                        Cross-platform 3D simulation application architected from concept to production release. Features advanced rendering techniques, custom shaders, post-processing effects, and a sophisticated LOD system optimized for diverse mobile hardware. Released on both App Store, Google Play and Meta Store as private.
+                    </p>
+                    <div class="workflow">
+                        <p class="workflow-title">// Development Workflow</p>
+                        <div class="workflow-steps">
+                            <span class="workflow-step" data-step="1">Concept & Research</span>
+                            <span class="workflow-arrow">→</span>
+                            <span class="workflow-step" data-step="2">Architecture Design</span>
+                            <span class="workflow-arrow">→</span>
+                            <span class="workflow-step" data-step="3">Shader Development</span>
+                            <span class="workflow-arrow">→</span>
+                            <span class="workflow-step" data-step="4">Performance Optimization</span>
+                            <span class="workflow-arrow">→</span>
+                            <span class="workflow-step" data-step="5">Store Launch</span>
+                        </div>
+                    </div>
+                    <div class="project-links">
+                        <a href="morfo.html" class="project-link">
+                            
+                            View Case Study
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 2: VR Neurosurgery -->
+            <div class="project-card">
+                <div class="project-visual">
+                    <div class="project-3d-viewer" id="project-neuro-viewer">
+                        <div class="model-loading" id="neuro-loading">
+                            <div class="loading-spinner"></div>
+                            <span>Loading...</span>
+                        </div>
+                    </div>
+                    <div class="project-tech">
+                        <span>Unity3D</span>
+                        <span>VR</span>
+                        <span>HLSL</span>
+                        <span>Physics</span>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <span class="project-tag">🏆 AWARD WINNER</span>
+                    <h3 class="project-title">VR Neurosurgery Training</h3>
+                    <p class="project-desc">
+                        Award-winning VR application for neurosurgery education, creating highly realistic simulations of brain surgeries critical for neurosurgeon training. Features real-time surgical simulation with accurate tool physics, tissue deformation, and bleeding simulation. Recognized as "Best University Graduate Project 2023."
+                    </p>
+                    <div class="workflow">
+                        <p class="workflow-title">// Design & Development Process</p>
+                        <div class="workflow-steps">
+                            <span class="workflow-step" data-step="1">Medical Consultation</span>
+                            <span class="workflow-arrow">→</span>
+                            <span class="workflow-step" data-step="2">Anatomical Modeling</span>
+                            <span class="workflow-arrow">→</span>
+                            <span class="workflow-step" data-step="3">Physics Simulation</span>
+                            <span class="workflow-arrow">→</span>
+                            <span class="workflow-step" data-step="4">VR Interaction Design</span>
+                            <span class="workflow-arrow">→</span>
+                            <span class="workflow-step" data-step="5">User Testing</span>
+                        </div>
+                    </div>
+                    <div class="project-links">
+                        <a href="NeuroSurgery.html" class="project-link">
+                            View Case Study
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 3: Aston Martin HMI -->
+            <div class="project-card">
+                <div class="project-visual">
+                    <div class="project-3d-viewer" id="project-aston-viewer">
+                        <div class="model-loading" id="aston-loading">
+                            <div class="loading-spinner"></div>
+                            <span>Loading...</span>
+                        </div>
+                    </div>
+                    <div class="project-tech">
+                        <span>Unity3D</span>
+                        <span>VR</span>
+                        <span>Eye Tracking</span>
+                        <span>Multiplayer</span>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <span class="project-tag">AUTOMOTIVE</span>
+                    <h3 class="project-title">Aston Martin VR HMI</h3>
+                    <p class="project-desc">
+                        VR car simulator prototypes integrating interactive 3D HMI systems for luxury vehicle interfaces. Built multiplayer networking infrastructure for concurrent multi-user testing sessions, supporting real-time design iteration with geographically distributed teams. Developed eye-tracking integration for UX telemetry and attention analytics.
+                    </p>
+                    <div class="workflow">
+                        <p class="workflow-title">// Prototyping Workflow</p>
+                        <div class="workflow-steps">
+                            <span class="workflow-step" data-step="1">Figma Specs</span>
+                            <span class="workflow-arrow">→</span>
+                            <span class="workflow-step" data-step="2">Unity Prototyping</span>
+                            <span class="workflow-arrow">→</span>
+                            <span class="workflow-step" data-step="3">Eye Tracking Study</span>
+                            <span class="workflow-arrow">→</span>
+                            <span class="workflow-step" data-step="4">Stakeholder Review</span>
+                            <span class="workflow-arrow">→</span>
+                            <span class="workflow-step" data-step="5">Iteration</span>
+                        </div>
+                    </div>
+                    <div class="project-links">
+                        <a href="AstonMartin.html" class="project-link">
+                            View Case Study
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 4: Medical XR (TMJ) -->
+            <div class="project-card">
+                <div class="project-visual">
+                    <div class="project-3d-viewer" id="project-tmj-viewer">
+                        <div class="model-loading" id="tmj-loading">
+                            <div class="loading-spinner"></div>
+                            <span>Loading...</span>
+                        </div>
+                    </div>
+                    <div class="project-tech">
+                        <span>Unity3D</span>
+                        <span>Mixed Reality</span>
+                        <span>Haptics</span>
+                        <span>C++</span>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <span class="project-tag">MEDICAL XR</span>
+                    <h3 class="project-title">TMJ Simulation System</h3>
+                    <p class="project-desc">
+                        Mixed reality temporomandibular joint (TMJ) simulation integrating real-time biomechanical modeling with haptic feedback. Features real-time jaw simulation , custom HLSL shaders for realistic tissue rendering with subsurface scattering, and native C++ haptic library integration via P/Invoke.
+                    </p>
+                    <div class="workflow">
+                        <p class="workflow-title">// Technical Pipeline</p>
+                        <div class="workflow-steps">
+                            <span class="workflow-step" data-step="1">Biomechanical Research</span>
+                            <span class="workflow-arrow">→</span>
+                            <span class="workflow-step" data-step="2">Native Integration</span>
+                            <span class="workflow-arrow">→</span>
+                            <span class="workflow-step" data-step="3">Shader Development</span>
+                            <span class="workflow-arrow">→</span>
+                            <span class="workflow-step" data-step="4">Haptic Calibration</span>
+                            <span class="workflow-arrow">→</span>
+                            <span class="workflow-step" data-step="5">Clinical Testing</span>
+                        </div>
+                    </div>
+                    <div class="project-links">
+                        <a href="TMJ.html" class="project-link">
+                            View Case Study
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience">
+        <div class="section-header">
+            <p class="section-tag">// Career Journey</p>
+            <h2 class="section-title">Experience</h2>
+        </div>
+        <div class="experience-container">
+            <div class="timeline">
+                
+                <div class="timeline-item">
+                    <p class="timeline-date">Feb 2023 - Present</p>
+                    <h3 class="timeline-title">Software Engineer - XR Systems</h3>
+                    <p class="timeline-company">MedeaSoft • Ankara, Turkey</p>
+                    <p class="timeline-desc">
+                        Architecting and shipping production medical XR applications. Leading technical design for mixed reality simulations, integrating haptic feedback systems, and maintaining optimization on mobile while rendering complex anatomical models.
+                    </p>
+                    <div class="timeline-highlights">
+                        <span class="timeline-highlight">Medical XR</span>
+                        <span class="timeline-highlight">Haptic Integration</span>
+                        <span class="timeline-highlight">Performance Engineering</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <p class="timeline-date">Dec 2023 - Aug 2024</p>
+                    <h3 class="timeline-title">XR Prototyping Engineer</h3>
+                    <p class="timeline-company">Aston Martin Lagonda • Remote, UK</p>
+                    <p class="timeline-desc">
+                        Engineered VR car simulator prototypes for luxury vehicle HMI validation. Built multiplayer infrastructure for distributed team testing and developed eye-tracking UX telemetry systems for attention analytics.
+                    </p>
+                    <div class="timeline-highlights">
+                        <span class="timeline-highlight">Automotive HMI</span>
+                        <span class="timeline-highlight">Eye Tracking</span>
+                        <span class="timeline-highlight">Multiplayer VR</span>
+                    </div>
+                </div>
+
+            <div class="timeline-item">
+                    <p class="timeline-date">August 2025 - Present</p>
+                    <h3 class="timeline-title">Health Informatics</h3>
+                    <p class="timeline-company">Hacettepe University • Ankara, Turkey</p>
+                    <p class="timeline-desc">
+                        
+                        Conducting research on healthcare systems utilizing XR, mobile platforms, and simulation technologies.
+                          <div class="timeline-highlights">
+                        <span class="timeline-highlight">Medical XR</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <p class="timeline-date">Nov 2022 - Jun 2023</p>
+                    <h3 class="timeline-title">VR Development Lead</h3>
+                    <p class="timeline-company">Atılım University • Ankara, Turkey</p>
+                    <p class="timeline-desc">
+                        Led development of award-winning VR neurosurgery training application. Architected real-time surgical simulation with accurate tool physics, tissue deformation, and bleeding simulation.
+                    </p>
+                    <div class="timeline-highlights">
+                        <span class="timeline-highlight">🏆 Best Graduate Project 2023</span>
+                        <span class="timeline-highlight">VR Training</span>
+                        <span class="timeline-highlight">Medical Simulation</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <p class="timeline-date">2019 - 2023</p>
+                    <h3 class="timeline-title">B.Sc. Software Engineering</h3>
+                    <p class="timeline-company">Atılım University • Full Scholarship</p>
+                    <p class="timeline-desc">
+                        Graduated with 3.47 GPA. Full merit-based scholarship recipient. Engineering Faculty 5th Place Award. Erasmus exchange at Ostrava University, Czech Republic (3.80 GPA).
+                    </p>
+                    <div class="timeline-highlights">
+                        <span class="timeline-highlight">Full Scholarship</span>
+                        <span class="timeline-highlight">Erasmus Exchange</span>
+                        <span class="timeline-highlight">3 Academic Awards</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="contact-container">
+            <p class="section-tag">// Get in Touch</p>
+            <h2 class="contact-title">Let's Build Something Together</h2>
+            <p class="contact-desc">
+                Open to full-time opportunities in XR engineering and product design. Currently based in Ankara, Turkey — available for relocation.
+            </p>
+            <p class="contact-email">bilge_kagan_pamuk@hotmail.com</p>
+            <div class="contact-links">
+                <a href="https://linkedin.com/in/bilge-kağan-pamuk-261808151" target="_blank" class="contact-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                        <rect x="2" y="9" width="4" height="12"/>
+                        <circle cx="4" cy="4" r="2"/>
+                    </svg>
+                    LinkedIn
+                </a>
+                <a href="mailto:bilge_kagan_pamuk@hotmail.com" class="contact-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                        <polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                    Email
+                </a>
+                <a href="tel:+905452241020" class="contact-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                    Call
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Bilge Kağan Pamuk. Crafted with Three.js & passion for XR.</p>
+    </footer>
+
+    <script>
+        // ============================================
+        // CONFIGURATION - YOUR MODEL PATHS
+        // ============================================
+        
+        const MODEL_PATHS = {
+            // About section models
+            headset: 'models/Headset.glb',
+            controller: 'models/Controller.glb',
+            
+            // Project models
+            phone: 'models/morfo.glb',           // MORFO project
+            surgeryRoom: 'models/SurgeryRoom.glb', // Neurosurgery project
+            car: 'models/Car.glb',               // Aston Martin project
+            jaw: 'models/jaw.glb'                // TMJ project
+        };
+        
+        // Model scale adjustments (tweak these if models appear too big/small)
+        const MODEL_SCALES = {
+            headset: 1,
+            controller: 1,
+            phone: 1,
+            surgeryRoom: 2,
+            car: 1.2,
+            jaw: 1
+        };
+        
+        // Camera distances for each model
+        const CAMERA_DISTANCES = {
+            headset: 3,
+            controller: 2,
+            phone: 3,
+            surgeryRoom: 5,
+            car: 3,
+            jaw: 3
+        };
+        
+        // ============================================
+        // GLOBAL VARIABLES
+        // ============================================
+        
+        let backgroundScene, backgroundCamera, backgroundRenderer;
+        let particles, geometries = [];
+        let mouseX = 0, mouseY = 0, scrollY = 0;
+        
+        const modelViewers = {};
+        const gltfLoader = new THREE.GLTFLoader();
+        
+        // ============================================
+        // BACKGROUND THREE.JS SCENE
+        // ============================================
+        
+        function initBackground() {
+            backgroundScene = new THREE.Scene();
+            backgroundCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            backgroundCamera.position.z = 30;
+            
+            backgroundRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            backgroundRenderer.setSize(window.innerWidth, window.innerHeight);
+            backgroundRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            document.getElementById('canvas-container').appendChild(backgroundRenderer.domElement);
+            
+            createBackgroundGeometries();
+            createParticles();
+            
+            document.addEventListener('mousemove', onMouseMove);
+            window.addEventListener('scroll', onScroll);
+            window.addEventListener('resize', onResize);
+        }
+        
+        function createBackgroundGeometries() {
+            const geometryTypes = [
+                new THREE.IcosahedronGeometry(1.5, 0),
+                new THREE.OctahedronGeometry(1.2, 0),
+                new THREE.TetrahedronGeometry(1.3, 0),
+                new THREE.TorusGeometry(1, 0.4, 8, 16),
+            ];
+            
+            const material = new THREE.MeshBasicMaterial({
+                color: 0x00f0ff,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.2
+            });
+            
+            const materialPurple = new THREE.MeshBasicMaterial({
+                color: 0xa855f7,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.15
+            });
+            
+            for (let i = 0; i < 12; i++) {
+                const geometry = geometryTypes[Math.floor(Math.random() * geometryTypes.length)];
+                const mat = Math.random() > 0.5 ? material.clone() : materialPurple.clone();
+                const mesh = new THREE.Mesh(geometry, mat);
+                
+                mesh.position.x = (Math.random() - 0.5) * 60;
+                mesh.position.y = (Math.random() - 0.5) * 60;
+                mesh.position.z = (Math.random() - 0.5) * 30 - 10;
+                
+                mesh.rotation.x = Math.random() * Math.PI;
+                mesh.rotation.y = Math.random() * Math.PI;
+                
+                mesh.userData = {
+                    rotationSpeed: {
+                        x: (Math.random() - 0.5) * 0.01,
+                        y: (Math.random() - 0.5) * 0.01,
+                    },
+                    floatSpeed: Math.random() * 0.5 + 0.5,
+                    floatOffset: Math.random() * Math.PI * 2,
+                    originalY: mesh.position.y
+                };
+                
+                geometries.push(mesh);
+                backgroundScene.add(mesh);
+            }
+        }
+        
+        function createParticles() {
+            const particleCount = 400;
+            const positions = new Float32Array(particleCount * 3);
+            
+            for (let i = 0; i < particleCount * 3; i += 3) {
+                positions[i] = (Math.random() - 0.5) * 100;
+                positions[i + 1] = (Math.random() - 0.5) * 100;
+                positions[i + 2] = (Math.random() - 0.5) * 50 - 20;
+            }
+            
+            const geometry = new THREE.BufferGeometry();
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            
+            const material = new THREE.PointsMaterial({
+                color: 0x00f0ff,
+                size: 0.1,
+                transparent: true,
+                opacity: 0.5
+            });
+            
+            particles = new THREE.Points(geometry, material);
+            backgroundScene.add(particles);
+        }
+        
+        function onMouseMove(event) {
+            mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+        }
+        
+        function onScroll() {
+            scrollY = window.scrollY;
+        }
+        
+        function onResize() {
+            backgroundCamera.aspect = window.innerWidth / window.innerHeight;
+            backgroundCamera.updateProjectionMatrix();
+            backgroundRenderer.setSize(window.innerWidth, window.innerHeight);
+            
+            Object.values(modelViewers).forEach(viewer => {
+                if (viewer.renderer && viewer.camera) {
+                    const container = viewer.renderer.domElement.parentElement;
+                    if (container) {
+                        viewer.camera.aspect = container.clientWidth / container.clientHeight;
+                        viewer.camera.updateProjectionMatrix();
+                        viewer.renderer.setSize(container.clientWidth, container.clientHeight);
+                    }
+                }
+            });
+        }
+        
+        function animateBackground() {
+            requestAnimationFrame(animateBackground);
+            
+            const time = Date.now() * 0.001;
+            
+            geometries.forEach((mesh) => {
+                mesh.rotation.x += mesh.userData.rotationSpeed.x;
+                mesh.rotation.y += mesh.userData.rotationSpeed.y;
+                mesh.position.y = mesh.userData.originalY + 
+                    Math.sin(time * mesh.userData.floatSpeed + mesh.userData.floatOffset) * 2;
+            });
+            
+            if (particles) {
+                particles.rotation.y += 0.0002;
+            }
+            
+            backgroundCamera.position.y = -scrollY * 0.01;
+            backgroundCamera.lookAt(0, -scrollY * 0.01, 0);
+            
+            backgroundRenderer.render(backgroundScene, backgroundCamera);
+        }
+        
+        // ============================================
+        // MODEL VIEWER CLASS
+        // ============================================
+        
+        class ModelViewer3D {
+            constructor(containerId, options = {}) {
+                this.container = document.getElementById(containerId);
+                if (!this.container) return;
+                
+                this.options = {
+                    autoRotate: true,
+                    autoRotateSpeed: 0.5,
+                    cameraDistance: 5,
+                    ...options
+                };
+                
+                this.models = {};
+                this.currentModel = null;
+                this.loadingElement = this.container.querySelector('.model-loading');
+                
+                this.init();
+            }
+            
+            init() {
+                this.scene = new THREE.Scene();
+                
+                const aspect = this.container.clientWidth / this.container.clientHeight;
+                this.camera = new THREE.PerspectiveCamera(50, aspect, 0.1, 1000);
+                this.camera.position.z = this.options.cameraDistance;
+                
+                this.renderer = new THREE.WebGLRenderer({ 
+                    antialias: true, 
+                    alpha: true 
+                });
+                this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+                this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                this.renderer.outputEncoding = THREE.sRGBEncoding;
+                this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+                this.renderer.toneMappingExposure = 1;
+                this.container.appendChild(this.renderer.domElement);
+                
+                this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+                this.controls.enableDamping = true;
+                this.controls.dampingFactor = 0.05;
+                this.controls.autoRotate = this.options.autoRotate;
+                this.controls.autoRotateSpeed = this.options.autoRotateSpeed;
+                this.controls.enableZoom = true;
+                this.controls.enablePan = false;
+                this.controls.minDistance = 1;
+                this.controls.maxDistance = 20;
+                
+                // Lights
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+                this.scene.add(ambientLight);
+                
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+                directionalLight.position.set(5, 5, 5);
+                this.scene.add(directionalLight);
+                
+                const directionalLight2 = new THREE.DirectionalLight(0x00f0ff, 0.4);
+                directionalLight2.position.set(-5, 3, -5);
+                this.scene.add(directionalLight2);
+                
+                const directionalLight3 = new THREE.DirectionalLight(0xa855f7, 0.3);
+                directionalLight3.position.set(0, -5, 5);
+                this.scene.add(directionalLight3);
+                
+                this.animate();
+            }
+            
+            animate() {
+                requestAnimationFrame(() => this.animate());
+                this.controls.update();
+                this.renderer.render(this.scene, this.camera);
+            }
+            
+            loadGLTF(name, url, scale = 1, cameraDistance = 5) {
+                this.showLoading();
+                
+                gltfLoader.load(
+                    url,
+                    (gltf) => {
+                        const model = gltf.scene;
+                        
+                        // Center the model
+                        const box = new THREE.Box3().setFromObject(model);
+                        const center = box.getCenter(new THREE.Vector3());
+                        const size = box.getSize(new THREE.Vector3());
+                        
+                        model.position.sub(center);
+                        
+                        // Scale model
+                        const maxDim = Math.max(size.x, size.y, size.z);
+                        const scaleFactor = (2 / maxDim) * scale;
+                        model.scale.setScalar(scaleFactor);
+                        
+                        model.visible = false;
+                        this.models[name] = { 
+                            model, 
+                            cameraDistance 
+                        };
+                        this.scene.add(model);
+                        
+                        this.hideLoading();
+                        
+                        // If this is the first model, show it
+                        if (Object.keys(this.models).length === 1) {
+                            this.showModel(name);
+                        }
+                    },
+                    (progress) => {
+                        // Loading progress
+                        const percent = Math.round((progress.loaded / progress.total) * 100);
+                        if (this.loadingElement) {
+                            const span = this.loadingElement.querySelector('span');
+                            if (span) span.textContent = `Loading... ${percent}%`;
+                        }
+                    },
+                    (error) => {
+                        console.error('Error loading model:', name, error);
+                        this.hideLoading();
+                        this.showFallback(name);
+                    }
+                );
+            }
+            
+            showModel(name) {
+                Object.keys(this.models).forEach(key => {
+                    this.models[key].model.visible = (key === name);
+                });
+                this.currentModel = name;
+                
+                // Adjust camera distance
+                if (this.models[name]) {
+                    this.camera.position.z = this.models[name].cameraDistance;
+                    this.controls.update();
+                }
+            }
+            
+            showLoading() {
+                if (this.loadingElement) {
+                    this.loadingElement.classList.remove('hidden');
+                }
+            }
+            
+            hideLoading() {
+                if (this.loadingElement) {
+                    this.loadingElement.classList.add('hidden');
+                }
+            }
+            
+            // Fallback if model fails to load
+            showFallback(name) {
+                const geometry = new THREE.IcosahedronGeometry(1, 1);
+                const material = new THREE.MeshBasicMaterial({
+                    color: 0x00f0ff,
+                    wireframe: true
+                });
+                const mesh = new THREE.Mesh(geometry, material);
+                this.models[name] = { model: mesh, cameraDistance: 3 };
+                this.scene.add(mesh);
+                this.showModel(name);
+            }
+        }
+        
+        // ============================================
+        // INITIALIZE MODEL VIEWERS
+        // ============================================
+        
+        function initModelViewers() {
+            // About section viewer (Headset + Controller)
+            const aboutViewer = new ModelViewer3D('about-model-viewer', {
+                autoRotate: true,
+                autoRotateSpeed: 1,
+                cameraDistance: 3
+            });
+            
+            if (aboutViewer.scene) {
+                aboutViewer.loadGLTF(
+                    'headset', 
+                    MODEL_PATHS.headset, 
+                    MODEL_SCALES.headset, 
+                    CAMERA_DISTANCES.headset
+                );
+               /* aboutViewer.loadGLTF(
+                    'controller', 
+                    MODEL_PATHS.controller, 
+                    MODEL_SCALES.controller, 
+                    CAMERA_DISTANCES.controller
+                );*/
+                
+                modelViewers['about'] = aboutViewer;
+                
+                // Model switching buttons
+                document.querySelectorAll('.model-control-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const modelName = btn.dataset.model;
+                        aboutViewer.showModel(modelName);
+                        
+                        document.querySelectorAll('.model-control-btn').forEach(b => 
+                            b.classList.remove('active'));
+                        btn.classList.add('active');
+                    });
+                });
+            }
+            
+            // Project viewers
+            const projectConfigs = [
+                { 
+                    id: 'project-morfo-viewer', 
+                    modelKey: 'phone',
+                    path: MODEL_PATHS.phone,
+                    scale: MODEL_SCALES.phone,
+                    distance: CAMERA_DISTANCES.phone
+                },
+                { 
+                    id: 'project-neuro-viewer', 
+                    modelKey: 'surgeryRoom',
+                    path: MODEL_PATHS.surgeryRoom,
+                    scale: MODEL_SCALES.surgeryRoom,
+                    distance: CAMERA_DISTANCES.surgeryRoom
+                },
+                { 
+                    id: 'project-aston-viewer', 
+                    modelKey: 'car',
+                    path: MODEL_PATHS.car,
+                    scale: MODEL_SCALES.car,
+                    distance: CAMERA_DISTANCES.car
+                },
+                { 
+                    id: 'project-tmj-viewer', 
+                    modelKey: 'jaw',
+                    path: MODEL_PATHS.jaw,
+                    scale: MODEL_SCALES.jaw,
+                    distance: CAMERA_DISTANCES.jaw
+                }
+            ];
+            
+            projectConfigs.forEach(config => {
+                const container = document.getElementById(config.id);
+                if (container) {
+                    const viewer = new ModelViewer3D(config.id, {
+                        autoRotate: true,
+                        autoRotateSpeed: 0.8,
+                        cameraDistance: config.distance
+                    });
+                    
+                    if (viewer.scene) {
+                        viewer.loadGLTF(
+                            config.modelKey, 
+                            config.path, 
+                            config.scale, 
+                            config.distance
+                        );
+                        modelViewers[config.id] = viewer;
+                    }
+                }
+            });
+        }
+        
+        // ============================================
+        // GSAP ANIMATIONS
+        // ============================================
+        
+        function initAnimations() {
+            gsap.registerPlugin(ScrollTrigger);
+            
+            gsap.from('.hero-badge', { opacity: 0, y: 30, duration: 1, delay: 0.2 });
+            gsap.from('.hero-title', { opacity: 0, y: 50, duration: 1, delay: 0.4 });
+            gsap.from('.hero-subtitle', { opacity: 0, y: 30, duration: 1, delay: 0.6 });
+            gsap.from('.hero-cta', { opacity: 0, y: 30, duration: 1, delay: 0.8 });
+            
+            gsap.from('.about-visual', {
+                scrollTrigger: { trigger: '#about', start: 'top 80%' },
+                opacity: 0, x: -50, duration: 1
+            });
+            
+            gsap.from('.about-content', {
+                scrollTrigger: { trigger: '#about', start: 'top 80%' },
+                opacity: 0, x: 50, duration: 1, delay: 0.2
+            });
+            
+            gsap.utils.toArray('.skill-category').forEach((card, i) => {
+                gsap.from(card, {
+                    scrollTrigger: { trigger: card, start: 'top 85%' },
+                    opacity: 0, y: 50, duration: 0.6, delay: i * 0.1
+                });
+            });
+            
+            gsap.utils.toArray('.project-card').forEach((card) => {
+                gsap.to(card, {
+                    scrollTrigger: { trigger: card, start: 'top 80%' },
+                    opacity: 1, y: 0, duration: 0.8
+                });
+            });
+            
+            gsap.utils.toArray('.timeline-item').forEach((item, i) => {
+                gsap.to(item, {
+                    scrollTrigger: { trigger: item, start: 'top 85%' },
+                    opacity: 1, x: 0, duration: 0.6, delay: i * 0.1
+                });
+            });
+            
+            gsap.from('.contact-container > *', {
+                scrollTrigger: { trigger: '#contact', start: 'top 80%' },
+                opacity: 0, y: 30, duration: 0.6, stagger: 0.1
+            });
+        }
+        
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        }
+        
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    // Close mobile menu if open
+                    document.querySelector('.nav-links').classList.remove('active');
+                }
+            });
+        });
+        
+        // ============================================
+        // INIT
+        // ============================================
+        
+        window.addEventListener('DOMContentLoaded', () => {
+            initBackground();
+            animateBackground();
+            initModelViewers();
+            initAnimations();
+        });
+    </script>
+</body>
+</html>

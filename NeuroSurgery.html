@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neurosurgery VR Case Study | Bilge Kağan Pamuk</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a25;
+            --accent-cyan: #00f0ff;
+            --accent-purple: #a855f7;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --gradient-1: linear-gradient(135deg, #00f0ff 0%, #a855f7 100%);
+            --gradient-2: linear-gradient(135deg, #3b82f6 0%, #00f0ff 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+        ::-webkit-scrollbar-thumb { background: var(--accent-cyan); border-radius: 4px; }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(10,10,15,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .logo {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .logo span { color: var(--text-primary); }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--text-primary); }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(0,240,255,0.1);
+            border: 1px solid rgba(0,240,255,0.3);
+            border-radius: 8px;
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(0,240,255,0.2);
+        }
+
+        .back-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Hero Section */
+        .case-hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 8rem 4rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .case-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(0,240,255,0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 50%, rgba(168,85,247,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero-content {
+            z-index: 1;
+        }
+
+        .project-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(168,85,247,0.1);
+            border: 1px solid rgba(168,85,247,0.3);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--accent-purple);
+            margin-bottom: 1.5rem;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title .highlight {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-tagline {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .hero-meta {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .meta-item {
+            padding: 1rem;
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .meta-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .meta-value {
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        .hero-3d {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-model-viewer {
+            width: 100%;
+            height: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            background: var(--bg-card);
+            position: relative;
+        }
+
+        .model-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            color: var(--accent-cyan);
+            font-family: 'Space Mono', monospace;
+        }
+
+        .model-loading.hidden { display: none; }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(0,240,255,0.2);
+            border-top-color: var(--accent-cyan);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .model-hint {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.5rem 1rem;
+            background: rgba(0,0,0,0.7);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Content Sections */
+        section {
+            padding: 6rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        /* Overview Section */
+        .overview-section {
+            background: var(--bg-secondary);
+            border-radius: 24px;
+            padding: 3rem;
+            margin: -4rem 4rem 4rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .overview-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .overview-item:hover {
+            border-color: rgba(0,240,255,0.3);
+            transform: translateY(-5px);
+        }
+
+        .overview-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .overview-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--bg-primary);
+        }
+
+        .overview-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .overview-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+   .challenge-section {
+    display: block;
+    max-width: 800px;
+}
+
+        .challenge-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .challenge-list {
+            list-style: none;
+        }
+
+        .challenge-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: var(--bg-card);
+            border-radius: 12px;
+            border-left: 3px solid var(--accent-cyan);
+        }
+
+        .challenge-list li::before {
+            content: '→';
+            color: var(--accent-cyan);
+            font-weight: 700;
+        }
+
+        .challenge-visual {
+            position: relative;
+        }
+
+        .challenge-image {
+            width: 100%;
+            border-radius: 16px;
+            background: var(--bg-card);
+            aspect-ratio: 4/3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            border: 1px dashed rgba(255,255,255,0.1);
+        }
+
+        /* Process Section */
+        .process-section {
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            padding: 6rem 4rem;
+            max-width: none;
+        }
+
+        .process-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .process-timeline {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            margin-top: 3rem;
+            position: relative;
+        }
+
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+        }
+
+        .process-step {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: var(--bg-card);
+            border: 2px solid var(--accent-cyan);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-family: 'Space Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            transition: all 0.3s ease;
+        }
+
+        .process-step:hover .step-number {
+            background: var(--accent-cyan);
+            color: var(--bg-primary);
+            transform: scale(1.1);
+        }
+
+        .step-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Features Section */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            padding: 2rem;
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(0,240,255,0.3);
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: rgba(0,240,255,0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--accent-cyan);
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-desc {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Technical Section */
+        .tech-section {
+            background: var(--bg-secondary);
+            border-radius: 24px;
+            padding: 3rem;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .tech-category h4 {
+            font-size: 1rem;
+            color: var(--accent-purple);
+            margin-bottom: 1rem;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .tech-tag {
+            padding: 0.5rem 1rem;
+            background: rgba(0,240,255,0.1);
+            border: 1px solid rgba(0,240,255,0.2);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .code-block {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .code-block .comment { color: var(--text-muted); }
+        .code-block .keyword { color: var(--accent-purple); }
+        .code-block .function { color: var(--accent-cyan); }
+        .code-block .string { color: var(--accent-green); }
+
+        /* Results Section */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .result-card {
+            text-align: center;
+            padding: 2rem;
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .result-value {
+            font-size: 3rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-label {
+            color: var(--text-secondary);
+        }
+
+        /* Figma Embed Section */
+        .figma-section {
+            background: var(--bg-secondary);
+            padding: 4rem;
+            border-radius: 24px;
+            margin-top: 2rem;
+        }
+
+        .figma-embed {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 16px;
+            background: var(--bg-card);
+            margin-top: 2rem;
+        }
+
+        .figma-placeholder {
+            width: 100%;
+            height: 400px;
+            border-radius: 16px;
+            background: var(--bg-card);
+            border: 2px dashed rgba(0,240,255,0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .figma-placeholder svg {
+            width: 48px;
+            height: 48px;
+            stroke: var(--accent-cyan);
+            opacity: 0.5;
+        }
+
+        .figma-placeholder p {
+            color: var(--text-muted);
+        }
+
+        .figma-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--gradient-1);
+            border-radius: 8px;
+            color: var(--bg-primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .figma-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,240,255,0.3);
+        }
+
+        /* Gallery Section */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            aspect-ratio: 16/10;
+            border-radius: 12px;
+            background: var(--bg-card);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            border: 1px dashed rgba(255,255,255,0.1);
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
+            border-color: var(--accent-cyan);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Navigation */
+        .project-nav {
+            display: flex;
+            justify-content: space-between;
+            padding: 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 2rem;
+        }
+
+        .nav-card {
+            flex: 1;
+            padding: 2rem;
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-card:hover {
+            border-color: rgba(0,240,255,0.3);
+            transform: translateY(-5px);
+        }
+
+        .nav-card.prev { text-align: left; }
+        .nav-card.next { text-align: right; }
+
+        .nav-direction {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .nav-title {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 4rem;
+            text-align: center;
+            color: var(--text-muted);
+            background: var(--bg-secondary);
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        footer a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-grid,
+            .challenge-section,
+            .tech-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .overview-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .process-timeline {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .process-timeline::before {
+                display: none;
+            }
+
+            section, .case-hero, .process-section {
+                padding: 4rem 2rem;
+            }
+
+            .overview-section {
+                margin: -2rem 2rem 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-model-viewer {
+                height: 350px;
+            }
+
+            .overview-grid,
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .process-timeline {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-nav {
+                flex-direction: column;
+            }
+
+            .figma-embed {
+                height: 400px;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.8s ease;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="../bilge-portfolio-3d-models.html" class="logo">BK<span>.dev</span></a>
+        <ul class="nav-links">
+            <li>
+                <a href="../bilge-portfolio-3d-models.html" class="back-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    Back to Portfolio
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <section class="case-hero">
+        <div class="hero-grid">
+            <div class="hero-content">
+                <span class="project-badge">VR SIMULATION • AWARD WINNER</span>
+                <h1 class="hero-title">
+                    VR Neurosurgery<br>
+                    <span class="highlight">Tissue Physics</span>
+                </h1>
+                <p class="hero-tagline">
+                    An award-winning surgical training simulation featuring real-time soft body physics, accurate tissue deformation, and bleeding mechanics for neurosurgery education.
+                </p>
+                <div class="hero-meta">
+                    <div class="meta-item">
+                        <p class="meta-label">Role</p>
+                        <p class="meta-value">VR Development Lead</p>
+                    </div>
+                    <div class="meta-item">
+                        <p class="meta-label">Timeline</p>
+                        <p class="meta-value">Nov 2022 - Jun 2023</p>
+                    </div>
+                    <div class="meta-item">
+                        <p class="meta-label">Platform</p>
+                        <p class="meta-value">Meta Quest 2/Pro</p>
+                    </div>
+                    <div class="meta-item">
+                        <p class="meta-label">Tech</p>
+                        <p class="meta-value">Unity VR & Physics</p>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-3d">
+                <div class="hero-model-viewer" id="hero-model">
+                    <div class="model-loading" id="hero-loading">
+                        <div class="loading-spinner"></div>
+                        <span>Loading Surgery Room...</span>
+                    </div>
+                    <div class="model-hint">Drag to rotate • Scroll to zoom</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="overview-section">
+        <div class="overview-grid">
+            <div class="overview-item">
+                <div class="overview-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                </div>
+                <p class="overview-value">1st</p>
+                <p class="overview-label">Best Project Award</p>
+            </div>
+            <div class="overview-item">
+                <div class="overview-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                    </svg>
+                </div>
+                <p class="overview-value">90Hz</p>
+                <p class="overview-label">Physics Update Rate</p>
+            </div>
+            <div class="overview-item">
+                <div class="overview-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                </div>
+                <p class="overview-value">100%</p>
+                <p class="overview-label">Anatomical Accuracy</p>
+            </div>
+            <div class="overview-item">
+                <div class="overview-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                </div>
+                <p class="overview-value">Train</p>
+                <p class="overview-label">Surgeon Ready</p>
+            </div>
+        </div>
+    </div>
+
+    <section>
+        <div class="challenge-section">
+            <div class="challenge-content">
+                <p class="section-label">// The Challenge</p>
+                <h2 class="section-title">Simulating Brain Tissue in Real-Time</h2>
+                <p>
+                    Neurosurgery requires delicate handling of extremely soft brain tissue. The core challenge was to simulate non-linear soft body deformation, incision, and bleeding in real-time on standalone VR hardware, where performance budgets are tight.
+                </p>
+                <p>
+                    Standard rigid-body physics were insufficient. We needed a custom solution to calculate vertex displacement based on tool pressure without dropping below the critical 72 FPS threshold required for comfortable VR.
+                </p>
+                <ul class="challenge-list">
+                    <li>Simulate realistic brain tissue elasticity and deformation</li>
+                    <li>Implement accurate bleeding mechanics upon incision</li>
+                    <li>Maintain high frame rates (72+ FPS) on Meta Quest hardware</li>
+                    <li>Map complex surgical tool interactions to VR controllers</li>
+                </ul>
+            </div>
+           
+        </div>
+    </section>
+
+    <section class="process-section">
+        <div class="process-container">
+            <p class="section-label">// Development Process</p>
+            <h2 class="section-title">From Scan to Simulation</h2>
+            
+            <div class="process-timeline">
+                <div class="process-step">
+                    <div class="step-number">01</div>
+                    <h4 class="step-title">MRI Analysis</h4>
+                    <p class="step-desc">Converting real patient MRI/CT scans into optimized 3D meshes</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">02</div>
+                    <h4 class="step-title">Physics Core</h4>
+                    <p class="step-desc">Developing the vertex deformation algorithm for tissue interaction</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">03</div>
+                    <h4 class="step-title">Tool Logic</h4>
+                    <p class="step-desc">Programming scalpels, forceps, and suction tools with collision logic</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">04</div>
+                    <h4 class="step-title">VR UX</h4>
+                    <p class="step-desc">Designing intuitive hand-tracking and controller interactions</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">05</div>
+                    <h4 class="step-title">Validation</h4>
+                    <p class="step-desc">User testing with medical students and neurosurgeons</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <p class="section-label">// Key Features</p>
+        <h2 class="section-title">Simulation Capabilities</h2>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                        <line x1="9" y1="9" x2="9.01" y2="9"/>
+                        <line x1="15" y1="9" x2="15.01" y2="9"/>
+                    </svg>
+                </div>
+                <h4 class="feature-title">Soft Body Physics</h4>
+                <p class="feature-desc">
+                    Custom vertex-based deformation system that allows the brain mesh to compress and rebound realistically when pressed by surgical tools, mimicking the viscoelastic properties of organic matter.
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+                    </svg>
+                </div>
+                <h4 class="feature-title">Dynamic Bleeding</h4>
+                <p class="feature-desc">
+                    Particle-based bleeding system that reacts to incision depth and location. Includes suction tool mechanics to clear the surgical field, adding a layer of urgency and realism to the training.
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                    </svg>
+                </div>
+                <h4 class="feature-title">Surgical Tools</h4>
+                <p class="feature-desc">
+                    A suite of interactive tools including scalpels, bipolars, and microscopic cameras. Each tool has specific physics interactions, haptic feedback profiles, and sound effects.
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                        <polyline points="2 17 12 22 22 17"/>
+                        <polyline points="2 12 12 17 22 12"/>
+                    </svg>
+                </div>
+                <h4 class="feature-title">Stereoscopic 3D</h4>
+                <p class="feature-desc">
+                    Optimized for stereoscopic rendering in VR to provide accurate depth perception, which is critical for neurosurgery where millimeters matter.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="tech-section">
+            <p class="section-label">// Technical Stack</p>
+            <h2 class="section-title">Under the Hood</h2>
+            
+            <div class="tech-grid">
+                <div class="tech-category">
+                    <h4>Core Technologies</h4>
+                    <div class="tech-list">
+                        <span class="tech-tag">Unity XR</span>
+                        <span class="tech-tag">C#</span>
+                        <span class="tech-tag">Oculus Integration</span>
+                        <span class="tech-tag">Compute Shaders</span>
+                    </div>
+                </div>
+                <div class="tech-category">
+                    <h4>Physics & Rendering</h4>
+                    <div class="tech-list">
+                        <span class="tech-tag">Vertex Displacement</span>
+                        <span class="tech-tag">Particle Systems</span>
+                        <span class="tech-tag">HLSL</span>
+                        <span class="tech-tag">PBR Materials</span>
+                    </div>
+                </div>
+                <div class="tech-category">
+                    <h4>Medical Data</h4>
+                    <div class="tech-list">
+                        <span class="tech-tag">DICOM</span>
+                        <span class="tech-tag">Blender</span>
+                        <span class="tech-tag">Anatomy Scans</span>
+                    </div>
+                </div>
+                <div class="tech-category">
+                    <h4>Architecture</h4>
+                    <div class="tech-list">
+                        <span class="tech-tag">Component-Based</span>
+                        <span class="tech-tag">Observer Pattern</span>
+                        <span class="tech-tag">Singleton (Managers)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="code-block">
+                <pre><code><span class="comment">// Conceptual: Vertex displacement logic for tissue deformation</span>
+<span class="keyword">void</span> <span class="function">DeformMesh</span>(Vector3 contactPoint, <span class="keyword">float</span> force)
+{
+    Vector3[] vertices = mesh.vertices;
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i < vertices.Length; i++)
+    {
+        <span class="keyword">float</span> dist = Vector3.Distance(vertices[i], contactPoint);
+        <span class="keyword">if</span> (dist < impactRadius)
+        {
+            <span class="comment">// Calculate falloff and displacement vector</span>
+            <span class="keyword">float</span> falloff = 1 - (dist / impactRadius);
+            Vector3 pushDir = (vertices[i] - contactPoint).normalized;
+            vertices[i] += pushDir * force * falloff * elasticity;
+        }
+    }
+    mesh.vertices = vertices;
+    mesh.RecalculateNormals(); <span class="comment">// Update lighting</span>
+}</code></pre>
+            </div>
+        </div>
+    </section>
+ <!--
+    <section>
+        <p class="section-label">// Results & Impact</p>
+        <h2 class="section-title">Recognition</h2>
+        
+        <div class="results-grid">
+            <div class="result-card">
+                <p class="result-value">🏆</p>
+                <p class="result-label">Best Graduate Project 2023</p>
+            </div>
+            <div class="result-card">
+                <p class="result-value">90%</p>
+                <p class="result-label">Student Engagement</p>
+            </div>
+            <div class="result-card">
+                <p class="result-value">1:1</p>
+                <p class="result-label">Anatomical Scale</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <p class="section-label">// Visual Gallery</p>
+        <h2 class="section-title">Training Modules</h2>
+        
+        <div class="gallery-grid">
+            <div class="gallery-item">📸 Brain Anatomy</div>
+            <div class="gallery-item">📸 Incision Test</div>
+            <div class="gallery-item">📸 Bleeding FX</div>
+            <div class="gallery-item">📸 Tool Handling</div>
+            <div class="gallery-item">📸 Tumor Removal</div>
+            <div class="gallery-item">📸 X-Ray View</div>
+        </div>
+    </section>
+
+    <section>
+        <div class="figma-section">
+            <p class="section-label">// Design Files</p>
+            <h2 class="section-title">VR UI Design</h2>
+            <p style="color: var(--text-secondary); margin-top: 1rem;">
+                View the spatial UI components and HUD designs used in the simulation.
+            </p>
+            
+            <div class="figma-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M5 5.5A3.5 3.5 0 0 1 8.5 2H12v7H8.5A3.5 3.5 0 0 1 5 5.5z"/>
+                    <path d="M12 2h3.5a3.5 3.5 0 1 1 0 7H12V2z"/>
+                    <path d="M12 12.5a3.5 3.5 0 1 1 7 0 3.5 3.5 0 1 1-7 0z"/>
+                    <path d="M5 19.5A3.5 3.5 0 0 1 8.5 16H12v3.5a3.5 3.5 0 1 1-7 0z"/>
+                    <path d="M5 12.5A3.5 3.5 0 0 1 8.5 9H12v7H8.5A3.5 3.5 0 0 1 5 12.5z"/>
+                </svg>
+                <p>VR HUD Prototype available</p>
+                <a href="#" class="figma-link">
+                    Open in Figma
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                        <polyline points="15 3 21 3 21 9"/>
+                        <line x1="10" y1="14" x2="21" y2="3"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section> End of section -->
+
+    <div class="project-nav">
+        <a href="morfo.html" class="nav-card prev">
+            <p class="nav-direction">← Previous Project</p>
+            <p class="nav-title">MORFO Simulation</p>
+        </a>
+        <a href="AstonMartin.html" class="nav-card next">
+            <p class="nav-direction">Next Project →</p>
+            <p class="nav-title">Aston Martin VR HMI</p>
+        </a>
+    </div>
+
+    <footer>
+        <p>© 2025 Bilge Kağan Pamuk. <a href="../bilge-portfolio-3d-models.html">Back to Portfolio</a></p>
+    </footer>
+
+    <script>
+        // ============================================
+        // MODEL CONFIGURATION
+        // ============================================
+        
+        const MODEL_PATH = '../models/SurgeryRoom.glb';
+        const MODEL_SCALE = 1;
+        const CAMERA_DISTANCE = 5;
+        
+        // ============================================
+        // THREE.JS SETUP
+        // ============================================
+        
+        let scene, camera, renderer, controls, model;
+        const container = document.getElementById('hero-model');
+        const loadingEl = document.getElementById('hero-loading');
+        
+        function init() {
+            // Scene
+            scene = new THREE.Scene();
+            
+            // Camera
+            const aspect = container.clientWidth / container.clientHeight;
+            camera = new THREE.PerspectiveCamera(50, aspect, 0.1, 1000);
+            camera.position.z = CAMERA_DISTANCE;
+            
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.outputEncoding = THREE.sRGBEncoding;
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            container.appendChild(renderer.domElement);
+            
+            // Controls
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.autoRotate = true;
+            controls.autoRotateSpeed = 1;
+            controls.enableZoom = true;
+            controls.enablePan = false;
+            
+            // Lights
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.position.set(5, 5, 5);
+            scene.add(directionalLight);
+            
+            const cyanLight = new THREE.DirectionalLight(0x00f0ff, 0.4);
+            cyanLight.position.set(-5, 3, -5);
+            scene.add(cyanLight);
+            
+            const purpleLight = new THREE.DirectionalLight(0xa855f7, 0.3);
+            purpleLight.position.set(0, -5, 5);
+            scene.add(purpleLight);
+            
+            // Load model
+            loadModel();
+            
+            // Events
+            window.addEventListener('resize', onResize);
+            
+            // Animate
+            animate();
+        }
+        
+        function loadModel() {
+            const loader = new THREE.GLTFLoader();
+            
+            loader.load(
+                MODEL_PATH,
+                (gltf) => {
+                    model = gltf.scene;
+                    
+                    // Center and scale
+                    const box = new THREE.Box3().setFromObject(model);
+                    const center = box.getCenter(new THREE.Vector3());
+                    const size = box.getSize(new THREE.Vector3());
+                    
+                    model.position.sub(center);
+                    
+                    const maxDim = Math.max(size.x, size.y, size.z);
+                    const scaleFactor = (2 / maxDim) * MODEL_SCALE;
+                    model.scale.setScalar(scaleFactor);
+                    
+                    scene.add(model);
+                    loadingEl.classList.add('hidden');
+                },
+                (progress) => {
+                    const percent = Math.round((progress.loaded / progress.total) * 100);
+                    loadingEl.querySelector('span').textContent = `Loading... ${percent}%`;
+                },
+                (error) => {
+                    console.error('Error loading model:', error);
+                    loadingEl.querySelector('span').textContent = 'Model failed to load';
+                }
+            );
+        }
+        
+        function onResize() {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        }
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        
+        // ============================================
+        // SCROLL ANIMATIONS
+        // ============================================
+        
+        function initScrollAnimations() {
+            gsap.registerPlugin(ScrollTrigger);
+            
+            // Fade in elements on scroll
+            gsap.utils.toArray('.fade-in').forEach(el => {
+                gsap.to(el, {
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 85%'
+                    },
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8
+                });
+            });
+            
+            // Process steps
+            gsap.utils.toArray('.process-step').forEach((step, i) => {
+                gsap.from(step, {
+                    scrollTrigger: {
+                        trigger: step,
+                        start: 'top 85%'
+                    },
+                    opacity: 0,
+                    y: 30,
+                    duration: 0.6,
+                    delay: i * 0.1
+                });
+            });
+            
+            // Feature cards
+            gsap.utils.toArray('.feature-card').forEach((card, i) => {
+                gsap.from(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 85%'
+                    },
+                    opacity: 0,
+                    y: 30,
+                    duration: 0.6,
+                    delay: i * 0.1
+                });
+            });
+            
+            // Result cards
+            gsap.utils.toArray('.result-card').forEach((card, i) => {
+                gsap.from(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 85%'
+                    },
+                    opacity: 0,
+                    scale: 0.9,
+                    duration: 0.6,
+                    delay: i * 0.15
+                });
+            });
+        }
+        
+        // ============================================
+        // INIT
+        // ============================================
+        
+        window.addEventListener('DOMContentLoaded', () => {
+            init();
+            initScrollAnimations();
+        });
+    </script>
+</body>
+</html>
