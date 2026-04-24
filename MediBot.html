@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>document.documentElement.classList.add('js');</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MediBot AI Assistant - Bilge Kağan Pamuk</title>
+  <meta name="description" content="AI-powered mobile health assistant integrating OpenAI GPT, Anthropic Claude, and Google Gemini APIs." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/css/main.css" />
+
+  <script src="assets/vendor/three.min.js" defer></script>
+  <script src="assets/vendor/GLTFLoader.js" defer></script>
+  <script src="assets/js/project-scene.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
+</head>
+<body>
+
+  <nav class="nav" aria-label="Primary">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">Bilge K.<em style="font-style:italic"> Pamuk</em></a>
+      <ul class="nav-links" role="list">
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#work">Work</a></li>
+        <li><a href="index.html#capabilities">Capabilities</a></li>
+        <li><a href="index.html#experience">Experience</a></li>
+      </ul>
+      <a href="index.html#contact" class="nav-cta"><span class="dot"></span><span>Available for work</span></a>
+      <button class="menu-btn" aria-label="Open menu"><span></span></button>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" aria-hidden="true">
+    <ul>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="index.html#capabilities">Capabilities</a></li>
+      <li><a href="index.html#experience">Experience</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </div>
+
+  <main>
+
+    <section class="project-hero">
+      <div class="container">
+        <a href="index.html#work" class="back-link"><span class="arrow">←</span> Back to work</a>
+
+        <div class="project-meta">
+          <span class="eyebrow">Case 06 · AI Engine · Mobile · 2026</span>
+        </div>
+
+        <h1 class="project-title">
+          Multi-LLM powered<br>
+          <span class="italic">clinical reasoning.</span>
+        </h1>
+
+        <p class="project-sub">
+          A mobile health assistant app orchestrating OpenAI GPT, Anthropic Claude, and Google Gemini APIs. Integrating modern front-end design with strict backend data flows to deliver a reliable, secure user experience.
+        </p>
+
+        <!-- Using a placeholder model until the real one is provided -->
+        <div class="project-showcase" data-showcase data-model="models/Headset.glb" data-fit="2.4" data-speed="0.15" data-cam="5.0">
+          <div class="showcase-loader">Loading scene</div>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding-block: 0;">
+      <div class="container">
+        <div class="project-info-grid">
+          <div class="info-side reveal">
+            <dl>
+              <div><dt>Role</dt><dd>Full-Stack Mobile Developer</dd></div>
+              <div><dt>Year</dt><dd>2026 - Ongoing</dd></div>
+              <div><dt>Domain</dt><dd>Healthcare AI · Mobile Applications</dd></div>
+              <div><dt>Platform</dt><dd>iOS · Android</dd></div>
+              <div><dt>Core stack</dt><dd>Unity (C#) · TypeScript · REST APIs</dd></div>
+              <div><dt>Backend</dt><dd>Firebase Auth · Firestore</dd></div>
+            </dl>
+          </div>
+          <div class="info-main reveal" style="--reveal-delay: 120ms">
+            <span class="eyebrow">Overview</span>
+            <h2 style="margin-top: var(--s-md);">Routing queries to the best mind.</h2>
+            <p>
+              Different Large Language Models excel at different tasks. Some are better at parsing raw medical texts, while others are superior at conversational empathy or image analysis. The challenge was building an architecture that utilizes the right model for the right task dynamically.
+            </p>
+            <p>
+              MEDIBOT is an AI-powered Turkish health assistant that sits on top of a sophisticated TypeScript backend routing layer. It seamlessly connects a Unity C# mobile client to OpenAI, Anthropic, and Google Gemini via strictly managed REST endpoints.
+            </p>
+            <p>
+              With an integrated 3-tier subscription system, robust Firebase authentication, and a real-time database, it ensures patient-level data remains secure while delivering instant, multi-model AI responses.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="process">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Process</span>
+          <h2 class="section-title">Architecting the <span class="italic">brain.</span></h2>
+        </div>
+
+        <div class="process-list reveal" style="--reveal-delay: 100ms">
+          <div class="process-row"><div class="process-num">01</div><div class="process-title">Backend orchestration</div><p class="process-desc">Structuring the TypeScript middleware layer to securely handle API keys and format diverse LLM payloads.</p></div>
+          <div class="process-row"><div class="process-num">02</div><div class="process-title">REST integration</div><p class="process-desc">Building an async/await data pipeline in Unity (C#) to handle JSON parsing without dropping framerates.</p></div>
+          <div class="process-row"><div class="process-num">03</div><div class="process-title">Firebase ecosystem</div><p class="process-desc">Hooking up Firestore for cross-session chat persistence and Firebase Auth for secure user onboarding.</p></div>
+          <div class="process-row"><div class="process-num">04</div><div class="process-title">Monetization setup</div><p class="process-desc">Deploying a dynamic 3-tier subscription model logic that controls prompt token limits and model routing.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Capabilities</span>
+          <h2 class="section-title">Under the hood.</h2>
+        </div>
+
+        <div class="hl-grid reveal" style="--reveal-delay: 100ms">
+          <div class="hl-cell">
+            <h3>Multi-LLM Routing</h3>
+            <p>Intelligently dispatches user queries to OpenAI, Anthropic, or Google APIs based on the query context and the user's subscription tier.</p>
+          </div>
+          <div class="hl-cell">
+            <h3>Async REST architecture</h3>
+            <p>Non-blocking network requests from Unity using modern C# async/await patterns, ensuring the mobile UI remains smooth during high-latency LLM generations.</p>
+          </div>
+          <div class="hl-cell">
+            <h3>Image analysis pipeline</h3>
+            <p>A unified pipeline allowing users to upload clinical documents or images, converting them into secure payloads ready for multi-modal AI vision processing.</p>
+          </div>
+          <div class="hl-cell">
+            <h3>Firebase infrastructure</h3>
+            <p>A resilient real-time database architecture enabling instant state synchronization across devices, backed by enterprise-grade user authentication.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="next-project">
+      <div class="container">
+        <a href="index.html#work">
+          <span class="next-project-eyebrow">End of case studies</span>
+          <h2 class="next-project-title">Back to work index <span class="arrow">→</span></h2>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <span>© <span data-year>2026</span> · Bilge Kağan Pamuk</span>
+        <span>Ankara <span class="tag">→</span> Everywhere</span>
+        <span>Designed &amp; built with obsession</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

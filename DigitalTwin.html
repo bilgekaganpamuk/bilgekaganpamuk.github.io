@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>document.documentElement.classList.add('js');</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Twin MR System - Bilge Kağan Pamuk</title>
+  <meta name="description" content="Mixed Reality application paired with a physical Arduino + ESP32 control panel. Collaborative manipulation of volumetric MRI/CT medical imagery via Photon Fusion 2." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/css/main.css" />
+
+  <script src="assets/vendor/three.min.js" defer></script>
+  <script src="assets/vendor/GLTFLoader.js" defer></script>
+  <script src="assets/js/project-scene.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
+</head>
+<body>
+
+  <nav class="nav" aria-label="Primary">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">Bilge K.<em style="font-style:italic"> Pamuk</em></a>
+      <ul class="nav-links" role="list">
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#work">Work</a></li>
+        <li><a href="index.html#capabilities">Capabilities</a></li>
+        <li><a href="index.html#experience">Experience</a></li>
+      </ul>
+      <a href="index.html#contact" class="nav-cta"><span class="dot"></span><span>Available for work</span></a>
+      <button class="menu-btn" aria-label="Open menu"><span></span></button>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" aria-hidden="true">
+    <ul>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="index.html#capabilities">Capabilities</a></li>
+      <li><a href="index.html#experience">Experience</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </div>
+
+  <main>
+
+    <section class="project-hero">
+      <div class="container">
+        <a href="index.html#work" class="back-link"><span class="arrow">←</span> Back to work</a>
+
+        <div class="project-meta">
+          <span class="eyebrow">Case 05 · Mixed Reality · Hardware · 2026</span>
+        </div>
+
+        <h1 class="project-title">
+          Physical interfaces for<br>
+          <span class="italic">virtual diagnostics.</span>
+        </h1>
+
+        <p class="project-sub">
+          A Meta Quest 3 application paired with a physical Arduino Uno and ESP32-based hardware control panel. Collaborative manipulation of volumetric MRI/CT medical imagery across networked headsets via Photon Fusion 2.
+        </p>
+
+        <!-- Using a placeholder model until the real one is provided -->
+        <div class="project-showcase" data-showcase data-model="models/Headset.glb" data-fit="2.4" data-speed="0.15" data-cam="5.0">
+          <div class="showcase-loader">Loading scene</div>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding-block: 0;">
+      <div class="container">
+        <div class="project-info-grid">
+          <div class="info-side reveal">
+            <dl>
+              <div><dt>Role</dt><dd>XR Systems & Hardware Engineer</dd></div>
+              <div><dt>Year</dt><dd>2026 - Ongoing</dd></div>
+              <div><dt>Domain</dt><dd>Medical Imaging · Industrial Simulation</dd></div>
+              <div><dt>Platform</dt><dd>Meta Quest 3 · Custom Hardware</dd></div>
+              <div><dt>Core stack</dt><dd>Unity · Photon Fusion 2 · Arduino</dd></div>
+              <div><dt>Hardware</dt><dd>Arduino Uno · ESP32</dd></div>
+            </dl>
+          </div>
+          <div class="info-main reveal" style="--reveal-delay: 120ms">
+            <span class="eyebrow">Overview</span>
+            <h2 style="margin-top: var(--s-md);">Tangible control in spatial computing.</h2>
+            <p>
+              Interacting with complex 3D medical datasets like MRI and CT scans in virtual space can be cumbersome using standard controllers. The challenge was to bridge the tactile precision of a physical control panel with the infinite bounds of spatial computing.
+            </p>
+            <p>
+              This project introduces an Arduino Uno and ESP32-based physical control panel that wirelessly communicates with a Meta Quest 3 headset. Sensors, dials, and physical inputs translate directly into the manipulation of volumetric medical imagery.
+            </p>
+            <p>
+              Through bidirectional real-time serial communication, users can collaboratively inspect, slice, and interact with the 3D data across networked headsets via Photon Fusion 2, enabling unprecedented remote surgical planning and educational simulations.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="process">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Process</span>
+          <h2 class="section-title">Hardware to <span class="italic">software</span> bridge.</h2>
+        </div>
+
+        <div class="process-list reveal" style="--reveal-delay: 100ms">
+          <div class="process-row"><div class="process-num">01</div><div class="process-title">Hardware prototyping</div><p class="process-desc">Designing and assembling the physical control panel using Arduino Uno and ESP32 microcontrollers.</p></div>
+          <div class="process-row"><div class="process-num">02</div><div class="process-title">Serial communication</div><p class="process-desc">Establishing a low-latency bidirectional data flow between physical sensors and the Unity simulation via a wireless ESP32 bridge.</p></div>
+          <div class="process-row"><div class="process-num">03</div><div class="process-title">Volume rendering</div><p class="process-desc">Implementing rendering techniques to display complex medical MRI/CT scan data as interactive 3D volumes in Unity.</p></div>
+          <div class="process-row"><div class="process-num">04</div><div class="process-title">Multiplayer sync</div><p class="process-desc">Integrating Photon Fusion 2 to ensure all physical inputs and volumetric manipulations are instantly synchronized across multiple users.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Capabilities</span>
+          <h2 class="section-title">Under the hood.</h2>
+        </div>
+
+        <div class="hl-grid reveal" style="--reveal-delay: 100ms">
+          <div class="hl-cell">
+            <h3>Custom embedded hardware</h3>
+            <p>A bespoke control panel utilizing Arduino Uno and ESP32 handling multiple sensor inputs, providing a tactile interface that standard VR controllers cannot mimic.</p>
+          </div>
+          <div class="hl-cell">
+            <h3>Volumetric rendering</h3>
+            <p>Medical MRI and CT scan data points are translated into fully rotatable, sliceable 3D volumes enabling real-time spatial inspection from any angle.</p>
+          </div>
+          <div class="hl-cell">
+            <h3>Bidirectional serial comms</h3>
+            <p>An optimized data stream where physical panel states affect the virtual environment, while virtual simulation states can trigger physical feedback mechanisms.</p>
+          </div>
+          <div class="hl-cell">
+            <h3>Networked collaboration</h3>
+            <p>Photon Fusion 2 architecture that seamlessly synchronizes the dense volumetric data states and hardware inputs across a shared multiplayer XR session.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="next-project">
+      <div class="container">
+        <a href="MediBot.html">
+          <span class="next-project-eyebrow">Next case - 06 / 06</span>
+          <h2 class="next-project-title">MediBot AI Assistant <span class="arrow">→</span></h2>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <span>© <span data-year>2026</span> · Bilge Kağan Pamuk</span>
+        <span>Ankara <span class="tag">→</span> Everywhere</span>
+        <span>Designed &amp; built with obsession</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
