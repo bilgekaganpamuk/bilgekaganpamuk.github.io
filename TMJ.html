@@ -4,7 +4,7 @@
   <script>document.documentElement.classList.add('js');</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TMJ Simulation System — Bilge Kağan Pamuk</title>
+  <title>TMJ Simulation System - Bilge Kağan Pamuk</title>
   <meta name="description" content="Mixed reality temporomandibular joint simulation with sub-10 ms haptic latency, native C++/Unity hybrid architecture and custom subsurface-scattering shaders." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -61,7 +61,7 @@
         </h1>
 
         <p class="project-sub">
-          A mixed reality temporomandibular joint simulation integrating real-time biomechanical modeling with native haptic feedback — sub-10&nbsp;ms latency for surgical training, running a stable 1&nbsp;kHz force-feedback loop.
+          A mixed reality temporomandibular joint simulation integrating real-time biomechanical modeling with native haptic feedback - sub-10&nbsp;ms latency for surgical training, running a stable 1&nbsp;kHz force-feedback loop.
         </p>
 
         <div class="project-showcase" data-showcase data-model="models/jaw.glb" data-fit="2.4" data-speed="0.15" data-cam="5.0">
@@ -93,7 +93,7 @@
               Standard game engines like Unity update physics at 60–90&nbsp;Hz, but realistic haptic feedback requires a loop running at 1&nbsp;kHz. Any drop in frequency produces stair-stepping or vibration artifacts that break immersion and ruin training value.
             </p>
             <p>
-              The solution was a hybrid architecture — critical physics in unmanaged C++ memory space, visual updates synchronized to Unity's managed environment. No Garbage Collection spikes. No force-feedback dropouts. Indistinguishable-from-reality tool resistance.
+              The solution was a hybrid architecture - critical physics in unmanaged C++ memory space, visual updates synchronized to Unity's managed environment. No Garbage Collection spikes. No force-feedback dropouts. Indistinguishable-from-reality tool resistance.
             </p>
           </div>
         </div>
@@ -108,9 +108,9 @@
         </div>
 
         <div class="process-list reveal" style="--reveal-delay: 100ms">
-          <div class="process-row"><div class="process-num">01</div><div class="process-title">Biomechanical research</div><p class="process-desc">Analysis of jaw kinematics and soft-tissue resistance data — the reference the simulation had to match.</p></div>
+          <div class="process-row"><div class="process-num">01</div><div class="process-title">Biomechanical research</div><p class="process-desc">Analysis of jaw kinematics and soft-tissue resistance data - the reference the simulation had to match.</p></div>
           <div class="process-row"><div class="process-num">02</div><div class="process-title">Native integration</div><p class="process-desc">Building the C++ DLLs for direct hardware communication with Phantom/Geomagic devices.</p></div>
-          <div class="process-row"><div class="process-num">03</div><div class="process-title">Engine bridge</div><p class="process-desc">Connecting the haptic loop to Unity via P/Invoke marshalling — careful allocation patterns to prevent GC spikes.</p></div>
+          <div class="process-row"><div class="process-num">03</div><div class="process-title">Engine bridge</div><p class="process-desc">Connecting the haptic loop to Unity via P/Invoke marshalling - careful allocation patterns to prevent GC spikes.</p></div>
           <div class="process-row"><div class="process-num">04</div><div class="process-title">Shader development</div><p class="process-desc">Custom HLSL subsurface-scattering shaders for realistic flesh rendering.</p></div>
           <div class="process-row"><div class="process-num">05</div><div class="process-title">Clinical calibration</div><p class="process-desc">Calibration with haptic devices and clinical accuracy testing against physician reference.</p></div>
         </div>
@@ -131,15 +131,15 @@
           </div>
           <div class="hl-cell">
             <h3>Biomechanical modeling</h3>
-            <p>Mathematical models of mandibular movement constraining the virtual jaw to anatomical limits — simulating the elasticity of ligaments and muscle tissue.</p>
+            <p>Mathematical models of mandibular movement constraining the virtual jaw to anatomical limits - simulating the elasticity of ligaments and muscle tissue.</p>
           </div>
           <div class="hl-cell">
             <h3>Subsurface scattering</h3>
-            <p>Custom HLSL shaders that simulate how light penetrates translucent oral tissue, scatters internally and exits elsewhere — giving the flesh its characteristic waxy look.</p>
+            <p>Custom HLSL shaders that simulate how light penetrates translucent oral tissue, scatters internally and exits elsewhere - giving the flesh its characteristic waxy look.</p>
           </div>
           <div class="hl-cell">
             <h3>Hybrid architecture</h3>
-            <p>Decoupled architecture where critical physics happen in unmanaged C++ memory space, while visuals sync to Unity's managed environment — preventing Garbage Collection spikes.</p>
+            <p>Decoupled architecture where critical physics happen in unmanaged C++ memory space, while visuals sync to Unity's managed environment - preventing Garbage Collection spikes.</p>
           </div>
         </div>
       </div>
