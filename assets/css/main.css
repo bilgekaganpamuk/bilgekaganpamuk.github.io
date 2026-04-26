@@ -392,7 +392,12 @@ section {
   color: var(--ink);
   margin-bottom: var(--s-md);
 }
-.hero-title .line { display: block; overflow: hidden; }
+.hero-title .line { 
+  display: block; 
+  overflow: hidden; 
+  padding-bottom: 0.2em;
+  margin-bottom: -0.2em;
+}
 .hero-title .italic { font-style: italic; color: var(--accent); }
 
 .hero-sub {
