@@ -27,6 +27,24 @@ document.addEventListener('DOMContentLoaded', () => {
     directionalLight.position.set(5, 5, 5);
     scene.add(directionalLight);
 
+    // 2.5 PARTICLES (Dust Motes)
+    const particlesGeometry = new THREE.BufferGeometry();
+    const particlesCount = 300;
+    const posArray = new Float32Array(particlesCount * 3);
+    for(let i = 0; i < particlesCount * 3; i++) {
+        posArray[i] = (Math.random() - 0.5) * 15;
+    }
+    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    const particlesMaterial = new THREE.PointsMaterial({
+        size: 0.04,
+        color: 0xE8D5B7, // accent color
+        transparent: true,
+        opacity: 0.5,
+        blending: THREE.AdditiveBlending
+    });
+    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+    scene.add(particlesMesh);
+
     // 3. FARE TAKİP DEĞİŞKENLERİ
     let loadedModel = null;
     let mouseX = 0;
@@ -85,6 +103,10 @@ document.addEventListener('mousemove', (event) => {
     // 5. ANİMASYON VE RENDER DÖNGÜSÜ
     const animate = () => {
         requestAnimationFrame(animate);
+
+        // Yavaşça dönen parçacıklar
+        particlesMesh.rotation.y += 0.001;
+        particlesMesh.rotation.x += 0.0005;
 
         // Eğer model yüklendiyse rotasyonunu fareye göre yumuşakça (lerp) güncelle
         if (loadedModel) {

@@ -88,4 +88,57 @@
   // ---- Year in footer
   const yearEl = document.querySelector('[data-year]');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  // ---- Custom Cursor
+  const cursorDot = document.querySelector('[data-cursor-dot]');
+  const cursorOutline = document.querySelector('[data-cursor-outline]');
+  if (cursorDot && cursorOutline && window.matchMedia('(pointer: fine)').matches) {
+    let mouseX = 0, mouseY = 0;
+    let outlineX = 0, outlineY = 0;
+    
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      
+      cursorDot.style.left = `${mouseX}px`;
+      cursorDot.style.top = `${mouseY}px`;
+    });
+
+    const animateCursor = () => {
+      let distX = mouseX - outlineX;
+      let distY = mouseY - outlineY;
+      
+      outlineX = outlineX + (distX * 0.2);
+      outlineY = outlineY + (distY * 0.2);
+      
+      cursorOutline.style.left = `${outlineX}px`;
+      cursorOutline.style.top = `${outlineY}px`;
+      
+      requestAnimationFrame(animateCursor);
+    };
+    requestAnimationFrame(animateCursor);
+
+    const interactables = document.querySelectorAll('a, button, .work-item, .caps-cell');
+    interactables.forEach(el => {
+      el.addEventListener('mouseenter', () => cursorOutline.classList.add('hovering'));
+      el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hovering'));
+    });
+  }
+
+  // ---- 3D Vanilla Tilt
+  if (typeof VanillaTilt !== 'undefined' && window.matchMedia('(pointer: fine)').matches) {
+    VanillaTilt.init(document.querySelectorAll(".about-card"), {
+      max: 5,
+      speed: 400,
+      glare: true,
+      "max-glare": 0.05,
+    });
+    
+    VanillaTilt.init(document.querySelectorAll(".caps-cell"), {
+      max: 10,
+      speed: 400,
+      glare: true,
+      "max-glare": 0.1,
+    });
+  }
 })();
