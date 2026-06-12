@@ -4,8 +4,27 @@
   <script>document.documentElement.classList.add('js');</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MORFO - 3D Simulation · Bilge Kağan Pamuk</title>
-  <meta name="description" content="Cross-platform 3D simulation architected from concept to store release across iOS, Android and Meta Store." />
+  <title>MORFO - Dental Morphology Learning Platform - Bilge Kağan Pamuk</title>
+  <meta name="description" content="Dental morphology learning platform for Meta Quest 3, iOS and Android - gamified 3D exercises, Photon Fusion 2 multiplayer and a Firebase real-time backend. Live on the App Store and Google Play as part of a dental training product line with a 4.2-star average rating and 2,000+ active users." />
+
+  <link rel="canonical" href="https://bilgekagan.site/morfo.html" />
+  <meta name="theme-color" content="#FAFAF8" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bilgekagan.site/morfo.html" />
+  <meta property="og:title" content="MORFO - Dental Morphology Learning Platform - Bilge Kağan Pamuk" />
+  <meta property="og:description" content="Dental morphology learning platform for Meta Quest 3, iOS and Android - gamified 3D exercises, Photon Fusion 2 multiplayer and a Firebase real-time backend. Live on the App Store and Google Play as part of a dental training product line with a 4.2-star average rating and 2,000+ active users." />
+  <meta property="og:image" content="https://bilgekagan.site/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Bilge Kağan Pamuk" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="MORFO - Dental Morphology Learning Platform - Bilge Kağan Pamuk" />
+  <meta name="twitter:description" content="Dental morphology learning platform for Meta Quest 3, iOS and Android - gamified 3D exercises, Photon Fusion 2 multiplayer and a Firebase real-time backend. Live on the App Store and Google Play as part of a dental training product line with a 4.2-star average rating and 2,000+ active users." />
+  <meta name="twitter:image" content="https://bilgekagan.site/assets/og-image.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,40 +33,47 @@
   <link rel="stylesheet" href="assets/css/main.css" />
 
   <script src="assets/vendor/three.min.js" defer></script>
+  <script src="assets/vendor/DRACOLoader.js" defer></script>
   <script src="assets/vendor/GLTFLoader.js" defer></script>
   <script src="assets/js/project-scene.js" defer></script>
   <script src="assets/js/main.js" defer></script>
 </head>
 <body>
 
+  <a class="skip-link" href="#top">Skip to content</a>
+
   <nav class="nav" aria-label="Primary">
     <div class="nav-inner">
-      <a href="index.html" class="logo">Bilge K.<em style="font-style:italic"> Pamuk</em></a>
+      <a href="index.html" class="logo">Bilge K.<em> Pamuk</em></a>
       <ul class="nav-links" role="list">
         <li><a href="index.html#about">About</a></li>
         <li><a href="index.html#work">Work</a></li>
         <li><a href="index.html#capabilities">Capabilities</a></li>
         <li><a href="index.html#experience">Experience</a></li>
+        <li><a href="index.html#publications">Publications</a></li>
       </ul>
       <a href="index.html#contact" class="nav-cta">
         <span class="dot"></span>
         <span>Available for work</span>
       </a>
-      <button class="menu-btn" aria-label="Open menu"><span></span></button>
+      <button class="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><span></span></button>
     </div>
   </nav>
 
-  <div class="mobile-menu" aria-hidden="true">
-    <ul>
-      <li><a href="index.html#about">About</a></li>
-      <li><a href="index.html#work">Work</a></li>
-      <li><a href="index.html#capabilities">Capabilities</a></li>
-      <li><a href="index.html#experience">Experience</a></li>
-      <li><a href="index.html#contact">Contact</a></li>
-    </ul>
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <nav aria-label="Mobile">
+      <ul>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#work">Work</a></li>
+        <li><a href="index.html#capabilities">Capabilities</a></li>
+        <li><a href="index.html#experience">Experience</a></li>
+        <li><a href="index.html#publications">Publications</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
   </div>
 
-  <main>
+  <main id="top">
 
     <!-- ===== HERO ===== -->
     <section class="project-hero">
@@ -56,21 +82,21 @@
         <a href="index.html#work" class="back-link"><span class="arrow">←</span> Back to work</a>
 
         <div class="project-meta">
-          <span class="eyebrow">Case 01 · Mobile &amp; VR · 2023</span>
+          <span class="eyebrow">Case 01 · VR &amp; Mobile · 2023 - 2026</span>
         </div>
 
         <h1 class="project-title">
           MORFO -<br>
-          a <span class="italic">performance-first</span><br>
-          3D simulation.
+          teaching <span class="italic">dental morphology</span><br>
+          in three dimensions.
         </h1>
 
         <p class="project-sub">
-          Cross-platform 3D simulation architected from concept to store release. Custom HLSL shaders, a sophisticated LOD system and a unified codebase holding 120+ FPS across flagship and mid-range hardware. Live on App&nbsp;Store, Google&nbsp;Play and Meta&nbsp;Store.
+          A dental morphology learning platform for Meta&nbsp;Quest&nbsp;3, iOS and Android. Gamified exercise modules, Photon Fusion 2 Shared Mode multiplayer with Meta Avatar SDK v40 and Photon Voice 2, and Firebase-backed progress tracking - live on the App&nbsp;Store and Google&nbsp;Play as part of a dental training product line holding a 4.2★ average rating with 2,000+ active users.
         </p>
 
-        <div class="project-showcase" data-showcase data-model="models/morfo.glb" data-fit="2.38" data-speed="0.18" data-cam="5.5">
-          <div class="showcase-loader">Loading scene</div>
+        <div class="project-showcase" data-showcase data-model="models/morfo.glb" data-fit="2.38" data-speed="0.18" data-cam="5.5" role="img" aria-label="Rotating 3D model from the MORFO dental morphology platform">
+          <div class="showcase-loader" role="status">Loading scene</div>
         </div>
 
       </div>
@@ -82,24 +108,24 @@
         <div class="project-info-grid">
           <div class="info-side reveal">
             <dl>
-              <div><dt>Role</dt><dd>Lead software engineer</dd></div>
-              <div><dt>Year</dt><dd>2023</dd></div>
-              <div><dt>Platforms</dt><dd>iOS, Android, Meta&nbsp;Quest</dd></div>
-              <div><dt>Core stack</dt><dd>Unity 3D, C#, URP, HLSL</dd></div>
-              <div><dt>Status</dt><dd>Shipped &middot; live in stores</dd></div>
+              <div><dt>Role</dt><dd>Unity Developer &amp; Research Engineer</dd></div>
+              <div><dt>Year</dt><dd>2023 - 2026</dd></div>
+              <div><dt>Platforms</dt><dd>Meta&nbsp;Quest&nbsp;3 · iOS · Android</dd></div>
+              <div><dt>Core stack</dt><dd>Unity · C# · Photon Fusion 2 · Firebase</dd></div>
+              <div><dt>Status</dt><dd>Live · App Store · Google Play</dd></div>
             </dl>
           </div>
           <div class="info-main reveal" style="--reveal-delay: 120ms">
             <span class="eyebrow">Overview</span>
-            <h2 style="margin-top: var(--s-md);">Building a performance-first 3D experience for mobile.</h2>
+            <h2 style="margin-top: var(--s-md);">A shared 3D classroom for tooth anatomy.</h2>
             <p>
-              The goal was to build a visually stunning 3D simulation that could run smoothly on a wide range of devices - from flagship phones to mid-range Android hardware with limited GPU capabilities. One codebase, one visual target, ten different silicon stacks.
+              Dental morphology is traditionally taught from 2D atlases and plastic models. MORFO puts every tooth in the student's hands as an interactive 3D object - in VR on Meta Quest 3 or on the phone in their pocket - with gamified exercise modules built on ScriptableObjects, modular prefabs and Addressables, so new content ships as data rather than code.
             </p>
             <p>
-              Key challenges: maintaining visual fidelity while optimizing for battery life, handling diverse screen sizes and aspect ratios, and ensuring consistent 120+ FPS across all supported devices. That budget drove every architectural decision.
+              In VR, Photon Fusion 2 Shared Mode multiplayer lets instructors and students meet in the same virtual classroom, embodied through Meta Avatar SDK v40 and speaking over Photon Voice 2. A Firebase backend - Auth, Firestore and Realtime Database - handles student progress tracking, room management and real-time data synchronization across headset and phone.
             </p>
             <p>
-              The result is a single codebase supporting iOS and Android with platform-specific optimizations, adaptive UI for various screen sizes, and unified analytics and crash reporting - now also distributed on the Meta Store for VR.
+              The performance discipline came from the project's mobile roots: custom HLSL shaders, a dynamic LOD system and a unified codebase holding 120+ FPS across flagship and mid-range hardware. A companion research paper on the platform is under review at the International Journal of Serious Games (IJSG).
             </p>
           </div>
         </div>
@@ -118,27 +144,27 @@
           <div class="process-row">
             <div class="process-num">01</div>
             <div class="process-title">Concept &amp; research</div>
-            <p class="process-desc">Market analysis, technical feasibility study, and architecture planning across target platforms.</p>
+            <p class="process-desc">Mapping the dental morphology curriculum into interactive 3D exercises with educators, plus technical feasibility and architecture planning across Quest 3 and mobile.</p>
           </div>
           <div class="process-row">
             <div class="process-num">02</div>
             <div class="process-title">Architecture</div>
-            <p class="process-desc">Modular system design, rendering pipeline setup, and an asset workflow tuned for mobile GPU quirks.</p>
+            <p class="process-desc">Modular system design and a unified cross-platform codebase - one content pipeline targeting VR and mobile, tuned for mobile GPU constraints.</p>
           </div>
           <div class="process-row">
             <div class="process-num">03</div>
-            <div class="process-title">Shader development</div>
-            <p class="process-desc">Custom HLSL shaders for materials, lighting and post-processing - every variant budgeted per device class.</p>
+            <div class="process-title">Gamified content systems</div>
+            <p class="process-desc">Exercise modules built on ScriptableObjects, modular prefabs and Addressables - new teeth, quizzes and scenarios ship as content, not code.</p>
           </div>
           <div class="process-row">
             <div class="process-num">04</div>
-            <div class="process-title">Performance engineering</div>
-            <p class="process-desc">LOD systems, draw-call batching, memory profiling, and GPU optimization until the frame budget held on the weakest target.</p>
+            <div class="process-title">Multiplayer &amp; backend</div>
+            <p class="process-desc">Photon Fusion 2 Shared Mode with Meta Avatar SDK v40 and Photon Voice 2 for shared classrooms; Firebase Auth, Firestore and Realtime Database for progress tracking and live sync.</p>
           </div>
           <div class="process-row">
             <div class="process-num">05</div>
-            <div class="process-title">Launch</div>
-            <p class="process-desc">Store submission, user-feedback loops, and continuous tuning across the live install base.</p>
+            <div class="process-title">Launch &amp; live ops</div>
+            <p class="process-desc">Store submission to App Store, Google Play and Meta Store, user-feedback loops, and continuous tuning across the live install base.</p>
           </div>
         </div>
       </div>
@@ -154,20 +180,20 @@
 
         <div class="hl-grid reveal" style="--reveal-delay: 100ms">
           <div class="hl-cell">
-            <h3>Dynamic LOD system</h3>
-            <p>A custom Level-of-Detail system that automatically adjusts mesh complexity based on camera distance and device capabilities - reducing draw calls by 40% while preserving visual quality.</p>
+            <h3>Multiplayer XR</h3>
+            <p>Photon Fusion 2 Shared Mode puts instructors and students in the same virtual classroom, embodied via Meta Avatar SDK v40 with spatial voice over Photon Voice 2 - including the platform's Fusion 1 to Fusion 2 migration on Meta Quest 3.</p>
           </div>
           <div class="hl-cell">
-            <h3>Real-time rendering</h3>
-            <p>Custom rendering pipeline on Unity's URP with optimized shader variants for mobile. Consistent 120+ FPS even on mid-range devices through careful batching and instancing.</p>
+            <h3>Firebase real-time backend</h3>
+            <p>Firebase Auth, Firestore and Realtime Database drive student progress tracking, room management and dynamic data synchronization - exercise state stays consistent across headset and phone.</p>
           </div>
           <div class="hl-cell">
-            <h3>Custom HLSL shaders</h3>
-            <p>Shaders for realistic material rendering including subsurface scattering, environment reflections and dynamic lighting - all tuned for mobile GPU architectures.</p>
+            <h3>Content-driven gamified modules</h3>
+            <p>Learning content built on ScriptableObjects, modular prefabs and Addressables. Educators get new exercises as data-driven modules instead of bespoke builds.</p>
           </div>
           <div class="hl-cell">
-            <h3>Cross-platform codebase</h3>
-            <p>Single codebase supporting iOS and Android with platform-specific optimizations, adaptive UI, and unified analytics and crash reporting.</p>
+            <h3>Performance-first rendering</h3>
+            <p>Custom rendering pipeline on Unity's URP with optimized shader variants and a dynamic LOD system. Consistent 120+ FPS even on mid-range devices through careful batching and instancing.</p>
           </div>
         </div>
       </div>
@@ -181,12 +207,12 @@
           <h2 class="section-title">In the wild.</h2>
         </div>
         <div class="shots-grid reveal" style="--reveal-delay: 100ms">
-          <figure class="shot"><img src="Morfoimage/screenshot1.jpeg" alt="MORFO screen 1" loading="lazy" /><figcaption class="shot-caption">01 · Main scene</figcaption></figure>
-          <figure class="shot"><img src="Morfoimage/screenshot2.jpeg" alt="MORFO screen 2" loading="lazy" /><figcaption class="shot-caption">02 · Simulation view</figcaption></figure>
-          <figure class="shot"><img src="Morfoimage/screenshot3.jpeg" alt="MORFO screen 3" loading="lazy" /><figcaption class="shot-caption">03 · Detail</figcaption></figure>
-          <figure class="shot"><img src="Morfoimage/screenshot4.jpeg" alt="MORFO screen 4" loading="lazy" /><figcaption class="shot-caption">04 · Interaction</figcaption></figure>
-          <figure class="shot"><img src="Morfoimage/screenshot5.jpeg" alt="MORFO screen 5" loading="lazy" /><figcaption class="shot-caption">05 · Shaders</figcaption></figure>
-          <figure class="shot"><img src="Morfoimage/screenshot6.jpeg" alt="MORFO screen 6" loading="lazy" /><figcaption class="shot-caption">06 · UI</figcaption></figure>
+          <figure class="shot"><img src="Morfoimage/screenshot1.jpeg" alt="Full upper and lower dental arches rendered in 3D, each tooth labeled with its number" loading="lazy" /><figcaption class="shot-caption">01 · Numbered dentition</figcaption></figure>
+          <figure class="shot"><img src="Morfoimage/screenshot2.jpeg" alt="Close-up of a 3D molar showing crown and root morphology" loading="lazy" /><figcaption class="shot-caption">02 · Tooth morphology</figcaption></figure>
+          <figure class="shot"><img src="Morfoimage/screenshot3.jpeg" alt="3D molar viewed from the occlusal angle with its curved roots visible" loading="lazy" /><figcaption class="shot-caption">03 · Crown &amp; root detail</figcaption></figure>
+          <figure class="shot"><img src="Morfoimage/screenshot4.jpeg" alt="First-person VR view of a hand holding a controller against a large tooth model" loading="lazy" /><figcaption class="shot-caption">04 · VR interaction</figcaption></figure>
+          <figure class="shot"><img src="Morfoimage/screenshot5.jpeg" alt="Networked player avatars gathered in a shared VR classroom session" loading="lazy" /><figcaption class="shot-caption">05 · Multiplayer classroom</figcaption></figure>
+          <figure class="shot"><img src="Morfoimage/screenshot6.jpeg" alt="VR exercise with anatomical regions of a tooth painted in different colors beside another player avatar" loading="lazy" /><figcaption class="shot-caption">06 · Morphology exercise</figcaption></figure>
         </div>
       </div>
     </section>
@@ -195,7 +221,7 @@
     <section class="next-project">
       <div class="container">
         <a href="NeuroSurgery.html">
-          <span class="next-project-eyebrow">Next case - 02 / 06</span>
+          <span class="next-project-eyebrow">Next case - 02 / 07</span>
           <h2 class="next-project-title">VR Neurosurgery Training <span class="arrow">→</span></h2>
         </a>
       </div>

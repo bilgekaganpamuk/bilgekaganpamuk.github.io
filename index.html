@@ -5,9 +5,31 @@
   <script>document.documentElement.classList.add('js');</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bilge Kağan Pamuk - XR Engineer</title>
+  <title>Bilge Kağan Pamuk — Unity Developer &amp; XR Systems Engineer</title>
   <meta name="description"
-    content="XR engineer building immersive systems for medical simulation, automotive HMI and multiplayer VR. Based in Ankara, Turkey." />
+    content="Unity Developer &amp; XR Systems Engineer in Ankara building medical simulation, multiplayer VR and automotive HMI - shipped on Meta Quest, WebGL, iOS and Android." />
+  <link rel="canonical" href="https://bilgekagan.site/" />
+  <meta name="theme-color" content="#FAFAF8" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bilgekagan.site/" />
+  <meta property="og:title" content="Bilge Kağan Pamuk — Unity Developer &amp; XR Systems Engineer" />
+  <meta property="og:description"
+    content="Unity Developer &amp; XR Systems Engineer in Ankara building medical simulation, multiplayer VR and automotive HMI - shipped on Meta Quest, WebGL, iOS and Android." />
+  <meta property="og:image" content="https://bilgekagan.site/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Bilge Kağan Pamuk" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Bilge Kağan Pamuk — Unity Developer &amp; XR Systems Engineer" />
+  <meta name="twitter:description"
+    content="Unity Developer &amp; XR Systems Engineer in Ankara building medical simulation, multiplayer VR and automotive HMI - shipped on Meta Quest, WebGL, iOS and Android." />
+  <meta name="twitter:image" content="https://bilgekagan.site/assets/og-image.png" />
 
   <!-- Fonts: Instrument Serif (display) + Geist (sans) + Geist Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -20,29 +42,59 @@
 
   <!-- Three.js + GLTFLoader for hero scene -->
   <script src="assets/vendor/three.min.js" defer></script>
+  <script src="assets/vendor/DRACOLoader.js" defer></script>
   <script src="assets/vendor/GLTFLoader.js" defer></script>
   <script src="assets/js/hero-scene.js" defer></script>
+  <!-- Vanilla Tilt (loaded before main.js, which initializes it) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"
+    integrity="sha384-0k1dj5tm+KUH/4vkNk/i90XsjDA8Ltmt+ybcrFoH4t0dgv/WZsPpVBnkhcroX8UL" crossorigin="anonymous"
+    defer></script>
   <script src="assets/js/main.js" defer></script>
-  <!-- Vanilla Tilt -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js" defer></script>
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Bilge Kağan Pamuk",
+    "jobTitle": "Unity Developer & XR Systems Engineer",
+    "url": "https://bilgekagan.site/",
+    "email": "mailto:bilge_kagan_pamuk@hotmail.com",
+    "telephone": "+905452241020",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Ankara",
+      "addressCountry": "TR"
+    },
+    "sameAs": [
+      "https://linkedin.com/in/bilge-kağan-pamuk-261808151",
+      "https://github.com/bilgekaganpamuk"
+    ],
+    "alumniOf": [
+      { "@type": "CollegeOrUniversity", "name": "Atılım University" },
+      { "@type": "CollegeOrUniversity", "name": "Hacettepe University" }
+    ],
+    "worksFor": { "@type": "Organization", "name": "MEDEASOFT" },
+    "knowsLanguage": ["Turkish", "English"]
+  }
+  </script>
 </head>
 
 <body>
 
-  <!-- Custom Cursor -->
-  <div class="cursor-dot" data-cursor-dot aria-hidden="true"></div>
-  <div class="cursor-outline" data-cursor-outline aria-hidden="true"></div>
+  <a class="skip-link" href="#top">Skip to content</a>
 
   <!-- ===== NAV ===== -->
   <nav class="nav" aria-label="Primary">
     <div class="nav-inner">
-      <a href="#top" class="logo">Bilge K.<em style="font-style:italic"> Pamuk</em></a>
+      <a href="#top" class="logo">Bilge K.<em> Pamuk</em></a>
 
       <ul class="nav-links" role="list">
         <li><a href="#about">About</a></li>
         <li><a href="#work">Work</a></li>
         <li><a href="#capabilities">Capabilities</a></li>
         <li><a href="#experience">Experience</a></li>
+        <li><a href="#publications">Publications</a></li>
       </ul>
 
       <a href="#contact" class="nav-cta">
@@ -50,18 +102,22 @@
         <span>Available for work</span>
       </a>
 
-      <button class="menu-btn" aria-label="Open menu"><span></span></button>
+      <button class="menu-btn" aria-label="Open menu" aria-expanded="false"
+        aria-controls="mobile-menu"><span></span></button>
     </div>
   </nav>
 
-  <div class="mobile-menu" aria-hidden="true">
-    <ul>
-      <li><a href="#about">About</a></li>
-      <li><a href="#work">Work</a></li>
-      <li><a href="#capabilities">Capabilities</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <nav aria-label="Mobile">
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#capabilities">Capabilities</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#publications">Publications</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
   </div>
 
   <main id="top">
@@ -73,7 +129,7 @@
 
           <div class="hero-copy">
             <div class="hero-meta">
-              <span class="eyebrow">XR Engineer · Ankara, TR</span>
+              <span class="eyebrow">Unity Developer · XR Systems Engineer · Ankara, TR</span>
             </div>
 
             <h1 class="hero-title">
@@ -83,8 +139,9 @@
             </h1>
 
             <p class="hero-sub">
-              Medical simulation, luxury automotive HMI, and multiplayer VR - shipped on Meta Quest, HoloLens, iOS and
-              Android. Four years engineering software where the experience has to feel real.
+              Medical simulation, luxury automotive HMI, and multiplayer VR - shipped on Meta Quest, HoloLens, WebGL,
+              iOS and Android. Medical training apps holding a 4.2★ average with 2,000+ active users. Four+ years
+              engineering software where the experience has to feel real.
             </p>
 
             <div class="hero-cta">
@@ -96,7 +153,8 @@
             </div>
           </div>
 
-          <div class="hero-stage" data-hero-stage data-model="models/Headset.glb">
+          <div class="hero-stage" data-hero-stage data-model="models/Headset.glb" role="img"
+            aria-label="Interactive 3D VR headset model">
             <div class="hero-stage-loader">Loading scene</div>
             <div class="hero-stage-label">01 · VR Headset</div>
           </div>
@@ -135,10 +193,10 @@
               <svg
                 style="position:absolute; inset:0; margin:auto; width:85%; height:85%; animation: rotate-slow 40s linear infinite;"
                 viewBox="0 0 200 200" fill="none" aria-hidden="true">
-                <circle cx="100" cy="100" r="92" stroke="rgba(232,213,183,0.25)" stroke-width="0.5" />
-                <circle cx="100" cy="100" r="76" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"
+                <circle cx="100" cy="100" r="92" stroke="rgba(154,107,20,0.30)" stroke-width="0.5" />
+                <circle cx="100" cy="100" r="76" stroke="rgba(17,19,24,0.08)" stroke-width="0.5"
                   stroke-dasharray="2 6" />
-                <circle cx="100" cy="8" r="2" fill="#E8D5B7" />
+                <circle cx="100" cy="8" r="2" fill="#F2B24C" />
               </svg>
               <style>
                 @keyframes rotate-slow {
@@ -159,6 +217,14 @@
                 <div class="about-stat-label">Years shipping</div>
               </div>
               <div>
+                <div class="about-stat-num">2,000<span style="color:var(--accent)">+</span></div>
+                <div class="about-stat-label">Active users</div>
+              </div>
+              <div>
+                <div class="about-stat-num">4.2<span style="color:var(--accent)">★</span></div>
+                <div class="about-stat-label">Avg store rating</div>
+              </div>
+              <div>
                 <div class="about-stat-num">10<span style="color:var(--accent)">+</span></div>
                 <div class="about-stat-label">Products live</div>
               </div>
@@ -171,58 +237,61 @@
             </p>
 
             <p>
-              Based in Ankara and pursuing an MSc in Health Informatics at <strong>Hacettepe University</strong> (GPA
-              4.00), I build production software across surgical training, luxury vehicle HMI, and multiplayer VR - the
-              kind of work that has to behave the same on the tenth clinical trial as on the demo day.
+              Based in Ankara, I ship VR and WebGL products at <strong>MEDEASOFT</strong> and pursue an MSc in Health
+              Informatics at <strong>Hacettepe University</strong> (GPA 4.00/4.00). I build production software across
+              dental and surgical training, luxury vehicle HMI, and multiplayer VR - the kind of work that has to
+              behave the same on the tenth clinical trial as on the demo day.
             </p>
 
             <p>
-              My toolkit runs from low-level shaders and native C++ haptic loops up to Figma specs and user research. I
-              care equally about 72 FPS frame budgets and why a user presses a button three seconds slower than
-              expected. National award for innovation in surgical training in 2023.
+              My toolkit runs from HLSL shaders and Photon Fusion 2 multiplayer with Meta Avatar SDK up to
+              Firebase-backed real-time systems and user research - I lead technical documentation for one TÜBİTAK
+              1507 and two TÜBİTAK 1501 national R&amp;D projects, and still care why a user presses a button three
+              seconds slower than expected. National award for innovation in surgical training in 2023.
             </p>
 
             <div style="display:flex; gap:var(--s-sm); flex-wrap:wrap; margin-top:var(--s-md);">
               <span class="work-tag">Unity · XR</span>
               <span class="work-tag">Photon Fusion 2</span>
+              <span class="work-tag">Firebase</span>
               <span class="work-tag">HLSL Shaders</span>
-              <span class="work-tag">C++ / P-Invoke</span>
-              <span class="work-tag">Figma</span>
+              <span class="work-tag">AI / LLM APIs</span>
             </div>
           </div>
         </div>
         <!-- 
         <div class="testimonials reveal" style="margin-top: calc(var(--s-lg) * 1.5); display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
           
-          <div class="testimonial-block" style="padding: 1.5rem; border-top: 2px solid var(--accent); background: rgba(232, 213, 183, 0.03);">
+          <div class="testimonial-block" style="padding: 1.5rem; border-top: 2px solid var(--accent); background: var(--accent-dim);">
             <p style="font-family: var(--font-display); font-size: 1.4rem; font-style: italic; line-height: 1.2; margin-bottom: 1rem; color: var(--ink);">
               "His work on the Aston Martin project fundamentally elevated our HMI validation process. He engineers systems where the physical and digital seamlessly merge."
             </p>
-            <div style="font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent);">
+            <div style="font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent-ink);">
               — Burak Kızılkaya<br><span style="opacity:0.7; color: var(--ink);">Lead Designer, Aston Martin</span>
             </div>
           </div>
 
-          <div class="testimonial-block" style="padding: 1.5rem; border-top: 2px solid var(--accent); background: rgba(232, 213, 183, 0.03);">
+          <div class="testimonial-block" style="padding: 1.5rem; border-top: 2px solid var(--accent); background: var(--accent-dim);">
             <p style="font-family: var(--font-display); font-size: 1.4rem; font-style: italic; line-height: 1.2; margin-bottom: 1rem; color: var(--ink);">
               "Bilge architected our AR Search and Rescue simulation. His ability to blend spatial computing with mission-critical constraints is remarkable."
             </p>
-            <div style="font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent);">
+            <div style="font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent-ink);">
               — Barış Bumin<br><span style="opacity:0.7; color: var(--ink);">Lead Designer, Aselsan</span>
             </div>
           </div>
 
-          <div class="testimonial-block" style="padding: 1.5rem; border-top: 2px solid var(--accent); background: rgba(232, 213, 183, 0.03);">
+          <div class="testimonial-block" style="padding: 1.5rem; border-top: 2px solid var(--accent); background: var(--accent-dim);">
             <p style="font-family: var(--font-display); font-size: 1.4rem; font-style: italic; line-height: 1.2; margin-bottom: 1rem; color: var(--ink);">
               "His hardware integration for our defense industry eye-tracking heat maps provided us with unprecedented analytical depth for interaction flows."
             </p>
-            <div style="font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent);">
+            <div style="font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent-ink);">
               — Kadir Uruç<br><span style="opacity:0.7; color: var(--ink);">Lead Designer, Aselsan</span>
             </div>
           </div>
 
         </div>
-      </div> -->
+        -->
+      </div>
     </section>
 
     <!-- ===== SELECTED WORK ===== -->
@@ -234,8 +303,8 @@
             <h2 class="section-title" style="margin-top: var(--s-sm)">Seven from the shelf.</h2>
           </div>
           <p class="section-lede" style="max-width:34ch; margin-left:auto;">
-            A medical sim, a luxury HMI, a surgical trainer, a haptic mixed-reality rig, and an AI assistant. Each
-            shipped, each stress-tested.
+            A medical sim, a surgical trainer, a luxury HMI, a haptic rig, a digital-twin hardware rig, an AI
+            assistant and a macOS widget - most shipped, the rest in active development.
           </p>
         </div>
 
@@ -245,17 +314,18 @@
             <div class="work-item-num">01 / 07</div>
             <div class="work-item-meta">
               <div class="work-item-tags">
-                <span class="work-tag">Mobile · VR</span>
-                <span class="work-tag">Unity · URP</span>
-                <span class="work-tag">HLSL</span>
+                <span class="work-tag">VR · Mobile</span>
+                <span class="work-tag">Photon Fusion 2</span>
+                <span class="work-tag">Firebase</span>
               </div>
               <h3 class="work-item-title">
-                MORFO - 3D Simulation
-                <span class="year">2023</span>
+                MORFO - Dental Morphology Platform
+                <span class="year">2023–26</span>
               </h3>
               <p class="work-item-desc">
-                Cross-platform 3D simulation architected from concept to store release. Custom LOD system, HLSL
-                post-processing and a unified codebase holding 120+ FPS on mid-range mobile hardware.
+                Gamified dental morphology learning platform for Meta Quest 3, iOS and Android - Photon Fusion 2
+                multiplayer with Meta Avatar SDK, Firebase-backed progress tracking, holding a 4.2★ average with
+                2,000+ active users.
               </p>
             </div>
             <span class="work-item-link">
@@ -267,7 +337,7 @@
             <div class="work-item-num">02 / 07</div>
             <div class="work-item-meta">
               <div class="work-item-tags">
-                <span class="work-tag award">🏆 Award winner</span>
+                <span class="work-tag award"><span aria-hidden="true">🏆</span> Award winner</span>
                 <span class="work-tag">VR · Medical</span>
                 <span class="work-tag">Soft-body physics</span>
               </div>
@@ -298,8 +368,9 @@
                 <span class="year">2024</span>
               </h3>
               <p class="work-item-desc">
-                Photorealistic VR simulator for luxury vehicle HMI validation - integrated CAN Bus protocols for
-                real-time telemetry, live eye-tracking heatmaps, and multiplayer co-location over Photon Fusion.
+                Photorealistic VR simulator for the Aston Martin Lagonda digital cockpit - integrated CAN Bus
+                protocols for real-time telemetry, live eye-tracking heatmaps, and multiplayer co-location over Photon
+                Fusion.
               </p>
             </div>
             <span class="work-item-link">
@@ -360,7 +431,7 @@
                 <span class="work-tag">Unity + TypeScript</span>
               </div>
               <h3 class="work-item-title">
-                MEDIBOT Turkish Health Assistant
+                MediBot Turkish Health Assistant
                 <span class="year">2026</span>
               </h3>
               <p class="work-item-desc">
@@ -428,10 +499,10 @@
             <div class="caps-list">
               <span>C# · expert</span>
               <span>C++ / P-Invoke</span>
+              <span>TypeScript</span>
+              <span>Python · SQL</span>
               <span>HLSL shaders</span>
               <span>Shader Graph</span>
-              <span>Compute shaders</span>
-              <span>Python · FastAPI</span>
             </div>
             <h3 class="caps-title">Programming<br>languages</h3>
           </div>
@@ -440,10 +511,10 @@
             <div class="caps-num">03</div>
             <div class="caps-list">
               <span>Unity URP / HDRP</span>
-              <span>GPU profiling</span>
-              <span>Memory management</span>
-              <span>LOD systems</span>
-              <span>Batching + instancing</span>
+              <span>Unity Profiler · Sentry</span>
+              <span>ScriptableObjects</span>
+              <span>Addressables</span>
+              <span>LOD · batching</span>
               <span>Mobile 120 FPS targets</span>
             </div>
             <h3 class="caps-title">Real-time<br>systems</h3>
@@ -453,11 +524,11 @@
             <div class="caps-num">04</div>
             <div class="caps-list">
               <span>Photon Fusion 2</span>
+              <span>Photon Voice 2</span>
+              <span>Meta Avatar SDK</span>
               <span>PUN-2</span>
               <span>Client-server arch</span>
               <span>Real-time state sync</span>
-              <span>Photon Voice</span>
-              <span>Firebase rooms</span>
             </div>
             <h3 class="caps-title">Multiplayer<br>&amp; networking</h3>
           </div>
@@ -465,25 +536,25 @@
           <div class="caps-cell">
             <div class="caps-num">05</div>
             <div class="caps-list">
-              <span>Figma · ProtoPie</span>
-              <span>3D interaction design</span>
-              <span>User research</span>
-              <span>Usability testing</span>
-              <span>Design systems</span>
-              <span>UX telemetry</span>
+              <span>Firebase Auth · Firestore</span>
+              <span>Firebase Realtime DB</span>
+              <span>OpenAI · Claude · Gemini</span>
+              <span>Prompt engineering</span>
+              <span>REST APIs · JSON</span>
+              <span>Dynamic model routing</span>
             </div>
-            <h3 class="caps-title">Product<br>design</h3>
+            <h3 class="caps-title">Backend &amp; AI<br>integration</h3>
           </div>
 
           <div class="caps-cell">
             <div class="caps-num">06</div>
             <div class="caps-list">
-              <span>Meta Quest 2 / 3 / Pro</span>
-              <span>HoloLens 2</span>
+              <span>Meta Quest 2 / 3</span>
+              <span>HoloLens 2 · Varjo</span>
+              <span>Apple Vision Pro</span>
               <span>iOS · Android</span>
               <span>Windows · WebGL</span>
-              <span>Arduino · ESP32</span>
-              <span>CAN bus · automotive</span>
+              <span>Arduino · ESP32 · CAN bus</span>
             </div>
             <h3 class="caps-title">Platforms<br>&amp; hardware</h3>
           </div>
@@ -505,29 +576,31 @@
           <div class="tl-item">
             <div class="tl-year">Feb 2023 - Present</div>
             <div class="tl-body">
-              <h3>Software Engineer · XR Systems</h3>
-              <div class="tl-company">MedeaSoft · Ankara</div>
+              <h3>Unity Developer &amp; Research Engineer</h3>
+              <div class="tl-company">MEDEASOFT · Ankara</div>
               <p class="tl-desc">
-                Architecting and shipping production medical XR applications. Leading technical design for mixed reality
-                simulations with haptic feedback, and maintaining mobile-class optimization while rendering complex
-                anatomical models.
+                Developing and shipping VR and WebGL products for dental training, surgical planning and anatomy
+                education - holding a 4.2-star average rating with 2,000+ active users on Google Play and the App
+                Store. Architecting Photon Fusion 2 multiplayer with Meta Avatar SDK and Firebase real-time systems;
+                technical documentation lead for one TÜBİTAK 1507 and two TÜBİTAK 1501 national R&amp;D projects.
               </p>
             </div>
             <div class="tl-tags">
               <span class="work-tag">Medical XR</span>
-              <span class="work-tag">Haptics</span>
-              <span class="work-tag">Performance</span>
+              <span class="work-tag">Photon Fusion 2</span>
+              <span class="work-tag">TÜBİTAK R&amp;D</span>
             </div>
           </div>
 
           <div class="tl-item">
-            <div class="tl-year">Aug 2025 - Present</div>
+            <div class="tl-year">Sep 2025 - Present</div>
             <div class="tl-body">
               <h3>MSc · Health Informatics</h3>
-              <div class="tl-company">Hacettepe University · GPA 4.00</div>
+              <div class="tl-company">Hacettepe University · GPA 4.00/4.00</div>
               <p class="tl-desc">
-                Research on XR-enabled healthcare systems, mobile clinical platforms, and simulation technologies.
-                Currently preparing a comparative paper on NMT and LLMs for dental simulation localization.
+                Research on XR in medical education, LLM-based localization for Unity simulation, and digital
+                simulation effectiveness. Co-authored a comparative paper on NMT and LLMs for medical simulation
+                localization, under review at the International Journal of Serious Games (IJSG).
               </p>
             </div>
             <div class="tl-tags">
@@ -540,10 +613,11 @@
             <div class="tl-year">Nov 2024 - Dec 2025</div>
             <div class="tl-body">
               <h3>Product Design Engineer</h3>
-              <div class="tl-company">Simux Defence (Aston Martin Project) · Cambridge, UK</div>
+              <div class="tl-company">SIMUX Defence (Aston Martin Lagonda) · Cambridge, UK · Freelance</div>
               <p class="tl-desc">
-                Designed Unity-based automotive HMI simulator for in-vehicle digital cockpit. Integrated CAN Bus
-                protocols for real-time vehicle telemetry and conducted eye-tracking studies for interaction flows.
+                Designed a Unity-based automotive HMI simulator for the Aston Martin Lagonda digital cockpit.
+                Integrated CAN Bus protocols for real-time vehicle telemetry and conducted eye-tracking studies on HP
+                Reverb and Varjo headsets covering driver attention and interaction flows.
               </p>
             </div>
             <div class="tl-tags">
@@ -580,7 +654,7 @@
               </p>
             </div>
             <div class="tl-tags">
-              <span class="work-tag award">🏆 Best Project 2023</span>
+              <span class="work-tag award"><span aria-hidden="true">🏆</span> Best Project 2023</span>
               <span class="work-tag">Medical VR</span>
             </div>
           </div>
@@ -602,13 +676,13 @@
           </div>
 
           <div class="tl-item">
-            <div class="tl-year">2019 - 2023</div>
+            <div class="tl-year">2018 - 2023</div>
             <div class="tl-body">
               <h3>BSc · Software Engineering</h3>
               <div class="tl-company">Atılım University · Full scholarship</div>
               <p class="tl-desc">
                 Graduated with 3.43 GPA. Full merit-based scholarship. Engineering Faculty 5th Place Award. Erasmus
-                exchange at Ostrava University, Czech Republic.
+                exchange at the University of Ostrava, Czech Republic (2022).
               </p>
             </div>
             <div class="tl-tags">
@@ -631,6 +705,28 @@
 
         <div class="timeline reveal" style="--reveal-delay: 100ms">
           <div class="tl-item">
+            <div class="tl-year">Under review</div>
+            <div class="tl-body">
+              <h3>Digital Simulation Technologies in Dental Local Anesthesia Education</h3>
+              <div class="tl-company">Health and Technology (Springer)</div>
+            </div>
+            <div class="tl-tags">
+              <span class="work-tag">First author</span>
+            </div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-year">Under review</div>
+            <div class="tl-body">
+              <h3>NMT vs. LLMs for Medical Simulation Localization in Unity</h3>
+              <div class="tl-company">International Journal of Serious Games (IJSG)</div>
+            </div>
+            <div class="tl-tags">
+              <span class="work-tag">LLM Integration</span>
+            </div>
+          </div>
+
+          <div class="tl-item">
             <div class="tl-year">2026</div>
             <div class="tl-body">
               <h3>Evaluating Usability and UX in a Virtual Reality-Based Driving Simulation</h3>
@@ -638,17 +734,6 @@
             </div>
             <div class="tl-tags">
               <span class="work-tag">Automotive UX</span>
-            </div>
-          </div>
-
-          <div class="tl-item">
-            <div class="tl-year">2025</div>
-            <div class="tl-body">
-              <h3>NMT vs. LLMs for Medical Simulation Localization in Unity</h3>
-              <div class="tl-company">International Journal of Serious Games (IJSG) · Under Review</div>
-            </div>
-            <div class="tl-tags">
-              <span class="work-tag">LLM Integration</span>
             </div>
           </div>
 
@@ -687,8 +772,8 @@
             <span class="italic">something real.</span>
           </h2>
           <p class="contact-sub">
-            Open to senior XR engineering and product design roles. Based in Ankara - available for relocation, on-site
-            or fully remote.
+            Open to senior Unity / XR engineering roles. Based in Ankara - available for relocation, on-site or fully
+            remote. Turkish (native) · English (C1).
           </p>
 
           <a href="mailto:bilge_kagan_pamuk@hotmail.com" class="contact-email">
@@ -723,6 +808,14 @@
               </svg>
               Email
             </a>
+            <a href="cv.html" class="btn btn-ghost">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+              </svg>
+              Online CV
+            </a>
             <a href="tel:+905452241020" class="btn btn-ghost">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
                 stroke-linecap="round" stroke-linejoin="round">
@@ -750,7 +843,8 @@
   </footer>
 
   <!-- ===== FLOATING CV BUTTON ===== -->
-  <a href="assets/Bilge_Kagan_Pamuk_CV.pdf" class="floating-cv-btn" target="_blank" rel="noopener">
+  <a href="assets/Bilge_Kagan_Pamuk_CV.pdf" class="floating-cv-btn" target="_blank" rel="noopener"
+    aria-label="Download CV as PDF">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
       stroke-linecap="round" stroke-linejoin="round">
       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -759,51 +853,6 @@
     </svg>
     <span>Download CV</span>
   </a>
-
-  <style>
-    .floating-cv-btn {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: var(--ink);
-      padding: 12px 20px;
-      border-radius: 100px;
-      font-family: var(--font-sans);
-      font-weight: 500;
-      font-size: 0.9rem;
-      text-decoration: none;
-      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .floating-cv-btn:hover {
-      transform: translateY(-4px);
-      background: rgba(255, 255, 255, 0.15);
-      border-color: rgba(255, 255, 255, 0.3);
-      box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.6);
-    }
-
-    @media (max-width: 768px) {
-      .floating-cv-btn {
-        bottom: 16px;
-        right: 16px;
-        padding: 10px 16px;
-      }
-
-      .floating-cv-btn span {
-        display: none;
-        /* Icon only on mobile to save space */
-      }
-    }
-  </style>
 
 </body>
 

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Apple touch icon source — 180×180</title>
+  <!--
+    Artboard source for apple-touch-icon.png.
+    Render at exactly 180×180. Square corners on purpose — iOS applies
+    its own rounded mask.
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 180px;
+      height: 180px;
+      overflow: hidden;
+    }
+    body {
+      background: #16181D;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .mark {
+      font-family: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: 110px;
+      line-height: 1;
+      color: #F2B24C;
+      /* nudge left so the italic stroke sits optically centered */
+      transform: translateX(-3px);
+    }
+  </style>
+</head>
+<body>
+  <div class="mark">B</div>
+</body>
+</html>

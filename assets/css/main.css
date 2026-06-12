@@ -1,40 +1,44 @@
 /* ==========================================================================
    Bilge Kağan Pamuk — Portfolio
-   Design system: Dark premium · Editorial serif + geometric sans
+   Design system: Clean light editorial · Editorial serif + geometric sans
    ========================================================================== */
 
 :root {
-  /* Colors — quiet luxury palette, no neon */
-  --bg:             #0A0A0B;
-  --bg-elevated:    #111113;
-  --bg-subtle:      #16161A;
-  --bg-glass:       rgba(17, 17, 19, 0.65);
+  /* Colors — clean light editorial palette */
+  --bg:             #FAFAF8;
+  --bg-elevated:    #FFFFFF;
+  --bg-subtle:      #F1F0EC;
+  --bg-glass:       rgba(250, 250, 248, 0.85);
 
-  --line:           rgba(255, 255, 255, 0.06);
-  --line-med:       rgba(255, 255, 255, 0.10);
-  --line-strong:    rgba(255, 255, 255, 0.18);
+  --line:           rgba(17, 19, 24, 0.10);
+  --line-med:       rgba(17, 19, 24, 0.18);
+  --line-strong:    rgba(17, 19, 24, 0.28);
 
-  --ink:            #EDEDEF;
-  --ink-dim:        #B4B4BA;
-  --ink-mute:       #7A7A82;
-  --ink-subtle:     #4A4A50;
+  --ink:            #16181D;
+  --ink-dim:        #5A6068;
+  --ink-mute:       #646A72;
+  --ink-subtle:     #9AA0A7;
 
-  /* A single warm accent — used sparingly for emphasis */
-  --accent:         #E8D5B7;   /* champagne */
-  --accent-warm:    #FFB87A;   /* soft sunrise (glows only) */
+  /* A single warm accent — used sparingly for emphasis.
+     --accent is for FILLS and large display strokes only;
+     small amber text (eyebrows, labels, links, tags) uses --accent-ink. */
+  --accent:         #F2B24C;   /* amber — fills, dots, glows, display strokes */
+  --accent-ink:     #9A6B14;   /* dark amber — small text accents (4.6:1 on white) */
+  --accent-dim:     rgba(242, 178, 76, 0.16); /* tints, tag backgrounds, selection */
+  --accent-warm:    #F2B24C;   /* glows only */
 
   /* Signature gradients */
-  --pearl:          linear-gradient(180deg, #FDFDFD 0%, #A7A7AE 100%);
-  --metal:          linear-gradient(135deg, #E8E4DC 0%, #8A867E 55%, #C7C0B5 100%);
-  --warm-wash:      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255, 184, 122, 0.08) 0%, transparent 65%);
-  --cool-wash:      radial-gradient(ellipse 60% 50% at 80% 30%, rgba(143, 164, 201, 0.06) 0%, transparent 70%);
+  --pearl:          linear-gradient(180deg, #16181D 0%, #5A6068 100%);
+  --metal:          linear-gradient(135deg, #2A2D35 0%, #6B5E48 55%, #16181D 100%);
+  --warm-wash:      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(242, 178, 76, 0.10) 0%, transparent 65%);
+  --cool-wash:      radial-gradient(ellipse 60% 50% at 80% 30%, rgba(143, 164, 201, 0.08) 0%, transparent 70%);
 
   /* Typography — Instrument Serif (display) + Geist (sans) + JetBrains Mono */
   --font-display:   'Instrument Serif', 'Cormorant Garamond', 'Times New Roman', serif;
   --font-sans:      'Geist', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
   --font-mono:      'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
 
-  /* Fluid scale — base 1rem = 17px at root */
+  /* Fluid scale — base 1rem = 16px at root */
   --t-xs:           clamp(0.75rem, 0.73rem + 0.1vw, 0.8125rem);
   --t-sm:           clamp(0.875rem, 0.85rem + 0.1vw, 0.9375rem);
   --t-base:         clamp(1rem, 0.95rem + 0.2vw, 1.0625rem);
@@ -43,7 +47,7 @@
   --t-xl:           clamp(2rem, 1.7rem + 1.5vw, 2.75rem);
   --t-2xl:          clamp(2.75rem, 2.2rem + 2.4vw, 4rem);
   --t-3xl:          clamp(3.75rem, 2.6rem + 4.5vw, 6rem);
-  --t-display:      clamp(4.5rem, 3rem + 7vw, 9.5rem);
+  --t-display:      clamp(3.5rem, 3rem + 7vw, 9.5rem);
 
   /* Space — 8pt base */
   --s-2xs:          0.5rem;
@@ -108,16 +112,16 @@ body::before {
   z-index: 0;
 }
 
-/* Noise/grain overlay for richness */
+/* Noise/grain overlay for richness — dark grain multiplied onto white */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
-  opacity: 0.035;
+  opacity: 0.025;
   pointer-events: none;
   z-index: 1;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' seed='2'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
-  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' seed='2'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+  mix-blend-mode: multiply;
 }
 
 img, video, canvas { display: block; max-width: 100%; }
@@ -137,7 +141,7 @@ button {
   cursor: pointer;
 }
 
-::selection { background: var(--accent); color: var(--bg); }
+::selection { background: var(--accent-dim); color: var(--ink); }
 
 /* Custom scrollbar — subtle, premium */
 ::-webkit-scrollbar { width: 8px; height: 8px; }
@@ -173,7 +177,7 @@ h3 { font-size: var(--t-lg);  line-height: 1.15; letter-spacing: -0.015em; }
 }
 
 .animated-gradient {
-  background: linear-gradient(to right, var(--accent), var(--accent-warm), var(--accent));
+  background: linear-gradient(to right, var(--accent-ink), var(--accent), var(--accent-ink));
   background-size: 200% auto;
   color: transparent;
   -webkit-background-clip: text;
@@ -322,14 +326,14 @@ section {
   border: 1px solid var(--line-med);
   border-radius: 999px;
   font-size: var(--t-sm);
-  background: rgba(255,255,255,0.02);
+  background: rgba(17,19,24,0.02);
   transition: border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
 }
-.nav-cta:hover { border-color: var(--line-strong); background: rgba(255,255,255,0.04); }
+.nav-cta:hover { border-color: var(--line-strong); background: rgba(17,19,24,0.04); }
 .nav-cta .dot {
   width: 6px; height: 6px; border-radius: 50%;
-  background: #7FDFA0;
-  box-shadow: 0 0 8px rgba(127,223,160,0.5);
+  background: var(--accent);
+  box-shadow: 0 0 8px rgba(242,178,76,0.55);
   animation: pulse 2.2s infinite;
 }
 @keyframes pulse {
@@ -368,6 +372,7 @@ section {
 .hero {
   position: relative;
   min-height: 100vh;
+  min-height: 100svh; /* progressive enhancement: stable as mobile URL bars collapse */
   padding-top: calc(var(--nav-h) + var(--s-2xl));
   padding-bottom: var(--s-2xl);
   display: flex;
@@ -394,8 +399,8 @@ section {
   flex-wrap: wrap;
 }
 .hero-meta .dot {
-  width: 6px; height: 6px; border-radius: 50%; background: #7FDFA0;
-  box-shadow: 0 0 10px rgba(127, 223, 160, 0.6);
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 10px rgba(242, 178, 76, 0.6);
 }
 
 .hero-title {
@@ -413,9 +418,9 @@ section {
   padding-bottom: 0.2em;
   margin-bottom: -0.2em;
 }
-.hero-title .italic { 
-  font-style: italic; 
-  background: linear-gradient(to right, var(--accent), var(--accent-warm), var(--accent));
+.hero-title .italic {
+  font-style: italic;
+  background: linear-gradient(to right, var(--accent-ink), var(--accent), var(--accent-ink));
   background-size: 200% auto;
   color: transparent;
   -webkit-background-clip: text;
@@ -464,11 +469,11 @@ section {
   color: var(--bg);
   border-color: var(--ink);
 }
-.btn-primary:hover { background: #fff; }
+.btn-primary:hover { background: #2A2D35; border-color: #2A2D35; }
 
 .btn-ghost:hover {
-  background: rgba(255,255,255,0.04);
-  border-color: var(--line-strong);
+  background: var(--accent-dim);
+  border-color: var(--accent);
 }
 
 /* Hero 3D stage */
@@ -485,7 +490,7 @@ section {
   content: "";
   position: absolute;
   inset: 10%;
-  background: radial-gradient(circle, rgba(255,184,122,0.12) 0%, transparent 60%);
+  background: radial-gradient(circle, rgba(242,178,76,0.18) 0%, transparent 60%);
   filter: blur(30px);
   z-index: 0;
 }
@@ -628,7 +633,7 @@ section {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 30% 20%, rgba(232,213,183,0.08) 0%, transparent 55%);
+  background: radial-gradient(circle at 30% 20%, rgba(242,178,76,0.10) 0%, transparent 55%);
   pointer-events: none;
 }
 .about-id {
@@ -653,6 +658,7 @@ section {
   font-size: var(--t-2xl);
   line-height: 1;
   letter-spacing: -0.02em;
+  color: var(--accent); /* large display stroke — amber is fills/display only */
 }
 .about-stat-label {
   font-family: var(--font-mono);
@@ -717,21 +723,24 @@ section {
   gap: var(--s-lg);
   align-items: center;
   padding: var(--s-lg) var(--s-md);
-  margin-inline: calc(var(--s-md) * -1);
+  /* Bleed matches .container padding so items never clip past the viewport edge */
+  margin-inline: calc(clamp(1.25rem, 4vw, 1.5rem) * -1);
   border-bottom: 1px solid var(--line);
   border-radius: var(--radius);
-  transition: all var(--dur) var(--ease);
+  transition: background var(--dur) var(--ease),
+              transform var(--dur) var(--ease),
+              box-shadow var(--dur) var(--ease),
+              border-color var(--dur) var(--ease);
 }
-.work-item:hover { 
-  background: linear-gradient(135deg, rgba(232,213,183,0.03) 0%, rgba(232,213,183,0.07) 100%);
+.work-item:hover {
+  background: linear-gradient(135deg, rgba(242,178,76,0.05) 0%, rgba(242,178,76,0.10) 100%);
   border-color: transparent;
   transform: scale(1.01);
-  box-shadow: 0 30px 60px -20px rgba(0,0,0,0.6);
+  box-shadow: 0 30px 60px -20px rgba(20,24,33,0.16);
   z-index: 5;
 }
 .work-item:hover .work-item-title {
-  color: #fff;
-  text-shadow: 0 0 12px rgba(255,255,255,0.2);
+  color: var(--ink);
 }
 
 .work-item-num {
@@ -757,14 +766,15 @@ section {
   font-size: 0.68rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--ink-mute);
+  color: var(--ink-dim);
   border: 1px solid var(--line-med);
   padding: 0.3rem 0.55rem;
   border-radius: 999px;
 }
 .work-tag.award {
-  color: var(--accent);
-  border-color: rgba(232,213,183,0.35);
+  color: var(--accent-ink);
+  background: var(--accent-dim);
+  border-color: rgba(242,178,76,0.4);
 }
 
 .work-item-title {
@@ -805,12 +815,14 @@ section {
   border-radius: 999px;
   font-size: var(--t-sm);
   color: var(--ink-dim);
-  transition: all var(--dur-fast) var(--ease);
+  transition: border-color var(--dur-fast) var(--ease),
+              color var(--dur-fast) var(--ease),
+              background var(--dur-fast) var(--ease);
 }
 .work-item:hover .work-item-link {
   border-color: var(--accent);
-  color: var(--accent);
-  background: rgba(232,213,183,0.04);
+  color: var(--accent-ink);
+  background: var(--accent-dim);
 }
 .work-item-link .arrow { transition: transform var(--dur-fast) var(--ease); }
 .work-item:hover .work-item-link .arrow { transform: translate(2px, -2px); }
@@ -835,12 +847,12 @@ section {
   position: relative;
   transition: background var(--dur-fast) var(--ease);
 }
-.caps-cell:hover { background: rgba(255,255,255,0.015); }
+.caps-cell:hover { background: var(--bg-subtle); }
 
 .caps-num {
   font-family: var(--font-mono);
   font-size: var(--t-xs);
-  color: var(--ink-subtle);
+  color: var(--ink-mute); /* --ink-subtle fails WCAG AA contrast for text; keep it decorative-only */
   letter-spacing: 0.15em;
 }
 
@@ -901,7 +913,7 @@ section {
 .tl-company {
   font-family: var(--font-mono);
   font-size: var(--t-xs);
-  color: var(--accent);
+  color: var(--accent-ink);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-bottom: var(--s-sm);
@@ -959,7 +971,7 @@ section {
   margin-bottom: var(--s-lg);
   transition: border-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
 }
-.contact-email:hover { border-color: var(--accent); color: var(--accent); }
+.contact-email:hover { border-color: var(--accent); color: var(--accent-ink); }
 
 .contact-links {
   display: flex;
@@ -985,7 +997,7 @@ section {
   letter-spacing: 0.05em;
 }
 .footer-inner .tag {
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 /* ============================================================
@@ -1055,7 +1067,7 @@ section {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(232,213,183,0.06) 0%, transparent 60%);
+  background: radial-gradient(circle at 50% 50%, rgba(242,178,76,0.10) 0%, transparent 60%);
   pointer-events: none;
   z-index: 0;
 }
@@ -1211,8 +1223,8 @@ section {
   left: 0.75rem;
   font-family: var(--font-mono);
   font-size: var(--t-xs);
-  color: var(--ink-mute);
-  background: rgba(10,10,11,0.8);
+  color: var(--ink-dim);
+  background: rgba(255,255,255,0.85);
   backdrop-filter: blur(6px);
   padding: 0.4rem 0.65rem;
   border-radius: var(--radius-sm);
@@ -1272,8 +1284,10 @@ section {
   transform: translateY(0);
 }
 
+/* Note: this is a slide-up reveal, not a clipped mask — the clip box on
+   .hero-title .line moves with its own transform, so overflow can't mask it.
+   A true mask would need an inner <span> per line; the slide is intentional. */
 .js .hero-title .line {
-  overflow: hidden;
   transform: translateY(100%);
   transition: transform 1200ms var(--ease);
   transition-delay: var(--delay, 0ms);
@@ -1316,7 +1330,7 @@ section {
   .nav-cta { display: none; }
   .menu-btn { display: inline-flex; }
 
-  .hero { min-height: calc(100vh - var(--nav-h)); padding-top: calc(var(--nav-h) + 2rem); }
+  .hero { min-height: calc(100vh - var(--nav-h)); min-height: calc(100svh - var(--nav-h)); padding-top: calc(var(--nav-h) + 2rem); }
   .hero-grid { grid-template-columns: 1fr; gap: var(--s-lg); }
   .hero-stage { aspect-ratio: 1/1; max-height: 45vh; order: 2; }
   .hero-copy { order: 1; }
@@ -1390,10 +1404,18 @@ section {
   z-index: 99;
   padding: calc(var(--nav-h) + 2rem) clamp(1.25rem, 4vw, 2.5rem) 2rem;
   transform: translateY(-100%);
-  transition: transform var(--dur-slow) var(--ease);
+  /* visibility keeps the off-screen links out of the tab order while closed;
+     the delayed visibility transition lets the slide-up animation finish first */
+  visibility: hidden;
+  transition: transform var(--dur-slow) var(--ease),
+              visibility 0s linear var(--dur-slow);
   display: none;
 }
-.mobile-menu.open { transform: translateY(0); }
+.mobile-menu.open {
+  transform: translateY(0);
+  visibility: visible;
+  transition: transform var(--dur-slow) var(--ease);
+}
 @media (max-width: 960px) {
   .mobile-menu { display: block; }
   .mobile-menu ul { list-style: none; display: grid; gap: var(--s-md); }
@@ -1404,41 +1426,201 @@ section {
   }
 }
 
-/* ---------------------------------------------------------------- custom cursor */
-@media (hover: hover) and (pointer: fine) {
-  body, a, button, .work-item, .caps-cell {
-    cursor: none;
+/* ============================================================
+   Site-wide refinements (June 2026)
+   Migrated inline styles, accessibility, print and motion prefs.
+   ============================================================ */
+
+/* ----- Floating CV button ------------------------------------------------
+   Moved verbatim from the inline <style> block at the bottom of index.html. */
+.floating-cv-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #16181D;
+  border: 1px solid rgba(17, 19, 24, 0.2);
+  color: #FAFAF8;
+  padding: 12px 20px;
+  border-radius: 100px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-decoration: none;
+  box-shadow: 0 10px 30px -12px rgba(20, 24, 33, 0.3);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.floating-cv-btn:hover {
+  transform: translateY(-4px);
+  background: #2A2D35;
+  border-color: rgba(17, 19, 24, 0.3);
+  box-shadow: 0 15px 35px -12px rgba(20, 24, 33, 0.35);
+}
+
+@media (max-width: 768px) {
+  .floating-cv-btn {
+    bottom: 16px;
+    right: 16px;
+    padding: 10px 16px;
   }
 
-  .cursor-dot, .cursor-outline {
-    position: fixed;
-    top: 0;
-    left: 0;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    z-index: 9999;
-    pointer-events: none;
+  .floating-cv-btn span {
+    display: none;
+    /* Icon only on mobile to save space */
+  }
+}
+
+/* ----- About-card rotating ring ------------------------------------------
+   @keyframes moved from the inline <style> block inside index.html's about
+   card; apply .about-ring to the orbit SVG instead of an inline animation. */
+@keyframes rotate-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.about-ring {
+  animation: rotate-slow 40s linear infinite;
+}
+
+/* ----- Skip link (a11y) ---------------------------------------------------
+   First element in <body> on every page; hidden until keyboard-focused. */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  z-index: 200; /* above .nav (100) */
+  background: var(--accent);
+  color: var(--ink);
+  padding: 10px 18px;
+  border-radius: 0 0 8px 8px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  text-decoration: none;
+  transition: top 0.2s var(--ease);
+}
+
+.skip-link:focus { top: 0; }
+.skip-link:focus-visible { outline-color: var(--ink); } /* amber ring would vanish on amber bg */
+
+/* ----- Keyboard focus (a11y) ----------------------------------------------
+   :focus-visible only — mouse clicks stay ring-free, keyboard users get a
+   clear dark-amber ring on the warm-white background (≥3:1). */
+:focus-visible {
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 3px;
+}
+
+/* ----- No-JS fallback ------------------------------------------------------
+   Without JS the scene scripts never run; don't show a perpetual
+   "Loading scene" inside empty stages. (html.js is set by main.js.) */
+html:not(.js) .hero-stage-loader,
+html:not(.js) .showcase-loader {
+  display: none;
+}
+
+/* ----- Utilities -----------------------------------------------------------
+   Replaces inline style="padding-block: 0;" on case-page sections. */
+.section-flush { padding-block: 0; }
+
+/* ----- Narrow viewports ----------------------------------------------------
+   Keep the unbreakable hero word ("Engineering") inside a 320px screen. */
+@media (max-width: 360px) {
+  .hero-title { font-size: 3.5rem; }
+}
+
+/* ----- Print ---------------------------------------------------------------
+   Light ink-on-paper overrides; hide chrome, canvases and overlays. */
+@media print {
+  :root {
+    --bg:          #ffffff;
+    --bg-elevated: #ffffff;
+    --bg-subtle:   #ffffff;
+    --bg-glass:    #ffffff;
+    --ink:         #000000;
+    --ink-dim:     #222222;
+    --ink-mute:    #444444;
+    --ink-subtle:  #666666;
+    --line:        rgba(0, 0, 0, 0.15);
+    --line-med:    rgba(0, 0, 0, 0.25);
+    --line-strong: rgba(0, 0, 0, 0.4);
+    --accent:      #7a6233; /* amber darkened for white paper */
+    --accent-ink:  #7a6233;
+    --accent-dim:  transparent;
+    --accent-warm: #7a6233;
   }
 
-  .cursor-dot {
-    width: 6px;
-    height: 6px;
-    background-color: var(--accent);
+  body {
+    background: #fff;
+    color: #000;
   }
 
-  .cursor-outline {
-    width: 40px;
-    height: 40px;
-    border: 1px solid rgba(232, 213, 183, 0.4);
-    transition: width 0.2s var(--ease), height 0.2s var(--ease), background-color 0.2s var(--ease), border-color 0.2s var(--ease);
+  /* Fixed washes + grain overlay */
+  body::before, body::after { display: none; }
+
+  .nav,
+  .mobile-menu,
+  .menu-btn,
+  .floating-cv-btn,
+  .scroll-cue,
+  canvas,
+  .hero-stage-loader,
+  .showcase-loader,
+  .skip-link {
+    display: none !important;
   }
 
-  .cursor-outline.hovering {
-    width: 60px;
-    height: 60px;
-    background-color: rgba(232, 213, 183, 0.05);
-    border-color: rgba(232, 213, 183, 0.8);
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
+  /* Gradient-clipped text would print transparent — make it solid ink */
+  .animated-gradient,
+  .metal-text,
+  .hero-title .italic {
+    background: none;
+    -webkit-text-fill-color: currentColor;
+    color: #000;
+    animation: none;
+  }
+
+  /* Reveal states are JS-gated; never print content at opacity 0 */
+  .js .reveal,
+  .js .hero-title .line,
+  .js .hero-meta,
+  .js .hero-sub,
+  .js .hero-cta,
+  .js .hero-stage {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .hero { min-height: auto; }
+}
+
+/* ----- Reduced motion ------------------------------------------------------
+   The global 0.01ms override above shortens everything; these rules also
+   guarantee JS-gated entrance states are fully visible and stop the
+   decorative infinite loops outright. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  .js .reveal,
+  .js .hero-title .line,
+  .js .hero-meta,
+  .js .hero-sub,
+  .js .hero-cta,
+  .js .hero-stage {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .animated-gradient,
+  .metal-text,
+  .hero-title .italic,
+  .about-ring,
+  .nav-cta .dot,
+  .scroll-cue-line::before {
+    animation: none;
   }
 }

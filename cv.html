@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CV — Bilge Kağan Pamuk</title>
+  <meta name="description" content="CV of Bilge Kağan Pamuk — Unity Developer & Systems Engineer specialized in XR, simulation and multiplayer. Print-ready online résumé." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://bilgekagan.site/cv.html" />
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bilgekagan.site/cv.html" />
+  <meta property="og:title" content="CV — Bilge Kağan Pamuk" />
+  <meta property="og:description" content="Unity Developer & Systems Engineer · XR, Simulation & Multiplayer. Print-ready online CV." />
+  <meta property="og:image" content="https://bilgekagan.site/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Bilge Kağan Pamuk" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="CV — Bilge Kağan Pamuk" />
+  <meta name="twitter:description" content="Unity Developer & Systems Engineer · XR, Simulation & Multiplayer. Print-ready online CV." />
+  <meta name="twitter:image" content="https://bilgekagan.site/assets/og-image.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --paper: #ffffff;
+      --ink: #141416;
+      --ink-soft: #3c3c41;
+      --ink-mute: #6b6b72;
+      --bronze: #9A6B14;
+      --line: #e4e1da;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+      font-size: 11px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    a {
+      color: var(--bronze);
+      text-decoration: none;
+    }
+    a:hover { text-decoration: underline; }
+
+    .sheet {
+      max-width: 196mm;
+      margin: 0 auto;
+      padding: 12mm 8mm 16mm;
+    }
+
+    /* ---- Screen-only top bar ---- */
+    .cv-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 196mm;
+      margin: 0 auto;
+      padding: 14px 8mm;
+      border-bottom: 1px solid var(--line);
+      font-family: 'Geist Mono', ui-monospace, monospace;
+      font-size: 11px;
+      letter-spacing: 0.04em;
+    }
+    .cv-bar a { color: var(--ink-soft); }
+    .cv-bar a:hover { color: var(--bronze); text-decoration: none; }
+    .cv-bar .dl {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 14px;
+      color: var(--bronze);
+    }
+    .cv-bar .dl:hover { border-color: var(--bronze); }
+
+    /* ---- Header ---- */
+    .cv-head { margin-bottom: 6mm; }
+    h1 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-weight: 400;
+      font-size: 30px;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin: 0 0 2mm;
+    }
+    .subtitle {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--bronze);
+      margin: 0 0 2.5mm;
+    }
+    .contact {
+      font-size: 10.5px;
+      color: var(--ink-mute);
+      margin: 0;
+    }
+    .contact a { color: var(--ink-soft); }
+    .contact a:hover { color: var(--bronze); }
+    .contact .sep { color: var(--line); padding: 0 1px; }
+
+    /* ---- Sections ---- */
+    section { margin-bottom: 5.5mm; }
+    h2 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: 16px;
+      color: var(--bronze);
+      margin: 0 0 2mm;
+      padding-bottom: 1.2mm;
+      border-bottom: 1px solid var(--line);
+    }
+
+    p { margin: 0 0 1.5mm; }
+
+    /* ---- Core skills ---- */
+    .skills { margin: 0; }
+    .skills div { margin-bottom: 1.2mm; }
+    .skills strong { font-weight: 600; color: var(--ink); }
+
+    /* ---- Experience / projects / education entries ---- */
+    .entry { margin-bottom: 3.2mm; break-inside: avoid; page-break-inside: avoid; }
+    .entry-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 6mm;
+    }
+    .entry-title {
+      font-size: 11.5px;
+      font-weight: 600;
+      margin: 0;
+    }
+    .entry-title .co { font-weight: 500; color: var(--ink-soft); }
+    .entry-date {
+      font-family: 'Geist Mono', ui-monospace, monospace;
+      font-size: 9.5px;
+      color: var(--ink-mute);
+      white-space: nowrap;
+    }
+    .entry-loc {
+      font-size: 10px;
+      color: var(--ink-mute);
+      margin: 0.4mm 0 1mm;
+    }
+    ul {
+      margin: 0;
+      padding-left: 4.2mm;
+    }
+    li { margin-bottom: 0.8mm; }
+    li::marker { color: var(--bronze); }
+
+    /* ---- Publications ---- */
+    ol.pubs {
+      margin: 0;
+      padding-left: 4.5mm;
+    }
+    ol.pubs li { margin-bottom: 1mm; }
+    ol.pubs .title { font-style: italic; }
+
+    /* ---- Print ---- */
+    @page { size: A4; margin: 13mm; }
+    @media print {
+      .cv-bar { display: none; }
+      body { font-size: 8pt; line-height: 1.45; }
+      .sheet { max-width: none; margin: 0; padding: 0; }
+      h1 { font-size: 21pt; }
+      h2 { font-size: 11.5pt; }
+      .subtitle { font-size: 9pt; }
+      .contact { font-size: 7.6pt; }
+      .entry-title { font-size: 8.4pt; }
+      .entry-date { font-size: 7pt; }
+      .entry-loc { font-size: 7.3pt; }
+      section { margin-bottom: 4mm; }
+      .entry { margin-bottom: 2.6mm; }
+      a { color: inherit; }
+      .contact a, .subtitle { color: var(--bronze); }
+      section, .cv-head { break-inside: avoid-page; }
+      section.allow-break { break-inside: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cv-bar">
+    <a href="index.html">&larr; bilgekagan.site</a>
+    <a class="dl" href="assets/Bilge_Kagan_Pamuk_CV.pdf" download>Download PDF</a>
+  </div>
+
+  <main class="sheet">
+
+    <header class="cv-head">
+      <h1>Bilge Kağan Pamuk</h1>
+      <p class="subtitle">Unity Developer &amp; Systems Engineer · XR, Simulation &amp; Multiplayer</p>
+      <p class="contact">
+        Ankara, Türkiye
+        <span class="sep">·</span> +90 545 224 10 20
+        <span class="sep">·</span> <a href="mailto:bilge_kagan_pamuk@hotmail.com">bilge_kagan_pamuk@hotmail.com</a>
+        <span class="sep">·</span> <a href="https://linkedin.com/in/bilge-kağan-pamuk-261808151">linkedin.com/in/bilge-kağan-pamuk-261808151</a>
+        <span class="sep">·</span> <a href="https://bilgekagan.site/">bilgekagan.site</a>
+      </p>
+    </header>
+
+    <section>
+      <h2>Professional Summary</h2>
+      <p>Unity Developer and Systems Engineer with 4+ years of experience taking VR, MR, and WebGL simulation products from architecture to store release. Shipped dental and medical training applications holding a 4.2-star average rating with 2,000+ active users on Google Play and the App Store. Specialized in multiplayer XR (Photon Fusion 2, Meta Avatar SDK), Firebase-backed real-time systems, and hardware–software co-design (Arduino, ESP32, CAN bus). MSc candidate in Health Informatics at Hacettepe University (GPA 4.00/4.00), researching XR in medical education.</p>
+    </section>
+
+    <section>
+      <h2>Core Skills</h2>
+      <div class="skills">
+        <div><strong>Unity &amp; C#:</strong> Unity 2022 / Unity 6, C#, OOP, ScriptableObjects, Addressables, prefab and scene management, Unity Profiler, Sentry</div>
+        <div><strong>XR &amp; Platforms:</strong> Meta Quest 2/3, HoloLens 2, Varjo, Apple Vision Pro, WebGL, iOS, Android, Windows Standalone</div>
+        <div><strong>Networking &amp; Backend:</strong> Photon Fusion 2, Photon Voice 2, Firebase (Auth, Firestore, Realtime DB), REST APIs, JSON, async/await, WebSocket basics</div>
+        <div><strong>Hardware &amp; Embedded:</strong> Arduino (Mega, Uno, Nano), ESP32, ESP32-CAM, Raspberry Pi, CAN bus, sensor integration, serial communication</div>
+        <div><strong>AI &amp; LLM Integration:</strong> OpenAI, Anthropic Claude, and Google Gemini APIs; prompt engineering; NMT systems</div>
+        <div><strong>Shaders &amp; Graphics:</strong> HLSL, Unity Shader Graph, visual effect systems for automotive HMI and simulation</div>
+        <div><strong>Programming &amp; Tools:</strong> C# (primary), Python, TypeScript, SQL, C++ (basic); Git, GitLab, GitHub, CI/CD, Postman, Figma, ProtoPie, Jira</div>
+      </div>
+    </section>
+
+    <section class="allow-break">
+      <h2>Professional Experience</h2>
+
+      <div class="entry">
+        <div class="entry-head">
+          <h3 class="entry-title">Unity Developer &amp; Research Engineer <span class="co">— MEDEASOFT A.Ş.</span></h3>
+          <span class="entry-date">Feb 2023 – Present</span>
+        </div>
+        <p class="entry-loc">Ankara, Türkiye · Full-time</p>
+        <ul>
+          <li>Develop and ship VR and WebGL products in Unity (C#) for dental training, surgical planning, and anatomy education; products hold a 4.2-star average rating on Google Play and the App Store with 2,000+ active users</li>
+          <li>Architect multiplayer VR applications with Photon Fusion 2, Photon Voice 2, and Meta Avatar SDK v40; led the Photon Fusion 1 to Fusion 2 migration on Meta Quest 3</li>
+          <li>Integrate Firebase (Firestore, Auth, Realtime Database) for real-time student progress tracking, room management, and dynamic data synchronization</li>
+          <li>Build modular, content-driven gamified learning systems with ScriptableObjects, prefab management, and Addressables</li>
+          <li>Implement REST API integrations with asynchronous JSON data flows; own error handling and QA test checklists within the build pipeline</li>
+          <li>Profile and optimize builds with Unity Profiler and Sentry; maintain GitLab repositories with branch-based workflows</li>
+          <li>Lead technical documentation and presentations for one TÜBİTAK 1507 and two TÜBİTAK 1501 national R&amp;D projects</li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <h3 class="entry-title">Product Design Engineer <span class="co">— SIMUX Defence</span></h3>
+          <span class="entry-date">Nov 2024 – Dec 2025</span>
+        </div>
+        <p class="entry-loc">Cambridge, UK (remote) · Freelance contract alongside full-time role</p>
+        <ul>
+          <li>Designed a Unity-based automotive HMI simulator for the Aston Martin Lagonda digital cockpit; integrated CAN bus protocols for real-time vehicle telemetry</li>
+          <li>Conducted eye-tracking studies (HP Reverb, Varjo) on driver attention patterns, information hierarchy, and interaction flows</li>
+          <li>Built HLSL shader effects and visual feedback systems for instrument cluster displays</li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <h3 class="entry-title">Mobile App Developer <span class="co">— Speeder System</span></h3>
+          <span class="entry-date">Nov 2023 – Apr 2024</span>
+        </div>
+        <p class="entry-loc">Aalsmeer, Netherlands (remote) · Freelance</p>
+        <ul>
+          <li>Researched drone operator workflows and designed tablet-based control interfaces in Unity, validated through iterative prototyping</li>
+          <li>Built the product demo showcased at the Berlin Aerospace Fair, gathering live feedback from aviation professionals</li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <h3 class="entry-title">Application Developer <span class="co">— Akgun Technology</span></h3>
+          <span class="entry-date">Sep 2022 – Feb 2023</span>
+        </div>
+        <p class="entry-loc">Ankara · Full-time</p>
+        <ul>
+          <li>Contributed to Unity-based simulation and game development projects in a cross-functional engineering team</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="allow-break">
+      <h2>Selected Projects</h2>
+
+      <div class="entry">
+        <div class="entry-head">
+          <h3 class="entry-title">Morfo VR &amp; Morfo Mobile <span class="co">— Dental Morphology Learning Platform</span></h3>
+          <span class="entry-date">2023 – 2026</span>
+        </div>
+        <ul>
+          <li>Cross-platform dental morphology learning app for Meta Quest 3 (VR) and iOS/Android; gamified exercise modules built on ScriptableObjects, modular prefabs, Addressables</li>
+          <li>Photon Fusion 2 Shared Mode multiplayer with Meta Avatar SDK v40 and Photon Voice 2; Firebase backend for progress tracking and real-time sync</li>
+          <li>Companion research paper under review at the International Journal of Serious Games (IJSG)</li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <h3 class="entry-title">Digital Twin Mixed Reality System <span class="co">— XR + Arduino Hardware Control Panel</span></h3>
+          <span class="entry-date">2026 – Ongoing</span>
+        </div>
+        <ul>
+          <li>Meta Quest 3 MR app paired with physical Arduino Uno + ESP32 control panel for industrial and healthcare simulation</li>
+          <li>MRI/CT data rendered as interactive 3D volumes; collaborative manipulation across networked headsets via Photon Fusion 2</li>
+          <li>Bidirectional real-time data flow between physical sensors and Unity via serial communication and an ESP32 wireless bridge</li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <h3 class="entry-title">MediBot <span class="co">— AI-Powered Turkish Health Assistant</span></h3>
+          <span class="entry-date">2026 – Ongoing</span>
+        </div>
+        <ul>
+          <li>Multi-LLM mobile health assistant (Unity client + TypeScript backend) routing across OpenAI GPT, Anthropic Claude, and Google Gemini APIs</li>
+          <li>Firebase Auth and Firestore, image-analysis pipeline, three-tier subscription system with dynamic model routing</li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <h3 class="entry-title">ECE VR Brain Surgery Simulation <span class="co">— Inter-University Competition</span></h3>
+          <span class="entry-date">2022 – 2023</span>
+        </div>
+        <ul>
+          <li>Immersive VR brain surgery training simulation with surgical interaction mechanics, haptic-style feedback, anatomical 3D model integration</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Education</h2>
+
+      <div class="entry">
+        <div class="entry-head">
+          <h3 class="entry-title">MSc, Health Informatics (English-medium) <span class="co">— Hacettepe University</span></h3>
+          <span class="entry-date">Sep 2025 – Present</span>
+        </div>
+        <p class="entry-loc">GPA 4.00/4.00 · Research: XR in medical education, LLM-based localization for Unity simulation, digital simulation effectiveness</p>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <h3 class="entry-title">BSc, Software Engineering <span class="co">— Atılım University</span></h3>
+          <span class="entry-date">2018 – 2023</span>
+        </div>
+        <p class="entry-loc">GPA 3.43/4.00 · Full merit scholarship (4 years) · Focus on HCI, UX design, XR development; Erasmus exchange at University of Ostrava, Czech Republic (2022)</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Publications</h2>
+      <ol class="pubs">
+        <li><span class="title">“Digital Simulation Technologies in Dental Local Anesthesia Education”</span> — Health and Technology (Springer), under review · First author</li>
+        <li><span class="title">“NMT vs. LLMs for Medical Simulation Localization in Unity”</span> — International Journal of Serious Games (IJSG), under review</li>
+        <li><span class="title">“Evaluating Usability and User Experience in a Virtual Reality-Based Driving Simulation”</span> — International Informatics and Software Engineering Conference, 2026</li>
+        <li><span class="title">“Understanding User Experience (UX) for Virtual Reality Based Surgical Training”</span> — EDULEARN Conference Proceedings (D. Topalli, Y. E. Cetin, B. K. Pamuk, et al.)</li>
+        <li><span class="title">“A Temporomandibular Joint Course with Metaverse Experience”</span> — International Eastern Conference on Human–Computer Interaction (HCI 2023), 2023</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Languages</h2>
+      <p>Turkish (native) · English (C1, professional working proficiency)</p>
+    </section>
+
+  </main>
+
+</body>
+</html>

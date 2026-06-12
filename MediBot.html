@@ -7,6 +7,24 @@
   <title>MediBot AI Assistant - Bilge Kağan Pamuk</title>
   <meta name="description" content="AI-powered mobile health assistant integrating OpenAI GPT, Anthropic Claude, and Google Gemini APIs." />
 
+  <link rel="canonical" href="https://bilgekagan.site/MediBot.html" />
+  <meta name="theme-color" content="#FAFAF8" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bilgekagan.site/MediBot.html" />
+  <meta property="og:title" content="MediBot AI Assistant - Bilge Kağan Pamuk" />
+  <meta property="og:description" content="AI-powered mobile health assistant integrating OpenAI GPT, Anthropic Claude, and Google Gemini APIs." />
+  <meta property="og:image" content="https://bilgekagan.site/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Bilge Kağan Pamuk" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="MediBot AI Assistant - Bilge Kağan Pamuk" />
+  <meta name="twitter:description" content="AI-powered mobile health assistant integrating OpenAI GPT, Anthropic Claude, and Google Gemini APIs." />
+  <meta name="twitter:image" content="https://bilgekagan.site/assets/og-image.png" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
@@ -14,37 +32,42 @@
   <link rel="stylesheet" href="assets/css/main.css" />
 
   <script src="assets/vendor/three.min.js" defer></script>
+  <script src="assets/vendor/DRACOLoader.js" defer></script>
   <script src="assets/vendor/GLTFLoader.js" defer></script>
   <script src="assets/js/project-scene.js" defer></script>
   <script src="assets/js/main.js" defer></script>
 </head>
 <body>
 
+  <a class="skip-link" href="#top">Skip to content</a>
+
   <nav class="nav" aria-label="Primary">
     <div class="nav-inner">
-      <a href="index.html" class="logo">Bilge K.<em style="font-style:italic"> Pamuk</em></a>
+      <a href="index.html" class="logo">Bilge K.<em> Pamuk</em></a>
       <ul class="nav-links" role="list">
         <li><a href="index.html#about">About</a></li>
         <li><a href="index.html#work">Work</a></li>
         <li><a href="index.html#capabilities">Capabilities</a></li>
         <li><a href="index.html#experience">Experience</a></li>
+        <li><a href="index.html#publications">Publications</a></li>
       </ul>
       <a href="index.html#contact" class="nav-cta"><span class="dot"></span><span>Available for work</span></a>
-      <button class="menu-btn" aria-label="Open menu"><span></span></button>
+      <button class="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><span></span></button>
     </div>
   </nav>
 
-  <div class="mobile-menu" aria-hidden="true">
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
     <ul>
       <li><a href="index.html#about">About</a></li>
       <li><a href="index.html#work">Work</a></li>
       <li><a href="index.html#capabilities">Capabilities</a></li>
       <li><a href="index.html#experience">Experience</a></li>
+      <li><a href="index.html#publications">Publications</a></li>
       <li><a href="index.html#contact">Contact</a></li>
     </ul>
   </div>
 
-  <main>
+  <main id="top">
 
     <section class="project-hero">
       <div class="container">
@@ -63,9 +86,8 @@
           A mobile health assistant app orchestrating OpenAI GPT, Anthropic Claude, and Google Gemini APIs. Integrating modern front-end design with strict backend data flows to deliver a reliable, secure user experience.
         </p>
 
-        <!-- Using a placeholder model until the real one is provided -->
-        <div class="project-showcase" data-showcase data-model="models/Headset.glb" data-fit="2.4" data-speed="0.15" data-cam="5.0">
-          <div class="showcase-loader">Loading scene</div>
+        <div class="project-showcase" data-showcase data-model="models/enjektor.glb" data-fit="2.2" data-speed="0.15" data-cam="5.0" role="img" aria-label="Rotating 3D model of a medical syringe">
+          <div class="showcase-loader" role="status">Loading scene</div>
         </div>
       </div>
     </section>
@@ -90,10 +112,10 @@
               Different Large Language Models excel at different tasks. Some are better at parsing raw medical texts, while others are superior at conversational empathy or image analysis. The challenge was building an architecture that utilizes the right model for the right task dynamically.
             </p>
             <p>
-              MEDIBOT is an AI-powered Turkish health assistant that sits on top of a sophisticated TypeScript backend routing layer. It seamlessly connects a Unity C# mobile client to OpenAI, Anthropic, and Google Gemini via strictly managed REST endpoints.
+              MediBot is an AI-powered Turkish health assistant that sits on top of a sophisticated TypeScript backend routing layer. It seamlessly connects a Unity C# mobile client to OpenAI GPT, Anthropic Claude, and Google Gemini via strictly managed REST endpoints.
             </p>
             <p>
-              With an integrated 3-tier subscription system, robust Firebase authentication, and a real-time database, it ensures patient-level data remains secure while delivering instant, multi-model AI responses.
+              With an integrated three-tier subscription system driving dynamic model routing, robust Firebase Auth, Firestore persistence, and an image-analysis pipeline, it ensures patient-level data remains secure while delivering instant, multi-model AI responses.
             </p>
           </div>
         </div>
@@ -111,7 +133,7 @@
           <div class="process-row"><div class="process-num">01</div><div class="process-title">Backend orchestration</div><p class="process-desc">Structuring the TypeScript middleware layer to securely handle API keys and format diverse LLM payloads.</p></div>
           <div class="process-row"><div class="process-num">02</div><div class="process-title">REST integration</div><p class="process-desc">Building an async/await data pipeline in Unity (C#) to handle JSON parsing without dropping framerates.</p></div>
           <div class="process-row"><div class="process-num">03</div><div class="process-title">Firebase ecosystem</div><p class="process-desc">Hooking up Firestore for cross-session chat persistence and Firebase Auth for secure user onboarding.</p></div>
-          <div class="process-row"><div class="process-num">04</div><div class="process-title">Monetization setup</div><p class="process-desc">Deploying a dynamic 3-tier subscription model logic that controls prompt token limits and model routing.</p></div>
+          <div class="process-row"><div class="process-num">04</div><div class="process-title">Monetization setup</div><p class="process-desc">Deploying a dynamic three-tier subscription logic that controls prompt token limits and model routing.</p></div>
         </div>
       </div>
     </section>

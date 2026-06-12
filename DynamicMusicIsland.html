@@ -7,6 +7,24 @@
   <title>Dynamic Music Island - Bilge Kağan Pamuk</title>
   <meta name="description" content="A sleek, floating Dynamic Island-style music widget for macOS that displays currently playing music from any app." />
 
+  <link rel="canonical" href="https://bilgekagan.site/DynamicMusicIsland.html" />
+  <meta name="theme-color" content="#FAFAF8" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bilgekagan.site/DynamicMusicIsland.html" />
+  <meta property="og:title" content="Dynamic Music Island - Bilge Kağan Pamuk" />
+  <meta property="og:description" content="A sleek, floating Dynamic Island-style music widget for macOS that displays currently playing music from any app." />
+  <meta property="og:image" content="https://bilgekagan.site/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Bilge Kağan Pamuk" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Dynamic Music Island - Bilge Kağan Pamuk" />
+  <meta name="twitter:description" content="A sleek, floating Dynamic Island-style music widget for macOS that displays currently playing music from any app." />
+  <meta name="twitter:image" content="https://bilgekagan.site/assets/og-image.png" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
@@ -14,37 +32,42 @@
   <link rel="stylesheet" href="assets/css/main.css" />
 
   <script src="assets/vendor/three.min.js" defer></script>
+  <script src="assets/vendor/DRACOLoader.js" defer></script>
   <script src="assets/vendor/GLTFLoader.js" defer></script>
   <script src="assets/js/project-scene.js" defer></script>
   <script src="assets/js/main.js" defer></script>
 </head>
 <body>
 
+  <a class="skip-link" href="#top">Skip to content</a>
+
   <nav class="nav" aria-label="Primary">
     <div class="nav-inner">
-      <a href="index.html" class="logo">Bilge K.<em style="font-style:italic"> Pamuk</em></a>
+      <a href="index.html" class="logo">Bilge K.<em> Pamuk</em></a>
       <ul class="nav-links" role="list">
         <li><a href="index.html#about">About</a></li>
         <li><a href="index.html#work">Work</a></li>
         <li><a href="index.html#capabilities">Capabilities</a></li>
         <li><a href="index.html#experience">Experience</a></li>
+        <li><a href="index.html#publications">Publications</a></li>
       </ul>
       <a href="index.html#contact" class="nav-cta"><span class="dot"></span><span>Available for work</span></a>
-      <button class="menu-btn" aria-label="Open menu"><span></span></button>
+      <button class="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><span></span></button>
     </div>
   </nav>
 
-  <div class="mobile-menu" aria-hidden="true">
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
     <ul>
       <li><a href="index.html#about">About</a></li>
       <li><a href="index.html#work">Work</a></li>
       <li><a href="index.html#capabilities">Capabilities</a></li>
       <li><a href="index.html#experience">Experience</a></li>
+      <li><a href="index.html#publications">Publications</a></li>
       <li><a href="index.html#contact">Contact</a></li>
     </ul>
   </div>
 
-  <main>
+  <main id="top">
 
     <section class="project-hero">
       <div class="container">
@@ -63,9 +86,8 @@
           A sleek, floating Dynamic Island-style music widget that displays and controls currently playing music from any app. Powered by native Swift and deep macOS MediaRemote API integration.
         </p>
 
-        <!-- Using a placeholder model until the real one is provided -->
-        <div class="project-showcase" data-showcase data-model="models/Headset.glb" data-fit="2.4" data-speed="0.15" data-cam="5.0">
-          <div class="showcase-loader">Loading scene</div>
+        <div class="project-showcase" data-showcase data-model="models/Headset.glb" data-fit="2.4" data-speed="0.15" data-cam="5.0" role="img" aria-label="Decorative rotating 3D model">
+          <div class="showcase-loader" role="status">Loading scene</div>
         </div>
       </div>
     </section>
@@ -76,6 +98,7 @@
           <div class="info-side reveal">
             <dl>
               <div><dt>Role</dt><dd>macOS Developer</dd></div>
+              <div><dt>Type</dt><dd>Personal side project</dd></div>
               <div><dt>Year</dt><dd>2024</dd></div>
               <div><dt>Domain</dt><dd>Desktop Utilities</dd></div>
               <div><dt>Platform</dt><dd>macOS 13.0+ (Ventura)</dd></div>
@@ -87,13 +110,13 @@
             <span class="eyebrow">Overview</span>
             <h2 style="margin-top: var(--s-md);">A native widget acting as a system layer.</h2>
             <p>
-              Apple's internal architectures for media control are tightly locked inside the Control Center. The challenge was to break those out into an independent, always-on-top, and aesthetically pleasing desktop widget. 
+              Apple's internal architectures for media control are tightly locked inside the Control Center. The challenge was to break those out into an independent, always-on-top, and aesthetically pleasing desktop widget.
             </p>
             <p>
               The Dynamic Music Island serves as an expandable pill-shaped UI floating elegantly at the top of the monitor. Clicking the island expands it to reveal album art, playback controls, and animated sound waves acting synchronously with the music.
             </p>
             <p>
-              By tapping into the private macOS <code>MediaRemote</code> framework and using <code>@_silgen_name</code> directives, the app captures cross-platform real-time updates—identifying playing tracks on Apple Music, Spotify, and browsers smoothly without heavy polling.
+              By tapping into the private macOS <code>MediaRemote</code> framework and using <code>@_silgen_name</code> directives, the app captures cross-platform real-time updates - identifying playing tracks on Apple Music, Spotify, and browsers smoothly without heavy polling.
             </p>
           </div>
         </div>
@@ -110,7 +133,7 @@
         <div class="process-list reveal" style="--reveal-delay: 100ms">
           <div class="process-row"><div class="process-num">01</div><div class="process-title">Private APIs</div><p class="process-desc">Hooking into the undocumented MediaRemote framework to get global system media state instantly.</p></div>
           <div class="process-row"><div class="process-num">02</div><div class="process-title">Floating Architecture</div><p class="process-desc">Configuring the invisible window hierarchy to remain always-on-top while handling drag and click events.</p></div>
-          <div class="process-row"><div class="process-num">03</div><div class="process-title">UI & Animations</div><p class="process-desc">Designing smooth, spring-based SwiftUI animations for the island expansion and sound wave visualizers.</p></div>
+          <div class="process-row"><div class="process-num">03</div><div class="process-title">UI &amp; Animations</div><p class="process-desc">Designing smooth, spring-based SwiftUI animations for the island expansion and sound wave visualizers.</p></div>
           <div class="process-row"><div class="process-num">04</div><div class="process-title">AppleScript Fallbacks</div><p class="process-desc">Writing fallback control layers using Accessibility APIs and AppleScript to handle non-compliant apps like Spotify.</p></div>
         </div>
       </div>
@@ -147,7 +170,7 @@
     <section class="next-project">
       <div class="container">
         <a href="index.html#work">
-          <span class="next-project-eyebrow">End of case studies</span>
+          <span class="next-project-eyebrow">Back to all work - 07 / 07</span>
           <h2 class="next-project-title">Back to work index <span class="arrow">→</span></h2>
         </a>
       </div>

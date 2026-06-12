@@ -7,6 +7,24 @@
   <title>TMJ Simulation System - Bilge Kağan Pamuk</title>
   <meta name="description" content="Mixed reality temporomandibular joint simulation with sub-10 ms haptic latency, native C++/Unity hybrid architecture and custom subsurface-scattering shaders." />
 
+  <link rel="canonical" href="https://bilgekagan.site/TMJ.html" />
+  <meta name="theme-color" content="#FAFAF8" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bilgekagan.site/TMJ.html" />
+  <meta property="og:title" content="TMJ Simulation System - Bilge Kağan Pamuk" />
+  <meta property="og:description" content="Mixed reality temporomandibular joint simulation with sub-10 ms haptic latency, native C++/Unity hybrid architecture and custom subsurface-scattering shaders." />
+  <meta property="og:image" content="https://bilgekagan.site/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Bilge Kağan Pamuk" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="TMJ Simulation System - Bilge Kağan Pamuk" />
+  <meta name="twitter:description" content="Mixed reality temporomandibular joint simulation with sub-10 ms haptic latency, native C++/Unity hybrid architecture and custom subsurface-scattering shaders." />
+  <meta name="twitter:image" content="https://bilgekagan.site/assets/og-image.png" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
@@ -14,37 +32,42 @@
   <link rel="stylesheet" href="assets/css/main.css" />
 
   <script src="assets/vendor/three.min.js" defer></script>
+  <script src="assets/vendor/DRACOLoader.js" defer></script>
   <script src="assets/vendor/GLTFLoader.js" defer></script>
   <script src="assets/js/project-scene.js" defer></script>
   <script src="assets/js/main.js" defer></script>
 </head>
 <body>
 
+  <a class="skip-link" href="#top">Skip to content</a>
+
   <nav class="nav" aria-label="Primary">
     <div class="nav-inner">
-      <a href="index.html" class="logo">Bilge K.<em style="font-style:italic"> Pamuk</em></a>
+      <a href="index.html" class="logo">Bilge K.<em> Pamuk</em></a>
       <ul class="nav-links" role="list">
         <li><a href="index.html#about">About</a></li>
         <li><a href="index.html#work">Work</a></li>
         <li><a href="index.html#capabilities">Capabilities</a></li>
         <li><a href="index.html#experience">Experience</a></li>
+        <li><a href="index.html#publications">Publications</a></li>
       </ul>
       <a href="index.html#contact" class="nav-cta"><span class="dot"></span><span>Available for work</span></a>
-      <button class="menu-btn" aria-label="Open menu"><span></span></button>
+      <button class="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><span></span></button>
     </div>
   </nav>
 
-  <div class="mobile-menu" aria-hidden="true">
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
     <ul>
       <li><a href="index.html#about">About</a></li>
       <li><a href="index.html#work">Work</a></li>
       <li><a href="index.html#capabilities">Capabilities</a></li>
       <li><a href="index.html#experience">Experience</a></li>
+      <li><a href="index.html#publications">Publications</a></li>
       <li><a href="index.html#contact">Contact</a></li>
     </ul>
   </div>
 
-  <main>
+  <main id="top">
 
     <section class="project-hero">
       <div class="container">
@@ -64,8 +87,8 @@
           A mixed reality temporomandibular joint simulation integrating real-time biomechanical modeling with native haptic feedback - sub-10&nbsp;ms latency for surgical training, running a stable 1&nbsp;kHz force-feedback loop.
         </p>
 
-        <div class="project-showcase" data-showcase data-model="models/jaw.glb" data-fit="1.8" data-speed="0.15" data-cam="5.0">
-          <div class="showcase-loader">Loading scene</div>
+        <div class="project-showcase" data-showcase data-model="models/jaw.glb" data-fit="1.8" data-speed="0.15" data-cam="5.0" role="img" aria-label="Rotating 3D model of a human jaw">
+          <div class="showcase-loader" role="status">Loading scene</div>
         </div>
       </div>
     </section>
@@ -94,6 +117,9 @@
             </p>
             <p>
               The solution was a hybrid architecture - critical physics in unmanaged C++ memory space, visual updates synchronized to Unity's managed environment. No Garbage Collection spikes. No force-feedback dropouts. Indistinguishable-from-reality tool resistance.
+            </p>
+            <p>
+              The accompanying study, "A Temporomandibular Joint Course with Metaverse Experience", was presented at the International Eastern Conference on Human-Computer Interaction (HCI 2023).
             </p>
           </div>
         </div>
@@ -148,7 +174,7 @@
     <section class="next-project">
       <div class="container">
         <a href="DigitalTwin.html">
-          <span class="next-project-eyebrow">Next case - 05 / 06</span>
+          <span class="next-project-eyebrow">Next case - 05 / 07</span>
           <h2 class="next-project-title">Digital Twin MR System <span class="arrow">→</span></h2>
         </a>
       </div>

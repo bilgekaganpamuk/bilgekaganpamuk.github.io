@@ -7,6 +7,24 @@
   <title>Digital Twin MR System - Bilge Kağan Pamuk</title>
   <meta name="description" content="Mixed Reality application paired with a physical Arduino + ESP32 control panel. Collaborative manipulation of volumetric MRI/CT medical imagery via Photon Fusion 2." />
 
+  <link rel="canonical" href="https://bilgekagan.site/DigitalTwin.html" />
+  <meta name="theme-color" content="#FAFAF8" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bilgekagan.site/DigitalTwin.html" />
+  <meta property="og:title" content="Digital Twin MR System - Bilge Kağan Pamuk" />
+  <meta property="og:description" content="Mixed Reality application paired with a physical Arduino + ESP32 control panel. Collaborative manipulation of volumetric MRI/CT medical imagery via Photon Fusion 2." />
+  <meta property="og:image" content="https://bilgekagan.site/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Bilge Kağan Pamuk" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Digital Twin MR System - Bilge Kağan Pamuk" />
+  <meta name="twitter:description" content="Mixed Reality application paired with a physical Arduino + ESP32 control panel. Collaborative manipulation of volumetric MRI/CT medical imagery via Photon Fusion 2." />
+  <meta name="twitter:image" content="https://bilgekagan.site/assets/og-image.png" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
@@ -14,37 +32,42 @@
   <link rel="stylesheet" href="assets/css/main.css" />
 
   <script src="assets/vendor/three.min.js" defer></script>
+  <script src="assets/vendor/DRACOLoader.js" defer></script>
   <script src="assets/vendor/GLTFLoader.js" defer></script>
   <script src="assets/js/project-scene.js" defer></script>
   <script src="assets/js/main.js" defer></script>
 </head>
 <body>
 
+  <a class="skip-link" href="#top">Skip to content</a>
+
   <nav class="nav" aria-label="Primary">
     <div class="nav-inner">
-      <a href="index.html" class="logo">Bilge K.<em style="font-style:italic"> Pamuk</em></a>
+      <a href="index.html" class="logo">Bilge K.<em> Pamuk</em></a>
       <ul class="nav-links" role="list">
         <li><a href="index.html#about">About</a></li>
         <li><a href="index.html#work">Work</a></li>
         <li><a href="index.html#capabilities">Capabilities</a></li>
         <li><a href="index.html#experience">Experience</a></li>
+        <li><a href="index.html#publications">Publications</a></li>
       </ul>
       <a href="index.html#contact" class="nav-cta"><span class="dot"></span><span>Available for work</span></a>
-      <button class="menu-btn" aria-label="Open menu"><span></span></button>
+      <button class="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><span></span></button>
     </div>
   </nav>
 
-  <div class="mobile-menu" aria-hidden="true">
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
     <ul>
       <li><a href="index.html#about">About</a></li>
       <li><a href="index.html#work">Work</a></li>
       <li><a href="index.html#capabilities">Capabilities</a></li>
       <li><a href="index.html#experience">Experience</a></li>
+      <li><a href="index.html#publications">Publications</a></li>
       <li><a href="index.html#contact">Contact</a></li>
     </ul>
   </div>
 
-  <main>
+  <main id="top">
 
     <section class="project-hero">
       <div class="container">
@@ -63,9 +86,8 @@
           A Meta Quest 3 application paired with a physical Arduino Uno and ESP32-based hardware control panel. Collaborative manipulation of volumetric MRI/CT medical imagery across networked headsets via Photon Fusion 2.
         </p>
 
-        <!-- Using a placeholder model until the real one is provided -->
-        <div class="project-showcase" data-showcase data-model="models/Headset.glb" data-fit="2.4" data-speed="0.15" data-cam="5.0">
-          <div class="showcase-loader">Loading scene</div>
+        <div class="project-showcase" data-showcase data-model="models/Headset.glb" data-fit="2.4" data-speed="0.15" data-cam="5.0" role="img" aria-label="Rotating 3D model of a VR headset">
+          <div class="showcase-loader" role="status">Loading scene</div>
         </div>
       </div>
     </section>
@@ -75,7 +97,7 @@
         <div class="project-info-grid">
           <div class="info-side reveal">
             <dl>
-              <div><dt>Role</dt><dd>XR Systems & Hardware Engineer</dd></div>
+              <div><dt>Role</dt><dd>XR Systems &amp; Hardware Engineer</dd></div>
               <div><dt>Year</dt><dd>2026 - Ongoing</dd></div>
               <div><dt>Domain</dt><dd>Medical Imaging · Industrial Simulation</dd></div>
               <div><dt>Platform</dt><dd>Meta Quest 3 · Custom Hardware</dd></div>
@@ -147,7 +169,7 @@
     <section class="next-project">
       <div class="container">
         <a href="MediBot.html">
-          <span class="next-project-eyebrow">Next case - 06 / 06</span>
+          <span class="next-project-eyebrow">Next case - 06 / 07</span>
           <h2 class="next-project-title">MediBot AI Assistant <span class="arrow">→</span></h2>
         </a>
       </div>

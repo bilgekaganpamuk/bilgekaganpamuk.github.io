@@ -4,8 +4,27 @@
   <script>document.documentElement.classList.add('js');</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VR Neurosurgery Training — Bilge Kağan Pamuk</title>
+  <title>VR Neurosurgery Training - Bilge Kağan Pamuk</title>
   <meta name="description" content="Award-winning VR neurosurgery training simulator with real-time tissue deformation, bleeding mechanics and instrument physics." />
+
+  <link rel="canonical" href="https://bilgekagan.site/NeuroSurgery.html" />
+  <meta name="theme-color" content="#FAFAF8" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bilgekagan.site/NeuroSurgery.html" />
+  <meta property="og:title" content="VR Neurosurgery Training - Bilge Kağan Pamuk" />
+  <meta property="og:description" content="Award-winning VR neurosurgery training simulator with real-time tissue deformation, bleeding mechanics and instrument physics." />
+  <meta property="og:image" content="https://bilgekagan.site/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Bilge Kağan Pamuk" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="VR Neurosurgery Training - Bilge Kağan Pamuk" />
+  <meta name="twitter:description" content="Award-winning VR neurosurgery training simulator with real-time tissue deformation, bleeding mechanics and instrument physics." />
+  <meta name="twitter:image" content="https://bilgekagan.site/assets/og-image.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,44 +33,51 @@
   <link rel="stylesheet" href="assets/css/main.css" />
 
   <script src="assets/vendor/three.min.js" defer></script>
+  <script src="assets/vendor/DRACOLoader.js" defer></script>
   <script src="assets/vendor/GLTFLoader.js" defer></script>
   <script src="assets/js/project-scene.js" defer></script>
   <script src="assets/js/main.js" defer></script>
 </head>
 <body>
 
+  <a class="skip-link" href="#top">Skip to content</a>
+
   <nav class="nav" aria-label="Primary">
     <div class="nav-inner">
-      <a href="index.html" class="logo">Bilge K.<em style="font-style:italic"> Pamuk</em></a>
+      <a href="index.html" class="logo">Bilge K.<em> Pamuk</em></a>
       <ul class="nav-links" role="list">
         <li><a href="index.html#about">About</a></li>
         <li><a href="index.html#work">Work</a></li>
         <li><a href="index.html#capabilities">Capabilities</a></li>
         <li><a href="index.html#experience">Experience</a></li>
+        <li><a href="index.html#publications">Publications</a></li>
       </ul>
       <a href="index.html#contact" class="nav-cta"><span class="dot"></span><span>Available for work</span></a>
-      <button class="menu-btn" aria-label="Open menu"><span></span></button>
+      <button class="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><span></span></button>
     </div>
   </nav>
 
-  <div class="mobile-menu" aria-hidden="true">
-    <ul>
-      <li><a href="index.html#about">About</a></li>
-      <li><a href="index.html#work">Work</a></li>
-      <li><a href="index.html#capabilities">Capabilities</a></li>
-      <li><a href="index.html#experience">Experience</a></li>
-      <li><a href="index.html#contact">Contact</a></li>
-    </ul>
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <nav aria-label="Mobile">
+      <ul>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#work">Work</a></li>
+        <li><a href="index.html#capabilities">Capabilities</a></li>
+        <li><a href="index.html#experience">Experience</a></li>
+        <li><a href="index.html#publications">Publications</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
   </div>
 
-  <main>
+  <main id="top">
 
     <section class="project-hero">
       <div class="container">
         <a href="index.html#work" class="back-link"><span class="arrow">←</span> Back to work</a>
 
         <div class="project-meta">
-          <span class="eyebrow">Case 02 · VR Simulation · Award winner · 2023</span>
+          <span class="eyebrow">Case 02 · VR Simulation · Award winner · 2022 - 2023</span>
         </div>
 
         <h1 class="project-title">
@@ -61,11 +87,11 @@
         </h1>
 
         <p class="project-sub">
-          An award-winning surgical training simulator featuring real-time soft-body physics, accurate tissue deformation and bleeding mechanics for neurosurgery education. Recognized as Best University Graduate Project 2023.
+          An award-winning surgical training simulator built for an inter-university competition - real-time soft-body physics, accurate tissue deformation and bleeding mechanics for neurosurgery education. Recognized as Best University Graduate Project 2023.
         </p>
 
-        <div class="project-showcase" data-showcase data-model="models/SurgeryRoom.glb" data-fit="3.0" data-speed="0.1" data-cam="6.8">
-          <div class="showcase-loader">Loading scene</div>
+        <div class="project-showcase" data-showcase data-model="models/SurgeryRoom.glb" data-fit="3.0" data-speed="0.1" data-cam="6.8" role="img" aria-label="Rotating 3D model of a surgical operating room">
+          <div class="showcase-loader" role="status">Loading scene</div>
         </div>
       </div>
     </section>
@@ -76,7 +102,7 @@
           <div class="info-side reveal">
             <dl>
               <div><dt>Role</dt><dd>VR development lead</dd></div>
-              <div><dt>Year</dt><dd>2023</dd></div>
+              <div><dt>Year</dt><dd>2022 - 2023</dd></div>
               <div><dt>Recognition</dt><dd>Best University Graduate Project 2023</dd></div>
               <div><dt>Platform</dt><dd>Meta Quest · Standalone VR</dd></div>
               <div><dt>Core stack</dt><dd>Unity · C# · HLSL · custom physics</dd></div>
@@ -85,7 +111,7 @@
           </div>
           <div class="info-main reveal" style="--reveal-delay: 120ms">
             <span class="eyebrow">Overview</span>
-            <h2 style="margin-top: var(--s-md);">Tissue, pressure, blood — at 72 FPS.</h2>
+            <h2 style="margin-top: var(--s-md);">Tissue, pressure, blood - at 72 FPS.</h2>
             <p>
               Neurosurgery requires delicate handling of extremely soft brain tissue. The core challenge was to simulate non-linear soft-body deformation, incision and bleeding in real time on standalone VR hardware, where performance budgets are tight.
             </p>
@@ -139,7 +165,7 @@
           </div>
           <div class="hl-cell">
             <h3>Stereoscopic 3D</h3>
-            <p>Rendering tuned for stereoscopic VR depth perception — critical where millimeters decide the outcome of a training scenario.</p>
+            <p>Rendering tuned for stereoscopic VR depth perception - critical where millimeters decide the outcome of a training scenario.</p>
           </div>
         </div>
       </div>
@@ -148,7 +174,7 @@
     <section class="next-project">
       <div class="container">
         <a href="AstonMartin.html">
-          <span class="next-project-eyebrow">Next case — 03 / 06</span>
+          <span class="next-project-eyebrow">Next case - 03 / 07</span>
           <h2 class="next-project-title">Aston Martin VR HMI <span class="arrow">→</span></h2>
         </a>
       </div>

@@ -5,7 +5,26 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aston Martin VR HMI - Bilge Kağan Pamuk</title>
-  <meta name="description" content="Photorealistic VR prototypes for luxury vehicle HMI validation - multiplayer co-location, eye-tracking heatmaps, and tooling for distributed design reviews." />
+  <meta name="description" content="Photorealistic VR prototypes for the Aston Martin Lagonda digital cockpit - multiplayer co-location, eye-tracking heatmaps on HP Reverb and Varjo, and tooling for distributed design reviews." />
+
+  <link rel="canonical" href="https://bilgekagan.site/AstonMartin.html" />
+  <meta name="theme-color" content="#FAFAF8" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bilgekagan.site/AstonMartin.html" />
+  <meta property="og:title" content="Aston Martin VR HMI - Bilge Kağan Pamuk" />
+  <meta property="og:description" content="Photorealistic VR prototypes for the Aston Martin Lagonda digital cockpit - multiplayer co-location, eye-tracking heatmaps on HP Reverb and Varjo, and tooling for distributed design reviews." />
+  <meta property="og:image" content="https://bilgekagan.site/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Bilge Kağan Pamuk" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Aston Martin VR HMI - Bilge Kağan Pamuk" />
+  <meta name="twitter:description" content="Photorealistic VR prototypes for the Aston Martin Lagonda digital cockpit - multiplayer co-location, eye-tracking heatmaps on HP Reverb and Varjo, and tooling for distributed design reviews." />
+  <meta name="twitter:image" content="https://bilgekagan.site/assets/og-image.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,37 +33,44 @@
   <link rel="stylesheet" href="assets/css/main.css" />
 
   <script src="assets/vendor/three.min.js" defer></script>
+  <script src="assets/vendor/DRACOLoader.js" defer></script>
   <script src="assets/vendor/GLTFLoader.js" defer></script>
   <script src="assets/js/project-scene.js" defer></script>
   <script src="assets/js/main.js" defer></script>
 </head>
 <body>
 
+  <a class="skip-link" href="#top">Skip to content</a>
+
   <nav class="nav" aria-label="Primary">
     <div class="nav-inner">
-      <a href="index.html" class="logo">Bilge K.<em style="font-style:italic"> Pamuk</em></a>
+      <a href="index.html" class="logo">Bilge K.<em> Pamuk</em></a>
       <ul class="nav-links" role="list">
         <li><a href="index.html#about">About</a></li>
         <li><a href="index.html#work">Work</a></li>
         <li><a href="index.html#capabilities">Capabilities</a></li>
         <li><a href="index.html#experience">Experience</a></li>
+        <li><a href="index.html#publications">Publications</a></li>
       </ul>
       <a href="index.html#contact" class="nav-cta"><span class="dot"></span><span>Available for work</span></a>
-      <button class="menu-btn" aria-label="Open menu"><span></span></button>
+      <button class="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><span></span></button>
     </div>
   </nav>
 
-  <div class="mobile-menu" aria-hidden="true">
-    <ul>
-      <li><a href="index.html#about">About</a></li>
-      <li><a href="index.html#work">Work</a></li>
-      <li><a href="index.html#capabilities">Capabilities</a></li>
-      <li><a href="index.html#experience">Experience</a></li>
-      <li><a href="index.html#contact">Contact</a></li>
-    </ul>
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <nav aria-label="Mobile">
+      <ul>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#work">Work</a></li>
+        <li><a href="index.html#capabilities">Capabilities</a></li>
+        <li><a href="index.html#experience">Experience</a></li>
+        <li><a href="index.html#publications">Publications</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
   </div>
 
-  <main>
+  <main id="top">
 
     <section class="project-hero">
       <div class="container">
@@ -61,11 +87,11 @@
         </h1>
 
         <p class="project-sub">
-          High-fidelity VR simulators for Aston&nbsp;Martin HMI validation. Multiplayer co-location over Photon Fusion, live eye-tracking heatmaps, and tooling built for distributed design reviews across the UK and Europe.
+          High-fidelity VR simulators for the Aston&nbsp;Martin Lagonda digital cockpit. Multiplayer co-location over Photon Fusion, live eye-tracking heatmaps captured on HP&nbsp;Reverb and Varjo hardware, and tooling built for distributed design reviews across the UK and Europe.
         </p>
 
-        <div class="project-showcase" data-showcase data-model="models/Car.glb" data-fit="3.4" data-speed="0.14" data-cam="6.5">
-          <div class="showcase-loader">Loading scene</div>
+        <div class="project-showcase" data-showcase data-model="models/Car.glb" data-fit="3.4" data-speed="0.14" data-cam="6.5" role="img" aria-label="Rotating 3D model of an Aston Martin sports car">
+          <div class="showcase-loader" role="status">Loading scene</div>
         </div>
       </div>
     </section>
@@ -76,10 +102,10 @@
           <div class="info-side reveal">
             <dl>
               <div><dt>Role</dt><dd>Product Design Engineer</dd></div>
-              <div><dt>Year</dt><dd>Nov 2024 - Dec 2025</dd></div>
-              <div><dt>Client</dt><dd>Simux Defence</dd></div>
-              <div><dt>Platform</dt><dd>Meta Quest Pro · PC VR</dd></div>
-              <div><dt>Core stack</dt><dd>Unity HDRP · CAN Bus · Photon Fusion</dd></div>
+              <div><dt>Timeline</dt><dd>Nov 2024 - Dec 2025</dd></div>
+              <div><dt>Client</dt><dd>SIMUX Defence</dd></div>
+              <div><dt>Platform</dt><dd>HP Reverb · Varjo · PC VR</dd></div>
+              <div><dt>Core stack</dt><dd>Unity HDRP · HLSL · CAN Bus · Photon Fusion</dd></div>
               <div><dt>Rendering</dt><dd>Photoreal leather, carbon fiber, glass</dd></div>
             </dl>
           </div>
@@ -87,7 +113,7 @@
             <span class="eyebrow">Overview</span>
             <h2 style="margin-top: var(--s-md);">A virtual car that behaves like a real one.</h2>
             <p>
-              Designing HMI for luxury vehicles normally requires expensive physical bucks and slow iteration cycles. Aston Martin needed a way to validate HMI concepts and ergonomics rapidly with teams distributed across the UK and Europe.
+              Designing HMI for luxury vehicles normally requires expensive physical bucks and slow iteration cycles. Aston Martin needed a way to validate digital-cockpit concepts and ergonomics for the Lagonda rapidly, with teams distributed across the UK and Europe.
             </p>
             <p>
               The challenge was to build a photorealistic VR prototype that allowed multiple engineers to sit in the same virtual car, interact with the dashboard, and analyze driver attention - all in real time, all synchronized.
@@ -111,7 +137,7 @@
           <div class="process-row"><div class="process-num">01</div><div class="process-title">Design specs</div><p class="process-desc">Designing dashboard interfaces and interaction flows in Figma - the ground truth for production.</p></div>
           <div class="process-row"><div class="process-num">02</div><div class="process-title">Unity prototyping</div><p class="process-desc">Importing CAD models, setting up the VR interaction rig, and porting Figma specs into runtime UI.</p></div>
           <div class="process-row"><div class="process-num">03</div><div class="process-title">Multiplayer infra</div><p class="process-desc">Implementing Photon Fusion for state synchronization and Photon Voice for in-cabin chat.</p></div>
-          <div class="process-row"><div class="process-num">04</div><div class="process-title">Eye-tracking</div><p class="process-desc">Integrating eye-tracking SDKs to capture gaze data and surface it as live heatmaps.</p></div>
+          <div class="process-row"><div class="process-num">04</div><div class="process-title">Eye-tracking</div><p class="process-desc">Integrating eye-tracking on HP Reverb and Varjo headsets to capture gaze data and surface it as live heatmaps.</p></div>
           <div class="process-row"><div class="process-num">05</div><div class="process-title">Stakeholder review</div><p class="process-desc">Conducting multi-user design reviews and heatmap analysis to feed the next iteration.</p></div>
         </div>
       </div>
@@ -131,11 +157,11 @@
           </div>
           <div class="hl-cell">
             <h3>Eye-tracking analytics</h3>
-            <p>Hardware eye-tracking visualizes where drivers look during specific tasks. Heatmaps and time-to-fixation metrics validate the safety and usability of the UI.</p>
+            <p>Hardware eye-tracking on HP Reverb and Varjo visualizes where drivers look during specific tasks. Heatmaps and time-to-fixation metrics validate attention patterns, information hierarchy and interaction flows.</p>
           </div>
           <div class="hl-cell">
             <h3>CAN Bus Integration</h3>
-            <p>Real-time vehicle telemetry integrated via CAN Bus protocols. A fully functional virtual dashboard where physical inputs and telemetry trigger real UI states.</p>
+            <p>Real-time vehicle telemetry integrated via CAN Bus protocols. A fully functional virtual dashboard where physical inputs and telemetry trigger real UI states, rendered through custom HLSL shader effects and visual feedback systems on the instrument cluster displays.</p>
           </div>
           <div class="hl-cell">
             <h3>Photorealistic rendering</h3>
@@ -148,7 +174,7 @@
     <section class="next-project">
       <div class="container">
         <a href="TMJ.html">
-          <span class="next-project-eyebrow">Next case - 04 / 06</span>
+          <span class="next-project-eyebrow">Next case - 04 / 07</span>
           <h2 class="next-project-title">TMJ Simulation System <span class="arrow">→</span></h2>
         </a>
       </div>
